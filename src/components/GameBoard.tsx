@@ -51,7 +51,6 @@ export default function GameBoard() {
     }
   }, [shuffledDeck, initialLoad])
 
-  console.log(cardState)
   return (
     <Background>
       <PageTitle title="Solitaire" />
