@@ -1,7 +1,9 @@
 import { Flex, Icon } from '@chakra-ui/react'
+import { SuitIcon } from '.'
 import { GiCardDraw } from 'react-icons/gi'
+import { SuitEnum } from 'types'
 
-export const CardEmpty = () => {
+export const CardEmpty = ({ suit }: { suit?: SuitEnum }) => {
   return (
     <Flex h="140px" w="90px" bg={'none'} borderRadius="0 0 8px 8px">
       <Flex
@@ -15,7 +17,11 @@ export const CardEmpty = () => {
         border="dashed 2px"
         borderColor="darkerBlue"
       >
-        <Icon as={GiCardDraw} height="100%" width="100%" />
+        {suit !== undefined ? (
+          <SuitIcon suit={suit} />
+        ) : (
+          <Icon as={GiCardDraw} height="100%" width="100%" />
+        )}
       </Flex>
     </Flex>
   )

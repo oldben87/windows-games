@@ -20,7 +20,7 @@ export const SuitIcon = ({
   isRed,
 }: {
   suit: SuitEnum
-  isRed: boolean
+  isRed?: boolean
 }) => {
   const suitToShow = getSuitToDisplay(suit)
   return (

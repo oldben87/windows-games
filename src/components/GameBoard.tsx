@@ -9,7 +9,7 @@ import {
   CardEmpty,
 } from './furniture'
 import { getCardsForGame, setInitialGameState } from 'helpers'
-import { CardInfo, CardPile, GameState } from 'types'
+import { CardInfo, CardPile, GameState, SuitEnum } from 'types'
 
 const cardOrCardTop = (card: CardInfo, index: number, column: CardPile) => {
   const lastCard = index === column.length - 1
@@ -78,7 +78,7 @@ export default function GameBoard() {
                   faceUp={true}
                 />
               ) : (
-                <CardEmpty />
+                <CardEmpty suit={SuitEnum.spades} />
               )}
               {gameState.suitPile2.length ? (
                 <GameCard
@@ -86,7 +86,7 @@ export default function GameBoard() {
                   faceUp={true}
                 />
               ) : (
-                <CardEmpty />
+                <CardEmpty suit={SuitEnum.hearts} />
               )}
               {gameState.suitPile3.length ? (
                 <GameCard
@@ -94,7 +94,7 @@ export default function GameBoard() {
                   faceUp={true}
                 />
               ) : (
-                <CardEmpty />
+                <CardEmpty suit={SuitEnum.clubs} />
               )}
               {gameState.suitPile4.length ? (
                 <GameCard
@@ -102,7 +102,7 @@ export default function GameBoard() {
                   faceUp={true}
                 />
               ) : (
-                <CardEmpty />
+                <CardEmpty suit={SuitEnum.diamonds} />
               )}
             </Flex>
           </Flex>
