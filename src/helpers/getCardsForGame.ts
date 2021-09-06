@@ -9,7 +9,7 @@ const getRandomNumber = (deck: Array<number>): number => {
   return rdmNum
 }
 
-const getShuffledDeck = () => {
+export const getShuffledDeck = () => {
   const deck: Array<number> = []
 
   for (let i = 1; i <= 52; i++) {
@@ -56,7 +56,7 @@ const getCardColor = (suit: SuitEnum) => {
   return false
 }
 
-const getCardValue = (card: number): CardInfo => {
+export const getCardValue = (card: number): CardInfo => {
   const suit = getSuit(card)
   return {
     id: card,
@@ -65,9 +65,3 @@ const getCardValue = (card: number): CardInfo => {
     isRed: getCardColor(suit),
   }
 }
-
-const mapCardValuesToDeck = (shuffledDeck: Array<number>): Array<CardInfo> => {
-  return shuffledDeck.map(getCardValue)
-}
-
-export const getCardsForGame = () => mapCardValuesToDeck(getShuffledDeck())

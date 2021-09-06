@@ -20,7 +20,7 @@ export interface CardProps {
   faceUp?: boolean
 }
 
-export type CardPile = Array<CardInfo>
+export type CardPile = Array<number>
 
 export interface GameState {
   gameColumn1: CardPile

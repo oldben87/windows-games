@@ -8,10 +8,11 @@ import {
   CardBack,
   CardEmpty,
 } from './furniture'
-import { getCardsForGame, setInitialGameState } from 'helpers'
+import { getShuffledDeck, setInitialGameState, getCardValue } from 'helpers'
 import { CardInfo, CardPile, GameState, SuitEnum } from 'types'
 
-const cardOrCardTop = (card: CardInfo, index: number, column: CardPile) => {
+const cardOrCardTop = (cardIndex: number, index: number, column: CardPile) => {
+  const card = getCardValue(cardIndex)
   const lastCard = index === column.length - 1
   const isFirst = index === 0
   return lastCard ? (
@@ -33,21 +34,24 @@ const cardOrCardTop = (card: CardInfo, index: number, column: CardPile) => {
 }
 
 export default function GameBoard() {
-  const [shuffledDeck, setShuffledDeck] = useState<CardPile>([])
+  const [shuffledDeck] = useState<Array<number>>(getShuffledDeck())
   const [initialLoad, setInitialLoad] = useState(false)
+  const [cardState, setCardState] = useState<{ [key: string]: CardInfo }>({})
   const [gameState, setGameState] = useState<GameState | null>(null)
-
-  useEffect(() => {
-    setShuffledDeck(getCardsForGame())
-  }, [])
 
   useEffect(() => {
     if (shuffledDeck.length && initialLoad === false) {
       setGameState(setInitialGameState(shuffledDeck))
       setInitialLoad(true)
+      setCardState(
+        shuffledDeck.reduce<{ [key: string]: CardInfo }>((acc, item) => {
+          return { ...acc, [`${item}`]: getCardValue(item) }
+        }, {}),
+      )
     }
   }, [shuffledDeck, initialLoad])
 
+  console.log(cardState)
   return (
     <Background>
       <PageTitle title="Solitaire" />
@@ -60,8 +64,10 @@ export default function GameBoard() {
               {gameState.sparePileShowing.length ? (
                 <GameCard
                   card={
-                    gameState.sparePileShowing[
-                      gameState.sparePileShowing.length - 1
+                    cardState[
+                      gameState.sparePileShowing[
+                        gameState.sparePileShowing.length - 1
+                      ]
                     ]
                   }
                   faceUp={true}
@@ -74,7 +80,11 @@ export default function GameBoard() {
             <Flex w="400px" justify="space-between" mr={8}>
               {gameState.suitPile1.length ? (
                 <GameCard
-                  card={gameState.suitPile1[gameState.suitPile1.length - 1]}
+                  card={
+                    cardState[
+                      gameState.suitPile1[gameState.suitPile1.length - 1]
+                    ]
+                  }
                   faceUp={true}
                 />
               ) : (
@@ -82,7 +92,11 @@ export default function GameBoard() {
               )}
               {gameState.suitPile2.length ? (
                 <GameCard
-                  card={gameState.suitPile1[gameState.suitPile1.length - 1]}
+                  card={
+                    cardState[
+                      gameState.suitPile1[gameState.suitPile1.length - 1]
+                    ]
+                  }
                   faceUp={true}
                 />
               ) : (
@@ -90,7 +104,11 @@ export default function GameBoard() {
               )}
               {gameState.suitPile3.length ? (
                 <GameCard
-                  card={gameState.suitPile1[gameState.suitPile1.length - 1]}
+                  card={
+                    cardState[
+                      gameState.suitPile1[gameState.suitPile1.length - 1]
+                    ]
+                  }
                   faceUp={true}
                 />
               ) : (
@@ -98,7 +116,11 @@ export default function GameBoard() {
               )}
               {gameState.suitPile4.length ? (
                 <GameCard
-                  card={gameState.suitPile1[gameState.suitPile1.length - 1]}
+                  card={
+                    cardState[
+                      gameState.suitPile1[gameState.suitPile1.length - 1]
+                    ]
+                  }
                   faceUp={true}
                 />
               ) : (

@@ -1,7 +1,9 @@
-import { CardPile, GameState } from 'types'
+import { GameState } from 'types'
 import { remove } from 'ramda'
 
-export const setInitialGameState = (shuffledDeck: CardPile): GameState => ({
+export const setInitialGameState = (
+  shuffledDeck: Array<number>,
+): GameState => ({
   gameColumn1: [shuffledDeck[0]],
   gameColumn2: [shuffledDeck[1], shuffledDeck[8]],
   gameColumn3: [shuffledDeck[2], shuffledDeck[9], shuffledDeck[15]],
