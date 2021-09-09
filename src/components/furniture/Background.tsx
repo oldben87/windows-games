@@ -6,7 +6,13 @@ interface Props {
 }
 export const Background = ({ children }: Props) => {
   return (
-    <Flex as="section" h="100vh" w="100vw" background="primaryGreen" p={2}>
+    <Flex
+      as="section"
+      minHeight="100vh"
+      w="100vw"
+      background="primaryGreen"
+      p={2}
+    >
       {children}
     </Flex>
   )

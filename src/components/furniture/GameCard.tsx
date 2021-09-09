@@ -4,7 +4,13 @@ import { CardProps } from 'types'
 import { SuitIcon } from './SuitIcon'
 import { CardValueRow } from './CardValueRow'
 
-export const GameCard = ({ card, faceUp, isFirst }: CardProps) => {
+export const GameCard = ({
+  card,
+  faceUp,
+  isFirst,
+  selectedId,
+  onClick,
+}: CardProps) => {
   const [turnedOver, setTurnedOver] = useState(faceUp || false)
   const { suit } = card
 
@@ -14,12 +20,20 @@ export const GameCard = ({ card, faceUp, isFirst }: CardProps) => {
       w="90px"
       bg={isFirst ? 'none' : 'white'}
       borderRadius="0 0 8px 8px"
+      onClick={e => {
+        e.stopPropagation()
+        onClick()
+      }}
     >
       <Flex
         h="140px"
         w="90px"
         bg="white"
-        boxShadow="0 0 2px 2px rgba(0,0,0,0.2)"
+        boxShadow={
+          selectedId === card.id.toString()
+            ? '0 0 5px 5px rgba(255, 255, 255, 0.5)'
+            : '0 0 2px 2px rgba(0,0,0,0.2)'
+        }
         borderRadius="8px"
         p="5px"
         onClick={() => setTurnedOver(true)}

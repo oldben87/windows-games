@@ -47,7 +47,7 @@ export const setInitialGameState = (
     shuffledDeck[34],
     shuffledDeck[35],
   ],
-  sparePileHidden: remove(0, 35, shuffledDeck),
+  sparePileHidden: remove(0, 36, shuffledDeck),
   sparePileShowing: [],
   suitPile1: [],
   suitPile2: [],

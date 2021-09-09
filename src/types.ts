@@ -18,23 +18,18 @@ export interface CardProps {
   card: CardInfo
   isFirst?: boolean
   faceUp?: boolean
+  selectedId: string | null
+  onClick: () => void
+  gameState?: GameState | null
+  setGameState?: (gameState: GameState) => void
 }
 
 export type CardPile = Array<number>
 
 export interface GameState {
-  gameColumn1: CardPile
-  gameColumn2: CardPile
-  gameColumn3: CardPile
-  gameColumn4: CardPile
-  gameColumn5: CardPile
-  gameColumn6: CardPile
-  gameColumn7: CardPile
-  gameColumn8: CardPile
-  sparePileHidden: CardPile
-  sparePileShowing: CardPile
-  suitPile1: CardPile
-  suitPile2: CardPile
-  suitPile3: CardPile
-  suitPile4: CardPile
+  [key: string]: CardPile
+}
+
+export interface CardState {
+  [key: string]: CardInfo
 }

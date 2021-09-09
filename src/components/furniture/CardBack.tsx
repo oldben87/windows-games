@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 
-export const CardBack = () => {
+export const CardBack = ({ onClick }: { onClick: () => void }) => {
   return (
     <Flex h="140px" w="90px" bg={'none'} borderRadius="0 0 8px 8px">
       <Flex
@@ -10,6 +10,7 @@ export const CardBack = () => {
         boxShadow="0 0 2px 2px rgba(0,0,0,0.2)"
         borderRadius="8px"
         p="5px"
+        onClick={onClick}
       >
         <Flex
           h="100%"

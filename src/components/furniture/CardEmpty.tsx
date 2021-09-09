@@ -3,9 +3,24 @@ import { SuitIcon } from '.'
 import { GiCardDraw } from 'react-icons/gi'
 import { SuitEnum } from 'types'
 
-export const CardEmpty = ({ suit }: { suit?: SuitEnum }) => {
+export const CardEmpty = ({
+  suit,
+  onClick,
+}: {
+  onClick: () => void
+  suit?: SuitEnum
+}) => {
   return (
-    <Flex h="140px" w="90px" bg={'none'} borderRadius="0 0 8px 8px">
+    <Flex
+      h="140px"
+      w="90px"
+      bg={'none'}
+      borderRadius="0 0 8px 8px"
+      onClick={e => {
+        e.stopPropagation()
+        onClick()
+      }}
+    >
       <Flex
         h="140px"
         w="90px"

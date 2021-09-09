@@ -3,16 +3,16 @@ import { GiSpades, GiClubs, GiHearts, GiDiamonds } from 'react-icons/gi'
 import { SuitEnum } from 'types'
 
 export const getSuitToDisplay = (suit: SuitEnum) => {
-  if (suit === SuitEnum.spades) {
-    return { icon: GiSpades }
+  switch (suit) {
+    case SuitEnum.spades:
+      return { icon: GiSpades }
+    case SuitEnum.clubs:
+      return { icon: GiClubs }
+    case SuitEnum.hearts:
+      return { icon: GiHearts }
+    default:
+      return { icon: GiDiamonds }
   }
-  if (suit === SuitEnum.clubs) {
-    return { icon: GiClubs }
-  }
-  if (suit === SuitEnum.hearts) {
-    return { icon: GiHearts }
-  }
-  return { icon: GiDiamonds }
 }
 
 export const SuitIcon = ({
