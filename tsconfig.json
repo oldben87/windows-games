@@ -25,5 +25,5 @@
     "module": "esnext"
   },
   "include": ["src"],
-  "exclude": []
+  "exclude": ["./src/**/__tests__/", "./node_modules/", "./dist/"]
 }

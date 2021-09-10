@@ -1,6 +1,6 @@
 import { SuitEnum, CardInfo } from 'types'
 
-const getRandomNumber = (deck: Array<number>): number => {
+export const getRandomNumber = (deck: Array<number>): number => {
   const rdmNum = Math.floor(Math.random() * 52) + 1
   if (rdmNum === deck.find(card => card === rdmNum)) {
     return getRandomNumber(deck)
@@ -20,7 +20,7 @@ export const getShuffledDeck = () => {
   return deck
 }
 
-const getSuit = (card: number) => {
+export const getSuit = (card: number) => {
   if (card >= 40) {
     return SuitEnum.diamonds
   }
@@ -34,7 +34,7 @@ const getSuit = (card: number) => {
   return SuitEnum.spades
 }
 
-const getCardNumber = (card: number) => {
+export const getCardNumber = (card: number) => {
   if (card > 39) {
     return card - 39
   }
