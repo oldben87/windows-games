@@ -1,6 +1,6 @@
 import { setIdOrMoveCard } from 'helpers'
 import { CardPile, CardState, GameState } from 'types'
-import { GameCard, GameCardTop } from './furniture'
+import { GameCard, GameCardTop } from '../furniture'
 
 interface Props {
   cardIndex: number

@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react'
 import { setIdOrMoveCard } from 'helpers'
 import { CardState, GameState } from 'types'
 import { CardOrCardTop } from './CardOrCardTop'
-import { CardEmpty } from './furniture'
+import { CardEmpty } from '../furniture'
 
 interface CardPileColumnProps {
   selectedId: string | null

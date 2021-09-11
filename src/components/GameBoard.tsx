@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Flex, Spinner } from '@chakra-ui/react'
 import { Background, PageTitle } from './furniture'
-import { CardPileColumn } from './CardPileColumn'
-import { HiddenSpareDeckPile } from './HiddenSpareDeckPile'
-import { ShowingSpareDeckPile } from './ShowingSpareDeckPile'
+import { CardPileColumn } from './cardPiles/CardPileColumn'
+import { HiddenSpareDeckPile } from './cardPiles/HiddenSpareDeckPile'
+import { ShowingSpareDeckPile } from './cardPiles/ShowingSpareDeckPile'
 import { getShuffledDeck, setInitialGameState, getCardValue } from 'helpers'
 import { CardInfo, GameState, SuitEnum, CardState } from 'types'
-import { SuitPile } from './SuitPile'
+import { SuitPile } from './cardPiles/SuitPile'
 
 export default function GameBoard() {
   const [shuffledDeck] = useState<Array<number>>(getShuffledDeck())
