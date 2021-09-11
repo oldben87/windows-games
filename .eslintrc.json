@@ -3,11 +3,8 @@
     "es6": true,
     "node": true
   },
-  "extends": ["@candide/eslint-config-node-service"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["no-only-tests"],
   "rules": {
-    "no-only-tests/no-only-tests": "error",
     "@typescript-eslint/ban-types": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "@typescript-eslint/no-unsafe-assignment": 0,
