@@ -4,8 +4,8 @@ import { Background, PageTitle } from './furniture'
 import { CardPileColumn } from './cardPiles/CardPileColumn'
 import { HiddenSpareDeckPile } from './cardPiles/HiddenSpareDeckPile'
 import { ShowingSpareDeckPile } from './cardPiles/ShowingSpareDeckPile'
-import { getShuffledDeck, setInitialGameState, getCardValue } from 'helpers'
-import { CardInfo, GameState, SuitEnum, CardState } from 'types'
+import { getShuffledDeck, setInitialGameState, getCardState } from 'helpers'
+import { GameState, SuitEnum, CardState } from 'types'
 import { SuitPile } from './cardPiles/SuitPile'
 
 export default function GameBoard() {
@@ -19,11 +19,7 @@ export default function GameBoard() {
     if (shuffledDeck.length && initialLoad === false) {
       setGameState(setInitialGameState(shuffledDeck))
       setInitialLoad(true)
-      setCardState(
-        shuffledDeck.reduce<{ [key: string]: CardInfo }>((acc, index) => {
-          return { ...acc, [`${index}`]: getCardValue(index) }
-        }, {}),
-      )
+      setCardState(getCardState(shuffledDeck))
     }
   }, [shuffledDeck, initialLoad])
 

@@ -1,18 +1,9 @@
 import { expect } from 'chai'
 import { validateCardMove } from '../validateCardMove'
-import { GameState, CardState, CardInfo } from '../../types'
-import { getShuffledDeck, getCardValue } from '../'
+import { GameState, CardState } from '../../types'
+import { getShuffledDeck, getCardState } from '../'
 
 const shuffledDeck = getShuffledDeck()
-
-const getCardState = (shuffledDeck: Array<number>): CardState => {
-  return shuffledDeck.reduce<{ [key: string]: CardInfo }>(
-    (acc: CardState, index: number) => {
-      return { ...acc, [index.toString()]: getCardValue(index) }
-    },
-    {},
-  )
-}
 
 const cardState: CardState = getCardState(shuffledDeck)
 
