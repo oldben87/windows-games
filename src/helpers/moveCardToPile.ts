@@ -1,4 +1,35 @@
-import { GameState, CardState, CardPile } from 'types'
+import { GameState, CardState, CardPile, CardInfo } from 'types'
+
+const findCurrentArray = (gameState: GameState, selectedId: string) => {
+  return Object.entries(gameState).find(([_, cardPile]: [string, CardPile]) => {
+    return cardPile.find(card => card.toString() === selectedId) !== undefined
+  })
+}
+
+const makeCardVisible = (cardState: CardState, card: CardInfo): CardState => {
+  return {
+    ...cardState,
+    [card.id]: {
+      ...card,
+      visible: true,
+    },
+  }
+}
+
+const moveCards = (
+  gameState: GameState,
+  initialArray: [string, CardPile],
+  selectedId: string,
+  arrayToMoveTo: string,
+) => {
+  return {
+    ...gameState,
+    [initialArray[0]]: initialArray[1].filter(
+      number => number.toString() !== selectedId,
+    ),
+    [arrayToMoveTo]: [...gameState[arrayToMoveTo], parseInt(selectedId, 10)],
+  }
+}
 
 export const moveCardToPile = (
   gameState: GameState,
@@ -13,11 +44,8 @@ export const moveCardToPile = (
     return
   }
   // find array with the card inside.
-  const initialArray = Object.entries(gameState).find(
-    ([_, cardPile]: [string, CardPile]) => {
-      return cardPile.find(card => card.toString() === selectedId) !== undefined
-    },
-  )
+  const initialArray = findCurrentArray(gameState, selectedId)
+
   if (initialArray === undefined) {
     return
   }
@@ -31,32 +59,17 @@ export const moveCardToPile = (
     cardState[initialArray[1][initialArray[1].length - 2]]
 
   if (newLastCardInOldCardPile !== undefined) {
-    setCardState({
-      ...cardState,
-      [newLastCardInOldCardPile.id]: {
-        ...newLastCardInOldCardPile,
-        visible: true,
-      },
-    })
+    setCardState(makeCardVisible(cardState, newLastCardInOldCardPile))
   }
 
   const lastCardInNewCardPile =
     cardState[gameState[arrayToMoveTo][gameState[arrayToMoveTo].length - 1]]
 
   if (lastCardInNewCardPile !== undefined) {
-    setCardState({
-      ...cardState,
-      [lastCardInNewCardPile.id]: { ...lastCardInNewCardPile, visible: true },
-    })
+    setCardState(makeCardVisible(cardState, lastCardInNewCardPile))
   }
 
-  setGameState({
-    ...gameState,
-    [initialArray[0]]: initialArray[1].filter(
-      number => number.toString() !== selectedId,
-    ),
-    [arrayToMoveTo]: [...gameState[arrayToMoveTo], parseInt(selectedId, 10)],
-  })
+  setGameState(moveCards(gameState, initialArray, selectedId, arrayToMoveTo))
 
   setSelectedId(null)
 }
