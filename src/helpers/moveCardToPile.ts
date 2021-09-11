@@ -21,7 +21,7 @@ const moveCards = (
   initialArray: [string, CardPile],
   selectedId: string,
   arrayToMoveTo: string,
-) => {
+): GameState => {
   return {
     ...gameState,
     [initialArray[0]]: initialArray[1].filter(

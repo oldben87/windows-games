@@ -31,14 +31,13 @@ export const GameCard = ({
         bg="white"
         boxShadow={
           selectedId === card.id.toString()
-            ? '0 0 3px 3px #FF8C0080'
+            ? '0 0 3px 3px offOrange'
             : '0 0 2px 2px rgba(0,0,0,0.2)'
         }
         borderRadius="8px"
-        border={
-          selectedId === card.id.toString() ? '4px solid #FF8C00' : 'none'
-        }
-        p={selectedId === card.id.toString() ? '1px' : '5px'}
+        border={selectedId === card.id.toString() ? '3px solid' : 'none'}
+        borderColor={selectedId === card.id.toString() ? 'offOrange' : 'none'}
+        p={selectedId === card.id.toString() ? '2px' : '5px'}
         onClick={() => setTurnedOver(true)}
       >
         <Flex

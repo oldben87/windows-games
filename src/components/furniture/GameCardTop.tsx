@@ -26,7 +26,7 @@ export const GameCardTop = ({
           }
           borderWidth={selectedId === card.id.toString() ? '2' : 0}
           borderStyle={'solid'}
-          boxShadow="0 0 0 2px rgba(0,0,0,0.2)"
+          boxShadow="0 0 2px 2px rgba(0,0,0,0.2)"
           borderRadius="8px 8px 0 0"
           p="5px 5px 0 5px"
           onClick={e => {

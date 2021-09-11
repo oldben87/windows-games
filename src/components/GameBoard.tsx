@@ -37,11 +37,13 @@ const setIdOrMoveCard = (
     )
     return
   }
+
   if (selectedId === null) {
     const arrayIndex = gameState[columnName].length - 1
     setSelectedId(gameState[columnName][arrayIndex].toString())
     return
   }
+
   return
 }
 
@@ -60,26 +62,31 @@ const cardOrCardTop = (
   const card = cardState[cardIndex]
   const lastCard = index === column.length - 1
   const isFirst = index === 0
-  return lastCard ? (
-    <GameCard
-      key={`${index}-${card.id}`}
-      card={card}
-      faceUp={lastCard || card.visible}
-      isFirst={isFirst}
-      selectedId={selectedId}
-      onClick={() => {
-        setIdOrMoveCard(
-          selectedId,
-          setSelectedId,
-          cardState,
-          setCardState,
-          gameState,
-          setGameState,
-          columnName,
-        )
-      }}
-    />
-  ) : (
+
+  if (lastCard) {
+    return (
+      <GameCard
+        key={`${index}-${card.id}`}
+        card={card}
+        faceUp={lastCard || card.visible}
+        isFirst={isFirst}
+        selectedId={selectedId}
+        onClick={() => {
+          setIdOrMoveCard(
+            selectedId,
+            setSelectedId,
+            cardState,
+            setCardState,
+            gameState,
+            setGameState,
+            columnName,
+          )
+        }}
+      />
+    )
+  }
+
+  return (
     <GameCardTop
       key={`${index}-${card.id}`}
       isFirst={isFirst}
@@ -89,6 +96,62 @@ const cardOrCardTop = (
       onClick={() => {}}
       selectedId={selectedId}
     />
+  )
+}
+
+interface CardPileColumnProps {
+  selectedId: string | null
+  setSelectedId: (id: string | null) => void
+  cardState: CardState
+  setCardState: (state: CardState) => void
+  gameState: GameState
+  setGameState: (state: GameState) => void
+  columnName: string
+}
+
+const CardPileColumn = (props: CardPileColumnProps) => {
+  const {
+    gameState,
+    selectedId,
+    setSelectedId,
+    cardState,
+    setCardState,
+    setGameState,
+    columnName,
+  } = props
+  return (
+    <Flex w="90px" direction="column" justify="flex-start">
+      {gameState[columnName].length !== 0 ? (
+        gameState[columnName].map((card, index, pile) =>
+          cardOrCardTop(
+            card,
+            index,
+            pile,
+            selectedId,
+            setSelectedId,
+            cardState,
+            setCardState,
+            gameState,
+            setGameState,
+            columnName,
+          ),
+        )
+      ) : (
+        <CardEmpty
+          onClick={() => {
+            setIdOrMoveCard(
+              selectedId,
+              setSelectedId,
+              cardState,
+              setCardState,
+              gameState,
+              setGameState,
+              columnName,
+            )
+          }}
+        />
+      )}
+    </Flex>
   )
 }
 
@@ -420,134 +483,78 @@ export default function GameBoard() {
           </Flex>
 
           <Flex justify="space-evenly" width="800px" alignSelf="center">
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn1.map((card, index, pile) =>
-                cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn1',
-                ),
-              )}
-            </Flex>
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn2.map((card, index, pile) => {
-                return cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn2',
-                )
-              })}
-            </Flex>
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn3.map((card, index, pile) =>
-                cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn3',
-                ),
-              )}
-            </Flex>
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn4.map((card, index, pile) =>
-                cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn4',
-                ),
-              )}
-            </Flex>
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn5.map((card, index, pile) =>
-                cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn5',
-                ),
-              )}
-            </Flex>
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn6.map((card, index, pile) =>
-                cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn6',
-                ),
-              )}
-            </Flex>
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn7.map((card, index, pile) =>
-                cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn7',
-                ),
-              )}
-            </Flex>
-            <Flex w="90px" direction="column" justify="flex-start">
-              {gameState.gameColumn8.map((card, index, pile) => {
-                return cardOrCardTop(
-                  card,
-                  index,
-                  pile,
-                  selectedId,
-                  setSelectedId,
-                  cardState,
-                  setCardState,
-                  gameState,
-                  setGameState,
-                  'gameColumn8',
-                )
-              })}
-            </Flex>
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn1"
+            />
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn2"
+            />
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn3"
+            />
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn4"
+            />
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn5"
+            />
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn6"
+            />
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn7"
+            />
+            <CardPileColumn
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              cardState={cardState}
+              setCardState={setCardState}
+              gameState={gameState}
+              setGameState={setGameState}
+              columnName="gameColumn8"
+            />
           </Flex>
         </Flex>
       ) : (
