@@ -1,6 +1,6 @@
 import { setIdOrMoveCard } from 'helpers'
 import { CardState, GameState } from 'types'
-import { CardEmpty, GameCard } from './furniture'
+import { CardEmpty, GameCard } from '../furniture'
 
 interface Props {
   selectedId: string | null

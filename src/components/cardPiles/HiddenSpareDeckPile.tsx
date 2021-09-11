@@ -1,6 +1,6 @@
 import { setIdOrMoveCard } from 'helpers'
 import { CardState, GameState } from 'types'
-import { CardBack, CardEmpty } from './furniture'
+import { CardBack, CardEmpty } from '../furniture'
 
 interface Props {
   setSelectedId: (id: string | null) => void

@@ -14,7 +14,7 @@
     {
       "files": ["src/**/__tests__/*.ts", "test/**/*.ts"],
       "rules": {
-        "jest/valid-expect": "warn",
+        "jest/valid-expect": "off",
         "@typescript-eslint/no-unsafe-return": 0,
         "@typescript-eslint/no-unsafe-call": 0,
         "@typescript-eslint/restrict-template-expressions": 0,
