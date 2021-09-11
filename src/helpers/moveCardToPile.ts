@@ -1,4 +1,5 @@
 import { GameState, CardState, CardPile, CardInfo } from 'types'
+import { validateCardMove } from './validateCardMove'
 
 const findCurrentArray = (gameState: GameState, selectedId: string) => {
   return Object.entries(gameState).find(([_, cardPile]: [string, CardPile]) => {
@@ -43,17 +44,18 @@ export const moveCardToPile = (
   if (selectedId === null) {
     return
   }
-  // find array with the card inside.
+
   const initialArray = findCurrentArray(gameState, selectedId)
 
   if (initialArray === undefined) {
     return
   }
 
-  if (initialArray[0] === arrayToMoveTo) {
+  if (
+    validateCardMove(gameState, cardState, selectedId, arrayToMoveTo) === false
+  ) {
     return
   }
-
   // set cards to be visible
   const newLastCardInOldCardPile =
     cardState[initialArray[1][initialArray[1].length - 2]]

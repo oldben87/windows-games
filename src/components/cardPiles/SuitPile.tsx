@@ -29,13 +29,7 @@ export const SuitPile = ({
       isFirst={true}
       selectedId={selectedId}
       onClick={() => {
-        const lastCardInArray =
-          gameState[columnName][gameState[columnName].length - 1]
-        if (
-          selectedId &&
-          cardState[selectedId].suit === suit &&
-          selectedId === (lastCardInArray + 1).toString()
-        ) {
+        if (selectedId && cardState[selectedId].suit === suit) {
           setIdOrMoveCard(
             selectedId,
             setSelectedId,
@@ -52,11 +46,7 @@ export const SuitPile = ({
     <CardEmpty
       suit={suit}
       onClick={() => {
-        if (
-          selectedId &&
-          cardState[selectedId].suit === suit &&
-          selectedId === '1'
-        ) {
+        if (selectedId && cardState[selectedId].suit === suit) {
           setIdOrMoveCard(
             selectedId,
             setSelectedId,
