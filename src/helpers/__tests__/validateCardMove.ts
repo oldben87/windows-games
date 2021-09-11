@@ -33,6 +33,7 @@ describe('validateCardMove', () => {
           cardState,
           '1',
           'gameColumn1',
+          false,
         ),
       ).equals(false)
     })
@@ -45,6 +46,7 @@ describe('validateCardMove', () => {
           cardState,
           '1',
           'gameColumn1',
+          false,
         ),
       ).equals(false)
     })
@@ -55,6 +57,7 @@ describe('validateCardMove', () => {
           cardState,
           '13',
           'gameColumn1',
+          false,
         ),
       ).equals(true)
     })
@@ -65,6 +68,7 @@ describe('validateCardMove', () => {
           cardState,
           '24',
           'gameColumn1',
+          false,
         ),
       ).equals(false)
     })
@@ -75,6 +79,7 @@ describe('validateCardMove', () => {
           cardState,
           '12',
           'gameColumn1',
+          false,
         ),
       ).equals(false)
     })
@@ -85,6 +90,7 @@ describe('validateCardMove', () => {
           cardState,
           '51',
           'gameColumn1',
+          false,
         ),
       ).equals(true)
     })
@@ -97,6 +103,7 @@ describe('validateCardMove', () => {
           cardState,
           '2',
           'suitPile1',
+          true,
         ),
       ).equals(false)
     })
@@ -107,6 +114,7 @@ describe('validateCardMove', () => {
           cardState,
           '1',
           'suitPile1',
+          true,
         ),
       ).equals(true)
     })
@@ -117,6 +125,7 @@ describe('validateCardMove', () => {
           cardState,
           '4',
           'suitPile1',
+          true,
         ),
       ).equals(false)
     })
@@ -127,6 +136,18 @@ describe('validateCardMove', () => {
           cardState,
           '16',
           'suitPile1',
+          true,
+        ),
+      ).equals(false)
+    })
+    it('should return false if pile is not empty and card is the next value up and the same suit but is not a single Card Selected', () => {
+      expect(
+        validateCardMove(
+          { ...gameState, suitPile1: [1, 2] },
+          cardState,
+          '3',
+          'suitPile1',
+          false,
         ),
       ).equals(false)
     })
@@ -137,6 +158,7 @@ describe('validateCardMove', () => {
           cardState,
           '3',
           'suitPile1',
+          true,
         ),
       ).equals(true)
     })

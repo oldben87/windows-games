@@ -60,7 +60,16 @@ export const CardOrCardTop = ({
       card={card}
       faceUp={card.visible}
       zindex={index}
-      onClick={() => {}}
+      onClick={() => {
+        if (!card.visible) {
+          return
+        }
+
+        if (selectedId === null) {
+          setSelectedId(card.id.toString())
+          return
+        }
+      }}
       selectedId={selectedId}
     />
   )

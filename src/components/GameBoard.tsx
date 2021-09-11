@@ -23,10 +23,6 @@ export default function GameBoard() {
     }
   }, [shuffledDeck, initialLoad])
 
-  if (gameState) {
-    console.log(gameState)
-  }
-
   return (
     <Background>
       <PageTitle title="Solitaire" />

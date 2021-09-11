@@ -12,6 +12,7 @@ export const GameCardTop = ({
   zindex,
   isFirst,
   selectedId,
+  onClick,
 }: GameCardTopProps) => {
   return (
     <>
@@ -21,16 +22,15 @@ export const GameCardTop = ({
           h="30px"
           w="90px"
           bg="white"
-          bordercolor={
-            selectedId === card.id.toString() ? 'lighterGreen' : 'none'
-          }
-          borderWidth={selectedId === card.id.toString() ? '2' : 0}
-          borderStyle={'solid'}
+          border={selectedId === card.id.toString() ? '4px solid' : 'none'}
+          borderColor={selectedId === card.id.toString() ? 'offOrange' : 'none'}
+          borderBottom={'none'}
           boxShadow="0 0 2px 2px rgba(0,0,0,0.2)"
           borderRadius="8px 8px 0 0"
           p="5px 5px 0 5px"
           onClick={e => {
             e.stopPropagation()
+            onClick()
           }}
         >
           <Flex

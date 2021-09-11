@@ -1,11 +1,10 @@
 import { GameState, CardState, CardInfo } from 'types'
 
-const emptyArrayAndCardToMatch = (
+export const emptyArrayAndCardToMatch = (
   cardPile: Array<number>,
   selectedValue: number,
   valueToMatch: number,
 ) => {
-  console.log(selectedValue, valueToMatch)
   return !cardPile.length && selectedValue === valueToMatch
 }
 
@@ -21,7 +20,7 @@ const nextValueDownAndOppositeSuit = (
   )
 }
 
-const nextCardInSuit = (
+export const nextCardInSuit = (
   cardPile: Array<number>,
   selectedCard: CardInfo,
   cardToPlaceOn: CardInfo,
@@ -38,6 +37,7 @@ export function validateCardMove(
   cardState: CardState,
   selectedId: string,
   columnName: string,
+  singleCardSelected: boolean,
 ): boolean {
   const selectedCard = cardState[selectedId]
   const targetColumn = gameState[columnName]
@@ -74,16 +74,18 @@ export function validateCardMove(
     case 'suitPile3':
     case 'suitPile4':
       return (
-        emptyArrayAndCardToMatch(
+        (emptyArrayAndCardToMatch(
           gameState[columnName],
           selectedCard.value,
           1,
-        ) ||
-        nextCardInSuit(
+        ) &&
+          singleCardSelected) ||
+        (nextCardInSuit(
           gameState[columnName],
           selectedCard,
           lastCardinTargetColumn,
-        )
+        ) &&
+          singleCardSelected)
       )
 
     case 'sparePileHidden':

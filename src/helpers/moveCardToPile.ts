@@ -1,5 +1,6 @@
 import { GameState, CardState, CardPile, CardInfo } from 'types'
 import { validateCardMove } from './validateCardMove'
+import { findIndex, last, splitAt } from 'ramda'
 
 const findCurrentArray = (gameState: GameState, selectedId: string) => {
   return Object.entries(gameState).find(([_, cardPile]: [string, CardPile]) => {
@@ -51,27 +52,65 @@ export const moveCardToPile = (
     return
   }
 
+  const lastCardInPile = last(initialArray[1])
+  const isLastCardInPile =
+    lastCardInPile !== undefined &&
+    cardState[lastCardInPile.toString()].id === cardState[selectedId].id
+
   if (
-    validateCardMove(gameState, cardState, selectedId, arrayToMoveTo) === false
+    validateCardMove(
+      gameState,
+      cardState,
+      selectedId,
+      arrayToMoveTo,
+      isLastCardInPile,
+    ) === false
   ) {
     return
   }
-  // set cards to be visible
-  const newLastCardInOldCardPile =
-    cardState[initialArray[1][initialArray[1].length - 2]]
 
-  if (newLastCardInOldCardPile !== undefined) {
-    setCardState(makeCardVisible(cardState, newLastCardInOldCardPile))
+  // set cards visible:
+  // selectedCard:
+  setCardState(makeCardVisible(cardState, cardState[selectedId]))
+
+  // get index of selectedId
+  const selectedIndex = findIndex(
+    num => num.toString() === selectedId,
+    initialArray[1],
+  )
+
+  // get index of newLastCardInPile | undefined
+  const newLastCard = initialArray[1][selectedIndex - 1]
+
+  // if newLastCardInPile set to be visible
+  if (newLastCard && newLastCard !== undefined && newLastCard !== null) {
+    setCardState(makeCardVisible(cardState, cardState[newLastCard.toString()]))
   }
 
-  const lastCardInNewCardPile =
-    cardState[gameState[arrayToMoveTo][gameState[arrayToMoveTo].length - 1]]
+  const lastCardInNewCardPile = last(gameState[arrayToMoveTo])
 
-  if (lastCardInNewCardPile !== undefined) {
-    setCardState(makeCardVisible(cardState, lastCardInNewCardPile))
+  if (
+    lastCardInNewCardPile &&
+    lastCardInNewCardPile !== undefined &&
+    lastCardInNewCardPile !== null
+  ) {
+    setCardState(
+      makeCardVisible(cardState, cardState[lastCardInNewCardPile.toString()]),
+    )
   }
 
-  setGameState(moveCards(gameState, initialArray, selectedId, arrayToMoveTo))
-
+  if (isLastCardInPile) {
+    setGameState(moveCards(gameState, initialArray, selectedId, arrayToMoveTo))
+  } else {
+    // slice array and add to end of new gameColumn
+    const splitArray = splitAt(selectedIndex, initialArray[1])
+    setGameState({
+      ...gameState,
+      [initialArray[0]]: [...splitArray[0]],
+      [arrayToMoveTo]: [...gameState[arrayToMoveTo], ...splitArray[1]],
+    })
+  }
   setSelectedId(null)
+
+  return
 }
