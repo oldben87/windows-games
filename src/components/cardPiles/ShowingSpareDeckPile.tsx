@@ -42,6 +42,7 @@ export const ShowingSpareDeckPile = (props: Props) => {
           'sparePileShowing',
         )
       }}
+      position={null}
     />
   ) : (
     <CardEmpty

@@ -10,7 +10,8 @@ export const GameCard = ({
   isFirst,
   selectedId,
   onClick,
-}: CardProps) => {
+}: // position,
+CardProps) => {
   const [turnedOver, setTurnedOver] = useState(faceUp || false)
   const { suit } = card
 

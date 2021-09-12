@@ -1,5 +1,5 @@
 import { setIdOrMoveCard } from 'helpers'
-import { CardState, GameState, SuitEnum } from 'types'
+import { CardState, GameState, SuitEnum, SelectedCardPositionEnum } from 'types'
 import { CardEmpty, GameCard } from '../furniture'
 
 interface Props {
@@ -41,6 +41,7 @@ export const SuitPile = ({
           )
         }
       }}
+      position={SelectedCardPositionEnum.singleCard}
     />
   ) : (
     <CardEmpty

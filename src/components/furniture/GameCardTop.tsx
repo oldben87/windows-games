@@ -13,7 +13,8 @@ export const GameCardTop = ({
   isFirst,
   selectedId,
   onClick,
-}: GameCardTopProps) => {
+}: // position,
+GameCardTopProps) => {
   return (
     <>
       <Flex h="30px" w="90px" bgColor={isFirst ? 'none' : 'white'}>

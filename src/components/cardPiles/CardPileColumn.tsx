@@ -24,6 +24,11 @@ export const CardPileColumn = (props: CardPileColumnProps) => {
     setGameState,
     columnName,
   } = props
+
+  const selectedIndex = gameState[columnName].findIndex(
+    num => num.toString() === selectedId,
+  )
+
   return (
     <Flex w="90px" direction="column" justify="flex-start">
       {gameState[columnName].length !== 0 ? (
@@ -39,6 +44,7 @@ export const CardPileColumn = (props: CardPileColumnProps) => {
             gameState={gameState}
             setGameState={setGameState}
             columnName={columnName}
+            selectedIndex={selectedIndex}
           />
         ))
       ) : (

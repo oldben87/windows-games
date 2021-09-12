@@ -22,6 +22,7 @@ export interface CardProps {
   onClick: () => void
   gameState?: GameState | null
   setGameState?: (gameState: GameState) => void
+  position: SelectedCardPositionEnum | null
 }
 
 export type CardPile = Array<number>
@@ -32,4 +33,11 @@ export interface GameState {
 
 export interface CardState {
   [key: string]: CardInfo
+}
+
+export enum SelectedCardPositionEnum {
+  top = 'top',
+  bottom = 'bottom',
+  middle = 'middle',
+  singleCard = 'singleCard',
 }
