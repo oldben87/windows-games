@@ -32,6 +32,8 @@ export const CardOrCardTop = ({
   const card = cardState[cardIndex]
   const lastCard = index === column.length - 1
   const isFirst = index === 0
+
+  // TODO: check card is in the same pile as selectedIndex ??
   const position = getSelectedCardPosition(
     gameState[columnName],
     index,
