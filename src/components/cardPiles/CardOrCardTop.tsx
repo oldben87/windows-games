@@ -33,12 +33,13 @@ export const CardOrCardTop = ({
   const lastCard = index === column.length - 1
   const isFirst = index === 0
 
-  // TODO: check card is in the same pile as selectedIndex ??
-  const position = getSelectedCardPosition(
-    gameState[columnName],
-    index,
-    selectedIndex,
+  const selectedCardIsInColumn = gameState[columnName].some(
+    num => num.toString() === selectedId,
   )
+
+  const position = selectedCardIsInColumn
+    ? getSelectedCardPosition(gameState[columnName], index, selectedIndex)
+    : null
 
   if (lastCard) {
     return (
