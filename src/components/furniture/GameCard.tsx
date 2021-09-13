@@ -1,8 +1,47 @@
 import { useState } from 'react'
 import { Flex } from '@chakra-ui/react'
-import { CardProps } from 'types'
+import { CardProps, SelectedCardPositionEnum } from 'types'
 import { SuitIcon } from './SuitIcon'
 import { CardValueRow } from './CardValueRow'
+
+const getCardProps = (
+  selectedCard: boolean,
+  position: SelectedCardPositionEnum | null,
+) => {
+  if (selectedCard && position === SelectedCardPositionEnum.singleCard) {
+    // Single Card
+    return {
+      h: '150px',
+      w: '100px',
+      bg: 'offOrange',
+      borderRadius: '12px',
+      p: '5px',
+      marginLeft: '-5px',
+      marginTop: '-5px',
+    }
+  }
+
+  if (position === SelectedCardPositionEnum.bottom) {
+    return {
+      h: '145px',
+      w: '100px',
+      bg: 'offOrange',
+      borderRadius: '0 0 8px 8px',
+      px: '5px',
+      marginLeft: '-5px',
+      marginTop: '0',
+    }
+  }
+
+  return {
+    h: '140px',
+    w: '90px',
+    borderRadius: '0 0 8px 8px',
+    p: 0,
+    marginLeft: 0,
+    marginTop: 0,
+  }
+}
 
 export const GameCard = ({
   card,
@@ -10,17 +49,21 @@ export const GameCard = ({
   isFirst,
   selectedId,
   onClick,
-}: // position,
-CardProps) => {
+  position,
+}: CardProps) => {
   const [turnedOver, setTurnedOver] = useState(faceUp || false)
   const { suit } = card
+  const cardIsSelected = selectedId === card.id.toString()
+
+  if (cardIsSelected) {
+    console.log(position)
+  }
+
+  const flexProps = getCardProps(cardIsSelected, position)
 
   return (
     <Flex
-      h="140px"
-      w="90px"
-      bg={isFirst ? 'none' : 'white'}
-      borderRadius="0 0 8px 8px"
+      {...flexProps}
       onClick={e => {
         e.stopPropagation()
         onClick()
@@ -29,35 +72,40 @@ CardProps) => {
       <Flex
         h="140px"
         w="90px"
-        bg="white"
-        boxShadow={
-          selectedId === card.id.toString()
-            ? '0 0 3px 3px offOrange'
-            : '0 0 2px 2px rgba(0,0,0,0.2)'
-        }
-        borderRadius="8px"
-        border={selectedId === card.id.toString() ? '4px solid' : 'none'}
-        borderColor={selectedId === card.id.toString() ? 'offOrange' : 'none'}
-        p={selectedId === card.id.toString() ? '1px' : '5px'}
-        onClick={() => setTurnedOver(true)}
+        bg={isFirst || cardIsSelected ? 'none' : 'white'}
+        borderRadius={'0 0 8px 8px'}
       >
         <Flex
-          h="100%"
-          w="100%"
-          bg={turnedOver ? 'white' : 'primaryBlue'}
-          borderRadius="4px"
-          direction="column"
-          justify="space-between"
+          h="140px"
+          w="90px"
+          bg="white"
+          boxShadow={
+            position === null
+              ? '0 0 2px 2px rgba(0,0,0,0.2)'
+              : '0 -1px 1px 1px rgba(0,0,0,0.1)'
+          }
+          borderRadius="8px"
+          p={'5px'}
+          onClick={() => setTurnedOver(true)}
         >
-          {turnedOver && (
-            <>
-              <CardValueRow card={card} top={true} />
-              <Flex h="50%">
-                <SuitIcon suit={suit} isRed={card.isRed} />
-              </Flex>
-              <CardValueRow card={card} top={false} />
-            </>
-          )}
+          <Flex
+            h="100%"
+            w="100%"
+            bg={turnedOver ? 'white' : 'primaryBlue'}
+            borderRadius="4px"
+            direction="column"
+            justify="space-between"
+          >
+            {turnedOver && (
+              <>
+                <CardValueRow card={card} top={true} />
+                <Flex h="50%">
+                  <SuitIcon suit={suit} isRed={card.isRed} />
+                </Flex>
+                <CardValueRow card={card} top={false} />
+              </>
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

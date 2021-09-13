@@ -1,5 +1,5 @@
 import { setIdOrMoveCard } from 'helpers'
-import { CardState, GameState } from 'types'
+import { CardState, GameState, SelectedCardPositionEnum } from 'types'
 import { CardEmpty, GameCard } from '../furniture'
 
 interface Props {
@@ -42,7 +42,7 @@ export const ShowingSpareDeckPile = (props: Props) => {
           'sparePileShowing',
         )
       }}
-      position={null}
+      position={SelectedCardPositionEnum.singleCard}
     />
   ) : (
     <CardEmpty

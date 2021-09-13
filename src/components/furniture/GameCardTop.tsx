@@ -1,9 +1,47 @@
-import { CardProps } from 'types'
+import { CardProps, SelectedCardPositionEnum } from 'types'
 import { Flex } from '@chakra-ui/react'
 import { CardValueRow } from './CardValueRow'
 
 interface GameCardTopProps extends CardProps {
   zindex: number
+}
+
+const getCardTopProps = (
+  selectedCard: boolean,
+  position: SelectedCardPositionEnum | null,
+) => {
+  if (selectedCard && position === SelectedCardPositionEnum.top) {
+    return {
+      h: '35px',
+      w: '100px',
+      bg: 'offOrange',
+      borderRadius: '8px 8px 0 0',
+      p: '5px 0 0 5px',
+      marginLeft: '-5px',
+      marginTop: '-5px',
+    }
+  }
+
+  if (position === SelectedCardPositionEnum.middle) {
+    return {
+      h: '30px',
+      w: '100px',
+      bg: 'offOrange',
+      borderRadius: '0 0 0 0',
+      px: '5px',
+      marginLeft: '-5px',
+      marginTop: '0',
+    }
+  }
+
+  return {
+    h: '30px',
+    w: '90px',
+    borderRadius: '0 0 8px 8px',
+    p: 0,
+    marginLeft: 0,
+    marginTop: 0,
+  }
 }
 
 export const GameCardTop = ({
@@ -13,20 +51,24 @@ export const GameCardTop = ({
   isFirst,
   selectedId,
   onClick,
-}: // position,
-GameCardTopProps) => {
+  position,
+}: GameCardTopProps) => {
+  const cardIsSelected = selectedId === card.id.toString()
+
+  const cardTopProps = getCardTopProps(cardIsSelected, position)
   return (
-    <>
-      <Flex h="30px" w="90px" bgColor={isFirst ? 'none' : 'white'}>
+    <Flex {...cardTopProps}>
+      <Flex bgColor={isFirst || cardIsSelected ? 'none' : 'white'}>
         <Flex
           zindex={zindex}
           h="30px"
           w="90px"
           bg="white"
-          border={selectedId === card.id.toString() ? '4px solid' : 'none'}
-          borderColor={selectedId === card.id.toString() ? 'offOrange' : 'none'}
-          borderBottom={'none'}
-          boxShadow="0 0 2px 2px rgba(0,0,0,0.2)"
+          boxShadow={
+            position === null
+              ? '0 0 2px 2px rgba(0,0,0,0.2)'
+              : '0 -1px 2px 2px rgba(0,0,0,0.1)'
+          }
           borderRadius="8px 8px 0 0"
           p="5px 5px 0 5px"
           onClick={e => {
@@ -50,6 +92,6 @@ GameCardTopProps) => {
           </Flex>
         </Flex>
       </Flex>
-    </>
+    </Flex>
   )
 }
