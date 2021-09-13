@@ -36,8 +36,19 @@ export default function GameBoard() {
             setSelectedId(null)
           }}
         >
-          <Flex p={5} justify="space-between" maxWidth="800px">
-            <Flex w="200px" ml={8} justify="space-between">
+          <Flex
+            p={5}
+            justify="space-between"
+            alignItems="center"
+            maxWidth="800px"
+          >
+            <Flex
+              w="200px"
+              h="150px"
+              ml={8}
+              justify="space-between"
+              alignItems="center"
+            >
               <HiddenSpareDeckPile
                 setSelectedId={setSelectedId}
                 cardState={cardState}
