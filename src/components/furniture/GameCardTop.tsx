@@ -67,7 +67,7 @@ export const GameCardTop = ({
           boxShadow={
             position === null
               ? '0 0 2px 2px rgba(0,0,0,0.2)'
-              : '0 -1px 2px 2px rgba(0,0,0,0.1)'
+              : '0 -1px 1px 1px rgba(0,0,0,0.1)'
           }
           borderRadius="8px 8px 0 0"
           p="5px 5px 0 5px"
