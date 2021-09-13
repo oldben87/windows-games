@@ -1,5 +1,16 @@
 import { useState, useEffect } from 'react'
-import { Flex, Spinner } from '@chakra-ui/react'
+import {
+  Flex,
+  Spinner,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerHeader,
+  DrawerContent,
+  DrawerBody,
+  Button,
+  Text,
+} from '@chakra-ui/react'
 import { Background, PageTitle } from './furniture'
 import { CardPileColumn } from './cardPiles/CardPileColumn'
 import { HiddenSpareDeckPile } from './cardPiles/HiddenSpareDeckPile'
@@ -9,11 +20,14 @@ import { GameState, SuitEnum, CardState } from 'types'
 import { SuitPile } from './cardPiles/SuitPile'
 
 export default function GameBoard() {
-  const [shuffledDeck] = useState<Array<number>>(getShuffledDeck())
+  const [shuffledDeck, setShuffledDeck] = useState<Array<number>>(
+    getShuffledDeck(),
+  )
   const [initialLoad, setInitialLoad] = useState(false)
   const [cardState, setCardState] = useState<CardState>({})
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
     if (shuffledDeck.length && initialLoad === false) {
@@ -23,10 +37,37 @@ export default function GameBoard() {
     }
   }, [shuffledDeck, initialLoad])
 
+  useEffect(() => {
+    if (
+      gameState &&
+      gameState.suitPile1.length === 13 &&
+      gameState.suitPile2.length === 13 &&
+      gameState.suitPile3.length === 13 &&
+      gameState.suitPile4.length === 13
+    ) {
+      onOpen()
+    }
+  }, [gameState])
+
   return (
     <Background>
-      <PageTitle title="Solitaire" />
-
+      <Flex direction="column">
+        <PageTitle title="Solitaire" />
+        <Button
+          background="darkerBlue"
+          _hover={{ bg: 'primaryBlue' }}
+          _active={{ bg: 'darkerBlue' }}
+          color="white"
+          border="none"
+          mt={2}
+          onClick={() => {
+            setInitialLoad(false)
+            setShuffledDeck(getShuffledDeck())
+          }}
+        >
+          Reset Game
+        </Button>
+      </Flex>
       {gameState !== null && shuffledDeck.length ? (
         <Flex
           direction="column"
@@ -188,6 +229,17 @@ export default function GameBoard() {
       ) : (
         <Spinner h={20} w={20} ml={10} color="primaryBlue" />
       )}
+      <Drawer placement="top" onClose={onClose} isOpen={isOpen} size="xl">
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader borderBottomWidth="1px">
+            You won, well done!
+          </DrawerHeader>
+          <DrawerBody>
+            <Text>Press the reset button to start a new game!</Text>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Background>
   )
 }

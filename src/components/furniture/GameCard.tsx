@@ -17,7 +17,7 @@ const getCardProps = (
       borderRadius: '12px',
       p: '5px',
       marginLeft: fixPosition ? 0 : '-5px',
-      marginTop: '-5px',
+      marginTop: fixPosition ? 0 : '-5px',
       marginRight: fixPosition ? '-5px' : 0,
     }
   }
