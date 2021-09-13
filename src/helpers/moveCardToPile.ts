@@ -66,6 +66,7 @@ export const moveCardToPile = (
       isLastCardInPile,
     ) === false
   ) {
+    setSelectedId(null)
     return
   }
 
@@ -104,12 +105,14 @@ export const moveCardToPile = (
   } else {
     // slice array and add to end of new gameColumn
     const splitArray = splitAt(selectedIndex, initialArray[1])
+
     setGameState({
       ...gameState,
       [initialArray[0]]: [...splitArray[0]],
       [arrayToMoveTo]: [...gameState[arrayToMoveTo], ...splitArray[1]],
     })
   }
+
   setSelectedId(null)
 
   return
