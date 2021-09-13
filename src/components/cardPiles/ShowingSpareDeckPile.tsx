@@ -43,6 +43,7 @@ export const ShowingSpareDeckPile = (props: Props) => {
         )
       }}
       position={SelectedCardPositionEnum.singleCard}
+      fixPosition={true}
     />
   ) : (
     <CardEmpty

@@ -16,13 +16,14 @@ export enum SuitEnum {
 
 export interface CardProps {
   card: CardInfo
-  isFirst?: boolean
-  faceUp?: boolean
+  position: SelectedCardPositionEnum | null
   selectedId: string | null
   onClick: () => void
+  faceUp?: boolean
+  isFirst?: boolean
   gameState?: GameState | null
   setGameState?: (gameState: GameState) => void
-  position: SelectedCardPositionEnum | null
+  fixPosition?: boolean
 }
 
 export type CardPile = Array<number>

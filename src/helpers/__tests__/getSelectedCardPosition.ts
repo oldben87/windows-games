@@ -47,4 +47,11 @@ describe('getSelectedCardPosition', () => {
       )
     })
   })
+  context('when current card is the top card in pile', () => {
+    it('should return top if there are cards below it', () => {
+      expect(getSelectedCardPosition([1, 2, 3, 4], 0, 0)).to.equal(
+        SelectedCardPositionEnum.top,
+      )
+    })
+  })
 })

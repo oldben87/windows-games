@@ -7,17 +7,18 @@ import { CardValueRow } from './CardValueRow'
 const getCardProps = (
   selectedCard: boolean,
   position: SelectedCardPositionEnum | null,
+  fixPosition?: boolean,
 ) => {
   if (selectedCard && position === SelectedCardPositionEnum.singleCard) {
-    // Single Card
     return {
       h: '150px',
       w: '100px',
       bg: 'offOrange',
       borderRadius: '12px',
       p: '5px',
-      marginLeft: '-5px',
+      marginLeft: fixPosition ? 0 : '-5px',
       marginTop: '-5px',
+      marginRight: fixPosition ? '-5px' : 0,
     }
   }
 
@@ -50,6 +51,7 @@ export const GameCard = ({
   selectedId,
   onClick,
   position,
+  fixPosition,
 }: CardProps) => {
   const [turnedOver, setTurnedOver] = useState(faceUp || false)
   const { suit } = card
@@ -59,7 +61,7 @@ export const GameCard = ({
     console.log(position)
   }
 
-  const flexProps = getCardProps(cardIsSelected, position)
+  const flexProps = getCardProps(cardIsSelected, position, fixPosition)
 
   return (
     <Flex

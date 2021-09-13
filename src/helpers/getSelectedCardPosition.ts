@@ -5,7 +5,7 @@ export const getSelectedCardPosition = (
   cardIndex: number,
   selectedIndex: number | null,
 ): SelectedCardPositionEnum | null => {
-  if (!selectedIndex) {
+  if (selectedIndex === null) {
     return null
   }
 
