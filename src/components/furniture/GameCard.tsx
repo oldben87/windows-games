@@ -57,10 +57,6 @@ export const GameCard = ({
   const { suit } = card
   const cardIsSelected = selectedId === card.id.toString()
 
-  if (cardIsSelected) {
-    console.log(position)
-  }
-
   const flexProps = getCardProps(cardIsSelected, position, fixPosition)
 
   return (

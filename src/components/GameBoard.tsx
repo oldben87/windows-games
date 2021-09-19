@@ -15,7 +15,12 @@ import { Background, PageTitle } from './furniture'
 import { CardPileColumn } from './cardPiles/CardPileColumn'
 import { HiddenSpareDeckPile } from './cardPiles/HiddenSpareDeckPile'
 import { ShowingSpareDeckPile } from './cardPiles/ShowingSpareDeckPile'
-import { getShuffledDeck, setInitialGameState, getCardState } from 'helpers'
+import {
+  getShuffledDeck,
+  setInitialGameState,
+  getCardState,
+  moveAllAvailableCards,
+} from 'helpers'
 import { GameState, SuitEnum, CardState } from 'types'
 import { SuitPile } from './cardPiles/SuitPile'
 
@@ -28,6 +33,7 @@ export default function GameBoard() {
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [score, setScore] = useState(0)
 
   useEffect(() => {
     if (shuffledDeck.length && initialLoad === false) {
@@ -36,6 +42,17 @@ export default function GameBoard() {
       setCardState(getCardState(shuffledDeck))
     }
   }, [shuffledDeck, initialLoad])
+
+  useEffect(() => {
+    if (gameState) {
+      const spadesScore = gameState.suitPile1.length * 5 || 0
+      const heartsScore = gameState.suitPile2.length * 5 || 0
+      const clubsScore = gameState.suitPile3.length * 5 || 0
+      const diamondsScore = gameState.suitPile4.length * 5 || 0
+
+      setScore(spadesScore + heartsScore + clubsScore + diamondsScore)
+    }
+  }, [gameState])
 
   useEffect(() => {
     if (
@@ -51,8 +68,41 @@ export default function GameBoard() {
 
   return (
     <Background>
-      <Flex direction="column">
+      <Flex direction="column" maxWidth={'150px'}>
         <PageTitle title="Solitaire" />
+        <Flex direction="column" textAlign="center" p={2}>
+          <Text
+            fontWeight={600}
+            fontSize="lg"
+            color="white"
+            letterSpacing="1px"
+          >
+            Score:
+          </Text>
+          <Text
+            fontWeight={500}
+            fontSize="md"
+            color="white"
+            letterSpacing="1px"
+          >
+            {score}
+          </Text>
+        </Flex>
+        <Button
+          background="darkerBlue"
+          _hover={{ bg: 'primaryBlue', border: 'none' }}
+          _active={{ bg: 'darkerBlue', border: 'none' }}
+          color="white"
+          border="none"
+          mt={2}
+          onClick={() => {
+            if (gameState) {
+              setGameState(moveAllAvailableCards(gameState, cardState))
+            }
+          }}
+        >
+          Suit Up
+        </Button>
         <Button
           background="darkerBlue"
           _hover={{ bg: 'primaryBlue' }}
@@ -65,7 +115,7 @@ export default function GameBoard() {
             setShuffledDeck(getShuffledDeck())
           }}
         >
-          Reset Game
+          New Game
         </Button>
       </Flex>
       {gameState !== null && shuffledDeck.length ? (
