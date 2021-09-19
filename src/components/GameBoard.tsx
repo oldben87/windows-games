@@ -3,13 +3,13 @@ import {
   Flex,
   Spinner,
   useDisclosure,
-  Drawer,
-  DrawerOverlay,
-  DrawerHeader,
-  DrawerContent,
-  DrawerBody,
   Button,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
 } from '@chakra-ui/react'
 import { Background, PageTitle } from './furniture'
 import { CardPileColumn } from './cardPiles/CardPileColumn'
@@ -20,6 +20,7 @@ import {
   setInitialGameState,
   getCardState,
   moveAllAvailableCards,
+  getTimeTaken,
 } from 'helpers'
 import { GameState, SuitEnum, CardState } from 'types'
 import { SuitPile } from './cardPiles/SuitPile'
@@ -34,6 +35,7 @@ export default function GameBoard() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [score, setScore] = useState(0)
+  const [gameStarted, setGameStarted] = useState(new Date())
 
   useEffect(() => {
     if (shuffledDeck.length && initialLoad === false) {
@@ -112,6 +114,7 @@ export default function GameBoard() {
           mt={2}
           onClick={() => {
             setInitialLoad(false)
+            setGameStarted(new Date())
             setShuffledDeck(getShuffledDeck())
           }}
         >
@@ -279,17 +282,16 @@ export default function GameBoard() {
       ) : (
         <Spinner h={20} w={20} ml={10} color="primaryBlue" />
       )}
-      <Drawer placement="top" onClose={onClose} isOpen={isOpen} size="xl">
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">
-            You won, well done!
-          </DrawerHeader>
-          <DrawerBody>
-            <Text>Press the reset button to start a new game!</Text>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <Modal onClose={onClose} isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader borderBottomWidth="1px">Well done!</ModalHeader>
+          <ModalBody>
+            <Text>Press the new game button to start a new game!</Text>
+            <Text>It took you {getTimeTaken(gameStarted, new Date())}</Text>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Background>
   )
 }
