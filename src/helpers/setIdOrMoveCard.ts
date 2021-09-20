@@ -23,7 +23,7 @@ export const setIdOrMoveCard = (
     return
   }
 
-  if (selectedId === null) {
+  if (selectedId === null && gameState[columnName].length > 0) {
     const arrayIndex = gameState[columnName].length - 1
     setSelectedId(gameState[columnName][arrayIndex].toString())
     return
