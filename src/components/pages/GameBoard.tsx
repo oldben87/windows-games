@@ -11,10 +11,10 @@ import {
   ModalHeader,
   ModalBody,
 } from '@chakra-ui/react'
-import { Background, PageTitle } from './furniture'
-import { CardPileColumn } from './cardPiles/CardPileColumn'
-import { HiddenSpareDeckPile } from './cardPiles/HiddenSpareDeckPile'
-import { ShowingSpareDeckPile } from './cardPiles/ShowingSpareDeckPile'
+import { Background, PageTitle } from '../furniture'
+import { CardPileColumn } from '../cardPiles/CardPileColumn'
+import { HiddenSpareDeckPile } from '../cardPiles/HiddenSpareDeckPile'
+import { ShowingSpareDeckPile } from '../cardPiles/ShowingSpareDeckPile'
 import {
   getShuffledDeck,
   setInitialGameState,
@@ -23,7 +23,7 @@ import {
   getTimeTaken,
 } from 'helpers'
 import { GameState, SuitEnum, CardState } from 'types'
-import { SuitPile } from './cardPiles/SuitPile'
+import { SuitPile } from '../cardPiles/SuitPile'
 
 export default function GameBoard() {
   const [shuffledDeck, setShuffledDeck] = useState<Array<number>>(
