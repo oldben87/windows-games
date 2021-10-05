@@ -34,6 +34,17 @@ const GameButton = ({ title, src, link }: GameButtonProps) => {
   )
 }
 
+const windowsButtonStyle = {
+  borderRadius: 'none',
+  borderWidth: '2px',
+  borderTopColor: 'lightGray',
+  borderLeftColor: 'lightGray',
+  borderRightColor: 'black',
+  borderBottomColor: 'black',
+  bgColor: 'silver',
+  width: '150px',
+}
+
 interface ErrorWindowProps {
   isOpen: boolean
   onClose: () => void
@@ -62,6 +73,7 @@ function ErrorWindow({ isOpen, onClose }: ErrorWindowProps) {
             fontSize="lg"
             fontWeight="bold"
             p={1}
+            ml={4}
             m={0}
             borderRadius={0}
             bgColor={'blue'}
@@ -80,11 +92,8 @@ function ErrorWindow({ isOpen, onClose }: ErrorWindowProps) {
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button onClick={onClose} ref={cancelRef} height="40px">
-              Cancel
-            </Button>
-            <Button onClick={onClose} ml={3}>
-              Ok
+            <Button {...windowsButtonStyle} onClick={onClose} ml={3}>
+              Erm, OK?
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
