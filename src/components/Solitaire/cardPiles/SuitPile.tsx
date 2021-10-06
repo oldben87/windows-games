@@ -1,4 +1,4 @@
-import { setIdOrMoveCard } from 'helpers'
+import { setIdOrMoveCard } from 'components/Solitaire/helpers'
 import { CardState, GameState, SuitEnum, SelectedCardPositionEnum } from 'types'
 import { CardEmpty, GameCard } from '../furniture'
 

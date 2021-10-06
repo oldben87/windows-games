@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { getValueForDisplay } from 'helpers'
+import { getValueForDisplay } from 'components/Solitaire/helpers'
 import { CardInfo } from 'types'
 import { SuitIcon } from './SuitIcon'
 

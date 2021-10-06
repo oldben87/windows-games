@@ -1,5 +1,5 @@
-import { setIdOrMoveCard } from 'helpers'
-import { getSelectedCardPosition } from 'helpers'
+import { setIdOrMoveCard } from 'components/Solitaire/helpers'
+import { getSelectedCardPosition } from 'components/Solitaire/helpers'
 import { CardPile, CardState, GameState } from 'types'
 import { GameCard, GameCardTop } from '../furniture'
 

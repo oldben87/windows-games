@@ -1,4 +1,4 @@
-import { getCardValue } from 'helpers/getCardsForGame'
+import { getCardValue } from 'components/Solitaire/helpers/getCardsForGame'
 import { CardInfo, CardState, CardPile } from 'types'
 
 export const getCardState = (shuffledDeck: CardPile): CardState => {

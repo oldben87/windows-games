@@ -21,7 +21,7 @@ import {
   getCardState,
   moveAllAvailableCards,
   getTimeTaken,
-} from 'helpers'
+} from 'components/Solitaire/helpers'
 import { GameState, SuitEnum, CardState } from 'types'
 import { SuitPile } from './cardPiles/SuitPile'
 
