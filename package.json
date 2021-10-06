@@ -20,6 +20,10 @@
     "react-scripts": "4.0.3",
     "typescript": "^4.4.2"
   },
+  "engines": {
+    "npm": "6.x",
+    "node": "14.x"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
