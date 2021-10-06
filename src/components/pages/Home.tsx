@@ -3,7 +3,7 @@ import { Flex, Text, Image, Icon } from '@chakra-ui/react'
 import format from 'date-fns/format'
 import { ImWindows } from 'react-icons/im'
 import { ErrorWindow } from '../homePage/ErrorWindow'
-import { GameBoardModal } from '../homePage/GameBoardModal'
+import { GameBoardModal } from '../Solitaire/GameBoardModal'
 
 interface GameButtonProps {
   title: string

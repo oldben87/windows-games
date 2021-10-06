@@ -5,7 +5,7 @@ import {
   ModalCloseButton,
   Flex,
 } from '@chakra-ui/react'
-import GameBoard from 'components/pages/GameBoard'
+import GameBoard from 'components/Solitaire/GameBoard'
 
 interface Props {
   isOpen: boolean
