@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import { setIdOrMoveCard } from 'components/Solitaire/helpers'
-import { CardState, GameState } from 'types'
+import { CardState, GameState } from 'components/Solitaire/types'
 import { CardOrCardTop } from './CardOrCardTop'
 import { CardEmpty } from '../furniture'
 

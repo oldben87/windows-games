@@ -1,4 +1,4 @@
-import { SuitEnum, CardInfo } from 'types'
+import { SuitEnum, CardInfo } from 'components/Solitaire/types'
 
 export const getRandomNumber = (deck: Array<number>): number => {
   const rdmNum = Math.floor(Math.random() * 52) + 1

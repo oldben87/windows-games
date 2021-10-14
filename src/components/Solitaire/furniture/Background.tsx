@@ -9,7 +9,7 @@ export const Background = ({ children }: Props) => {
     <Flex
       as="section"
       minHeight="100%"
-      w="100%"
+      minWidth="100%"
       background="primaryGreen"
       p={2}
     >

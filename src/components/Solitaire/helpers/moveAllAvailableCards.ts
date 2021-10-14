@@ -1,4 +1,4 @@
-import { CardState, GameState, SuitEnum } from 'types'
+import { CardState, GameState, SuitEnum } from 'components/Solitaire/types'
 import { last, clone, dropLast } from 'ramda'
 import { validateCardMove } from 'components/Solitaire/helpers'
 

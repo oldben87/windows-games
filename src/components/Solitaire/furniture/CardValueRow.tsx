@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react'
 import { getValueForDisplay } from 'components/Solitaire/helpers'
-import { CardInfo } from 'types'
+import { CardInfo } from 'components/Solitaire/types'
 import { SuitIcon } from './SuitIcon'
 
 export const CardValueRow = ({

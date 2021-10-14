@@ -22,7 +22,7 @@ import {
   moveAllAvailableCards,
   getTimeTaken,
 } from 'components/Solitaire/helpers'
-import { GameState, SuitEnum, CardState } from 'types'
+import { GameState, SuitEnum, CardState } from 'components/Solitaire/types'
 import { SuitPile } from './cardPiles/SuitPile'
 
 export default function GameBoard() {

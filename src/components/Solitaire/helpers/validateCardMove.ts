@@ -1,4 +1,4 @@
-import { GameState, CardState, CardInfo } from 'types'
+import { GameState, CardState, CardInfo } from 'components/Solitaire/types'
 
 export const emptyArrayAndCardToMatch = (
   cardPile: Array<number>,

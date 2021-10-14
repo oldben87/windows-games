@@ -1,5 +1,5 @@
 import { moveCardToPile } from './moveCardToPile'
-import { CardState, GameState } from 'types'
+import { CardState, GameState } from 'components/Solitaire/types'
 
 export const setIdOrMoveCard = (
   selectedId: string | null,

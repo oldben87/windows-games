@@ -1,5 +1,5 @@
 import { getCardValue } from 'components/Solitaire/helpers/getCardsForGame'
-import { CardInfo, CardState, CardPile } from 'types'
+import { CardInfo, CardState, CardPile } from 'components/Solitaire/types'
 
 export const getCardState = (shuffledDeck: CardPile): CardState => {
   return shuffledDeck.reduce<{ [key: string]: CardInfo }>(

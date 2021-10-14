@@ -1,4 +1,4 @@
-import { GameState, CardState, CardPile, CardInfo } from 'types'
+import { GameState, CardState, CardPile, CardInfo } from 'components/Solitaire/types'
 import { validateCardMove } from './validateCardMove'
 import { findIndex, last, splitAt } from 'ramda'
 

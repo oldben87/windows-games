@@ -1,4 +1,4 @@
-import { GameState } from 'types'
+import { GameState } from 'components/Solitaire/types'
 import { remove } from 'ramda'
 
 export const setInitialGameState = (
