@@ -1,11 +1,11 @@
-import React from 'react'
-import { Flex, Text } from '@chakra-ui/react'
+import React from "react"
+import {Flex, Text} from "@chakra-ui/react"
 
 interface BackgroundProps {
   children: React.ReactNode
 }
 
-const Background = ({ children }: BackgroundProps) => {
+const Background = ({children}: BackgroundProps) => {
   return (
     <Flex
       as="section"
@@ -22,20 +22,29 @@ const Background = ({ children }: BackgroundProps) => {
 
 const GameHeader = () => {
   return (
-  <Flex h="100px" bgColor="grey" w="100%" p={2} justify="space-evenly">
-    <Flex bgColor="black" h="100%" w="100px" justify='center'>
-      <Text color="red" fontWeight={600} fontSize={80} p={0} m={0} lineHeight={"100%"}>10</Text>
+    <Flex h="100px" bgColor="grey" w="100%" p={2} justify="space-evenly">
+      <Flex bgColor="black" h="100%" w="100px" justify="center">
+        <Text
+          color="red"
+          fontWeight={600}
+          fontSize={80}
+          p={0}
+          m={0}
+          lineHeight={"100%"}
+        >
+          10
+        </Text>
+      </Flex>
     </Flex>
-  </Flex>
   )
 }
 
 const MineSquareBorder = {
   borderWidth: "2px",
-  borderColorLeft: 'snow',
-  borderBottomColor: 'black',
-  borderColorTop: 'snow',
-  borderRightColor: 'black'
+  borderColorLeft: "snow",
+  borderBottomColor: "black",
+  borderColorTop: "snow",
+  borderRightColor: "black",
 }
 
 const MineSquare = () => {
@@ -43,18 +52,20 @@ const MineSquare = () => {
 }
 
 const MineRow = () => {
- return <Flex direction="column">
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
-   <MineSquare />
- </Flex>
+  return (
+    <Flex direction="column">
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+      <MineSquare />
+    </Flex>
+  )
 }
 
 const MineField = () => {
@@ -68,15 +79,17 @@ const MineField = () => {
       <MineRow />
       <MineRow />
       <MineRow />
-       <MineRow />
- <MineRow />
-      </Flex>
+      <MineRow />
+      <MineRow />
+    </Flex>
   )
 }
 
 export default function () {
-    return (<Background>
-        <GameHeader />
-        <MineField />
-    </Background>)
+  return (
+    <Background>
+      <GameHeader />
+      <MineField />
+    </Background>
+  )
 }
