@@ -1,11 +1,13 @@
-import Home from 'components/pages/Home'
-import { Route } from 'react-router-dom'
-import MinesweeperBoard from 'components/Minesweeper/GameBoard'
+import Home from "components/pages/Home"
+import {Route} from "react-router-dom"
+import MinesweeperBoard from "components/Minesweeper/GameBoard"
+import SolitiareBoard from "components/Solitaire/GameBoard"
 
 function App() {
   return (
     <>
       <Route exact path="/" component={Home} />
+      <Route exact path="/solitiare" component={SolitiareBoard} />
       <Route exact path="/minesweeper" component={MinesweeperBoard} />
     </>
   )

@@ -1,30 +1,31 @@
-import { useEffect, useState } from 'react'
-import { Flex, Text, Image, Icon } from '@chakra-ui/react'
-import format from 'date-fns/format'
-import { ImWindows } from 'react-icons/im'
-import { ErrorWindow } from '../homePage/ErrorWindow'
-import { GameBoardModal } from '../Solitaire/GameBoardModal'
+import {useEffect, useState} from "react"
+import {Link} from "react-router-dom"
+import {Flex, Text, Image, Icon} from "@chakra-ui/react"
+import format from "date-fns/format"
+import {ImWindows} from "react-icons/im"
+import {ErrorWindow} from "../homePage/ErrorWindow"
 
 interface GameButtonProps {
   title: string
   src: string
-  openGameBoard: () => void
+  link: string
 }
 
-const GameButton = ({ title, src, openGameBoard }: GameButtonProps) => {
+const GameButton = ({title, src, link}: GameButtonProps) => {
   return (
-    <Flex
-      onClick={() => openGameBoard()}
-      direction="column"
-      justify="center"
-      maxWidth="80px"
-      cursor="pointer"
-    >
-      <Image src={src} h={'80px'} w={'80px'} />
-      <Text align="center" color="white" mt={2}>
-        {title}
-      </Text>
-    </Flex>
+    <Link to={link}>
+      <Flex
+        direction="column"
+        justify="center"
+        maxWidth="80px"
+        cursor="pointer"
+      >
+        <Image src={src} h={"80px"} w={"80px"} />
+        <Text align="center" color="white" mt={2}>
+          {title}
+        </Text>
+      </Flex>
+    </Link>
   )
 }
 
@@ -32,10 +33,6 @@ export default function Home() {
   const [date, setDate] = useState(new Date())
   const [isOpen, setIsOpen] = useState(false)
   const onErrorClose = () => setIsOpen(false)
-  const [isGameOpen, setIsGameOpen] = useState(false)
-  const onGameClose = () => setIsGameOpen(false)
-  const onGameOpen = () => setIsGameOpen(true)
-
   useEffect(() => {
     setTimeout(() => {
       setDate(new Date())
@@ -44,11 +41,7 @@ export default function Home() {
 
   return (
     <Flex direction="column" h="100vh" bgColor="darkerBlue" justify="center">
-      <GameButton
-        title="Solitaire"
-        src="SolitaireIcon.png"
-        openGameBoard={onGameOpen}
-      />
+      <GameButton title="Solitaire" src="SolitaireIcon.png" link="/solitiare" />
       <Flex
         w="100%"
         h="50px"
@@ -90,10 +83,9 @@ export default function Home() {
           borderBottomColor="lightGrey"
           px={3}
         >
-          <Text color="black">{format(date, 'hh:mm a')}</Text>
+          <Text color="black">{format(date, "hh:mm a")}</Text>
         </Flex>
       </Flex>
-      <GameBoardModal isOpen={isGameOpen} onClose={onGameClose} />
       <ErrorWindow isOpen={isOpen} onClose={onErrorClose} />
     </Flex>
   )
