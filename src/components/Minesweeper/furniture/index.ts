@@ -1,0 +1,5 @@
+export * from "./GameHeader"
+export * from "./Background"
+export * from "./MineSquare"
+export * from "./MineRow"
+export * from "./MineField"
