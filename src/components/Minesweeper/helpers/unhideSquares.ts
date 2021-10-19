@@ -31,6 +31,10 @@ export const unhideSquares = (
   const newStateRight = unhideSquares(newStateLeft, xCoOrd + 1, yCoOrd)
   const newStateUp = unhideSquares(newStateRight, xCoOrd, yCoOrd - 1)
   const newStateDown = unhideSquares(newStateUp, xCoOrd, yCoOrd + 1)
+  const northWest = unhideSquares(newStateDown, xCoOrd - 1, yCoOrd + 1)
+  const northEast = unhideSquares(northWest, xCoOrd + 1, yCoOrd + 1)
+  const southWest = unhideSquares(northEast, xCoOrd - 1, yCoOrd - 1)
+  const soutEast = unhideSquares(southWest, xCoOrd + 1, yCoOrd - 1)
 
-  return newStateDown
+  return soutEast
 }
