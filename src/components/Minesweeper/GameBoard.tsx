@@ -1,7 +1,8 @@
 import React, {useState} from "react"
 import {Flex, Text} from "@chakra-ui/react"
 import {getRandomNumber} from "./helpers/getRandomNumber"
-import {update} from "ramda"
+import {GameState, GameSquare} from "./types"
+import {unhideSquares} from "./helpers/unhideSquares"
 
 interface BackgroundProps {
   children: React.ReactNode
@@ -93,14 +94,11 @@ const MineSquare = ({
       justify="center"
       alignItems="center"
       onClick={() => {
-        const newSquare = {...mineSquare, isHidden: false}
-        const newRow = update(
+        const newState = unhideSquares(
+          gameState,
           mineSquare.xCoOrd,
-          newSquare,
-          gameState[mineSquare.yCoOrd],
+          mineSquare.yCoOrd,
         )
-
-        const newState = update(mineSquare.yCoOrd, newRow, gameState)
 
         setGameState(newState)
       }}
@@ -161,17 +159,6 @@ const MineField = ({
     </Flex>
   )
 }
-
-interface GameSquare {
-  isMine: boolean
-  hasFlag: boolean
-  value: number | null
-  xCoOrd: number
-  yCoOrd: number
-  isHidden: boolean
-}
-
-type GameState = Array<Array<GameSquare>>
 
 const createGameState = (
   rows: number,
@@ -287,8 +274,8 @@ function getSquareValue(board: GameState, x: number, y: number): number | null {
 }
 
 export default function () {
-  const mineCount = 45
-  const [gameState, setGameState] = useState(createGameState(15, 15, mineCount))
+  const mineCount = 1
+  const [gameState, setGameState] = useState(createGameState(5, 5, mineCount))
 
   return (
     <Background>
