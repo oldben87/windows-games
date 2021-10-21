@@ -1,8 +1,15 @@
 import {update} from "ramda"
 import {GameState, GameSquare} from "../types"
 
-const unhideSquare = (gameState: GameState, square: GameSquare) => {
-  const newSquare = {...square, isHidden: false}
+type UpdatePropType = "isHidden" | "hasFlag"
+
+export const updateSquare = (
+  gameState: GameState,
+  square: GameSquare,
+  propToUpdate: UpdatePropType,
+  newValue: boolean,
+) => {
+  const newSquare = {...square, [propToUpdate]: newValue}
   const newRow = update(square.xCoOrd, newSquare, gameState[square.yCoOrd])
 
   return update(square.yCoOrd, newRow, gameState)
@@ -22,10 +29,15 @@ export const unhideSquares = (
   }
 
   if (gameState[yCoOrd][xCoOrd].value !== 0) {
-    return unhideSquare(gameState, gameState[yCoOrd][xCoOrd])
+    return updateSquare(gameState, gameState[yCoOrd][xCoOrd], "isHidden", false)
   }
 
-  const unhidden = unhideSquare(gameState, gameState[yCoOrd][xCoOrd])
+  const unhidden = updateSquare(
+    gameState,
+    gameState[yCoOrd][xCoOrd],
+    "isHidden",
+    false,
+  )
 
   const newStateLeft = unhideSquares(unhidden, xCoOrd - 1, yCoOrd)
   const newStateRight = unhideSquares(newStateLeft, xCoOrd + 1, yCoOrd)
