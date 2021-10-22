@@ -38,9 +38,9 @@ export const MineSquare = ({
 }) => {
   const MineSquareHidden = {
     borderWidth: "2px",
-    borderColorLeft: "snow",
+    borderLeftColor: "snow",
     borderBottomColor: "black",
-    borderColorTop: "snow",
+    borderTopColor: "snow",
     borderRightColor: "black",
   }
 
@@ -61,13 +61,24 @@ export const MineSquare = ({
   }
 
   const onClick = () => {
-    const newState = unhideSquares(
-      gameState,
-      mineSquare.xCoOrd,
-      mineSquare.yCoOrd,
-    )
+    if (mineSquare.hasFlag && mineSquare.isHidden) {
+      setGameState(updateSquare(gameState, mineSquare, "hasFlag", false))
+      return
+    }
 
-    setGameState(newState)
+    if (mineSquare.isHidden) {
+      const newState = unhideSquares(
+        gameState,
+        mineSquare.xCoOrd,
+        mineSquare.yCoOrd,
+      )
+
+      setGameState(newState)
+
+      return
+    }
+
+    return
   }
 
   const defaultOptions = {
