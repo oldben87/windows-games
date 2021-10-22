@@ -2,39 +2,74 @@ import {useState, useEffect} from "react"
 import {GameState, GameVariables} from "./types"
 import {createGameState} from "./helpers/createGameState"
 import {GameHeader, Background, MineField} from "./furniture"
+import {useDisclosure} from "@chakra-ui/hooks"
+import {NewGameModal} from "./furniture/NewGameModal"
 
 const initialVariables: GameVariables = {
   flagsRemaining: 0,
   mineCount: 0,
-  gameXCount: 0,
-  gameYCount: 0,
+  gameXCount: 10,
+  gameYCount: 10,
   hasWon: false,
   hasLost: false,
 }
 
 export default function () {
-  const mineCount = 5
-  const [gameState, setGameState] = useState(createGameState(5, 5, mineCount))
   const [gameVariables, setGameVariables] = useState<GameVariables>({
     ...initialVariables,
-    mineCount,
   })
+  const [gameState, setGameState] = useState(createGameState(10, 10, 0))
+
+  const {isOpen, onOpen, onClose} = useDisclosure()
 
   useEffect(() => {
     const newGameVariables = getGameVariables(gameState, gameVariables)
 
     setGameVariables(newGameVariables)
+
+    if (gameVariables.mineCount === 0) {
+      onOpen()
+    }
   }, [gameState])
 
   return (
     <Background>
-      <GameHeader gameVariables={gameVariables} />
+      <GameHeader
+        gameVariables={gameVariables}
+        openNewGameModal={() => {
+          onOpen()
+        }}
+      />
       <MineField
         gameState={gameState}
         setGameState={(newState: GameState) => {
           setGameState(newState)
         }}
         gameVariables={gameVariables}
+      />
+      <NewGameModal
+        isOpen={isOpen}
+        onClose={onClose}
+        gameVariables={gameVariables}
+        setGameVariables={setGameVariables}
+        onGameStart={() => {
+          if (
+            gameVariables.mineCount === 0 ||
+            gameVariables.gameYCount < 2 ||
+            gameVariables.gameXCount < 2
+          ) {
+            return
+          }
+
+          setGameState(
+            createGameState(
+              gameVariables.gameYCount,
+              gameVariables.gameXCount,
+              gameVariables.mineCount,
+            ),
+          )
+          onClose()
+        }}
       />
     </Background>
   )

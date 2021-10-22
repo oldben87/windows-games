@@ -1,7 +1,13 @@
-import {Flex, Text} from "@chakra-ui/react"
+import {Button, Flex, Text} from "@chakra-ui/react"
 import {GameVariables} from "../types"
 
-export const GameHeader = ({gameVariables}: {gameVariables: GameVariables}) => {
+export const GameHeader = ({
+  gameVariables,
+  openNewGameModal,
+}: {
+  gameVariables: GameVariables
+  openNewGameModal: () => void
+}) => {
   return (
     <Flex h="100px" bgColor="grey" w="100%" p={2} justify="space-evenly">
       <Flex direction="column" alignItems="center" w="110px">
@@ -23,7 +29,9 @@ export const GameHeader = ({gameVariables}: {gameVariables: GameVariables}) => {
       >
         {gameVariables.hasWon ? "Yay" : gameVariables.flagsRemaining}
       </Flex>
-      <Flex w="110px"></Flex>
+      <Flex w="110px">
+        <Button onClick={openNewGameModal}>New Game</Button>
+      </Flex>
     </Flex>
   )
 }
