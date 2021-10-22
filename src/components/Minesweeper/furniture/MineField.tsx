@@ -1,13 +1,15 @@
 import {Flex} from "@chakra-ui/react"
-import {GameState} from "../types"
+import {GameState, GameVariables} from "../types"
 import {MineRow} from "./MineRow"
 
 export const MineField = ({
   gameState,
   setGameState,
+  gameVariables,
 }: {
   gameState: GameState
   setGameState: (state: GameState) => void
+  gameVariables: GameVariables
 }) => {
   return (
     <Flex m={2}>
@@ -18,6 +20,7 @@ export const MineField = ({
             key={i.toString()}
             gameState={gameState}
             setGameState={setGameState}
+            gameVariables={gameVariables}
           />
         )
       })}

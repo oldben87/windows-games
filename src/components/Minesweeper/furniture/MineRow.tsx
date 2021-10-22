@@ -1,15 +1,17 @@
 import {Flex} from "@chakra-ui/react"
-import {GameSquare, GameState} from "../types"
+import {GameSquare, GameState, GameVariables} from "../types"
 import {MineSquare} from "./MineSquare"
 
 export const MineRow = ({
   gameRow,
   gameState,
   setGameState,
+  gameVariables,
 }: {
   gameRow: Array<GameSquare>
   gameState: GameState
   setGameState: (state: GameState) => void
+  gameVariables: GameVariables
 }) => {
   return (
     <Flex direction="column">
@@ -19,6 +21,7 @@ export const MineRow = ({
           key={`${square.xCoOrd}-${square.yCoOrd}`}
           gameState={gameState}
           setGameState={setGameState}
+          gameVariables={gameVariables}
         />
       ))}
     </Flex>

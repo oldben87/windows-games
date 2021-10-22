@@ -8,3 +8,12 @@ export interface GameSquare {
 }
 
 export type GameState = Array<Array<GameSquare>>
+
+export interface GameVariables {
+  flagsRemaining: number
+  mineCount: number
+  gameXCount: number
+  gameYCount: number
+  hasWon: boolean
+  hasLost: boolean
+}

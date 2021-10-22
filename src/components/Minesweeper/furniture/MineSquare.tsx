@@ -1,6 +1,6 @@
 import {Flex, Text} from "@chakra-ui/react"
 import {unhideSquares} from "../helpers/unhideSquares"
-import {GameSquare, GameState} from "../types"
+import {GameSquare, GameState, GameVariables} from "../types"
 import useLongPress from "hooks/useLongPress"
 import {updateSquare} from "../helpers/unhideSquares"
 
@@ -27,15 +27,7 @@ const getFontColor = (square: GameSquare) => {
   }
 }
 
-export const MineSquare = ({
-  mineSquare,
-  gameState,
-  setGameState,
-}: {
-  mineSquare: GameSquare
-  gameState: GameState
-  setGameState: (state: GameState) => void
-}) => {
+const getSquareStyle = (square: GameSquare, gameVariables: GameVariables) => {
   const MineSquareHidden = {
     borderWidth: "2px",
     borderLeftColor: "snow",
@@ -50,9 +42,42 @@ export const MineSquare = ({
     borderStyle: "dashed",
   }
 
-  const squareBorder = mineSquare.isHidden ? MineSquareHidden : MineSquareEmpty
+  const squareBorder = square.isHidden ? MineSquareHidden : MineSquareEmpty
+  const bgColor =
+    (gameVariables.hasLost || gameVariables.hasWon) &&
+    square.hasFlag &&
+    square.isMine
+      ? "green"
+      : gameVariables.hasLost && square.hasFlag && !square.isMine
+      ? "red"
+      : gameVariables.hasLost && !square.hasFlag && square.isMine
+      ? "red"
+      : !square.isHidden && square.isMine
+      ? "red"
+      : "none"
 
+  return {
+    ...squareBorder,
+    bgColor,
+  }
+}
+
+export const MineSquare = ({
+  mineSquare,
+  gameState,
+  setGameState,
+  gameVariables,
+}: {
+  mineSquare: GameSquare
+  gameState: GameState
+  setGameState: (state: GameState) => void
+  gameVariables: GameVariables
+}) => {
   const onLongPress = () => {
+    if (gameVariables.hasWon || gameVariables.hasLost) {
+      return
+    }
+
     if (!mineSquare.hasFlag) {
       setGameState(updateSquare(gameState, mineSquare, "hasFlag", true))
     } else {
@@ -61,6 +86,10 @@ export const MineSquare = ({
   }
 
   const onClick = () => {
+    if (gameVariables.hasWon || gameVariables.hasLost) {
+      return
+    }
+
     if (mineSquare.hasFlag && mineSquare.isHidden) {
       setGameState(updateSquare(gameState, mineSquare, "hasFlag", false))
       return
@@ -92,8 +121,7 @@ export const MineSquare = ({
     <Flex
       h={8}
       w={8}
-      {...squareBorder}
-      bgColor={!mineSquare.isHidden && mineSquare.isMine ? "red" : "none"}
+      {...getSquareStyle(mineSquare, gameVariables)}
       justify="center"
       alignItems="center"
       {...longEventPress}
@@ -101,6 +129,8 @@ export const MineSquare = ({
       <Text fontWeight={700} color={getFontColor(mineSquare)}>
         {mineSquare.isHidden && mineSquare.hasFlag
           ? "F"
+          : mineSquare.isMine && gameVariables.hasLost
+          ? "M"
           : mineSquare.isHidden
           ? null
           : mineSquare.isMine
