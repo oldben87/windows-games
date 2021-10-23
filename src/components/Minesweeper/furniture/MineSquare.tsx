@@ -27,6 +27,26 @@ const getFontColor = (square: GameSquare) => {
   }
 }
 
+const getSquareBgColor = (square: GameSquare, gameVariables: GameVariables) => {
+  if (
+    (gameVariables.hasLost || gameVariables.hasWon) &&
+    square.hasFlag &&
+    square.isMine
+  ) {
+    return "primaryGreen"
+  }
+
+  if (
+    (gameVariables.hasLost && square.hasFlag && !square.isMine) ||
+    (gameVariables.hasLost && !square.hasFlag && square.isMine) ||
+    (!square.isHidden && square.isMine)
+  ) {
+    return "red"
+  }
+
+  return "none"
+}
+
 const getSquareStyle = (square: GameSquare, gameVariables: GameVariables) => {
   const MineSquareHidden = {
     borderWidth: "2px",
@@ -43,23 +63,29 @@ const getSquareStyle = (square: GameSquare, gameVariables: GameVariables) => {
   }
 
   const squareBorder = square.isHidden ? MineSquareHidden : MineSquareEmpty
-  const bgColor =
-    (gameVariables.hasLost || gameVariables.hasWon) &&
-    square.hasFlag &&
-    square.isMine
-      ? "green"
-      : gameVariables.hasLost && square.hasFlag && !square.isMine
-      ? "red"
-      : gameVariables.hasLost && !square.hasFlag && square.isMine
-      ? "red"
-      : !square.isHidden && square.isMine
-      ? "red"
-      : "none"
+  const bgColor = getSquareBgColor(square, gameVariables)
 
   return {
     ...squareBorder,
     bgColor,
   }
+}
+
+const getSquareValue = (square: GameSquare, gameVariables: GameVariables) => {
+  if (square.isHidden && square.hasFlag) {
+    return "F"
+  }
+  if (
+    (square.isMine && gameVariables.hasLost) ||
+    (square.isMine && !square.isHidden)
+  ) {
+    return "M"
+  }
+  if (square.isHidden) {
+    return null
+  }
+
+  return square.value === 0 ? null : square.value
 }
 
 export const MineSquare = ({
@@ -127,15 +153,7 @@ export const MineSquare = ({
       {...longEventPress}
     >
       <Text fontWeight={700} color={getFontColor(mineSquare)}>
-        {mineSquare.isHidden && mineSquare.hasFlag
-          ? "F"
-          : mineSquare.isMine && gameVariables.hasLost
-          ? "M"
-          : mineSquare.isHidden
-          ? null
-          : mineSquare.isMine
-          ? "M"
-          : mineSquare.value}
+        {getSquareValue(mineSquare, gameVariables)}
       </Text>
     </Flex>
   )
