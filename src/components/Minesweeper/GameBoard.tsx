@@ -4,6 +4,7 @@ import {createGameState} from "./helpers/createGameState"
 import {GameHeader, Background, MineField} from "./furniture"
 import {useDisclosure} from "@chakra-ui/hooks"
 import {NewGameModal} from "./furniture/NewGameModal"
+import {getMaxMines} from "./helpers/getMaxMines"
 
 const initialVariables: GameVariables = {
   flagsRemaining: 0,
@@ -31,6 +32,8 @@ export default function () {
       onOpen()
     }
   }, [gameState])
+
+  const maxMines = getMaxMines(gameVariables)
 
   return (
     <Background>
@@ -61,6 +64,10 @@ export default function () {
             return
           }
 
+          if (gameVariables.mineCount > maxMines) {
+            return
+          }
+
           setGameState(
             createGameState(
               gameVariables.gameYCount,
@@ -70,6 +77,7 @@ export default function () {
           )
           onClose()
         }}
+        maxMines={maxMines}
       />
     </Background>
   )

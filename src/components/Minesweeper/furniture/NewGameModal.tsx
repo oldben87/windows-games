@@ -21,6 +21,7 @@ interface Props {
   gameVariables: GameVariables
   setGameVariables: React.Dispatch<React.SetStateAction<GameVariables>>
   onGameStart: () => void
+  maxMines: number
 }
 
 const windowsButtonStyle = {
@@ -50,11 +51,8 @@ export function NewGameModal({
   setGameVariables,
   gameVariables,
   onGameStart,
+  maxMines,
 }: Props) {
-  const max = Math.floor(
-    (gameVariables.gameYCount * gameVariables.gameYCount) / 2,
-  )
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalContent
@@ -96,36 +94,8 @@ export function NewGameModal({
           p={8}
           direction="column"
         >
-          <FormControl id="xValue">
-            <FormLabel>GameBoard X Size</FormLabel>
-            <NumberInput
-              variant="windows"
-              max={25}
-              clampValueOnBlur={false}
-              value={gameVariables.gameXCount}
-              onChange={(value) => {
-                if (value.length && parseInt(value) > 0) {
-                  setGameVariables({
-                    ...gameVariables,
-                    gameXCount: parseInt(value),
-                  })
-                } else {
-                  setGameVariables({
-                    ...gameVariables,
-                    gameXCount: 0,
-                  })
-                }
-              }}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-          <FormControl id="yValue" mt={4}>
-            <FormLabel>GameBoard Y Size</FormLabel>
+          <FormControl id="xAxis">
+            <FormLabel>Grid X Axis Size</FormLabel>
             <NumberInput
               variant="windows"
               max={25}
@@ -152,12 +122,40 @@ export function NewGameModal({
               </NumberInputStepper>
             </NumberInput>
           </FormControl>
+          <FormControl id="yAxis" mt={4}>
+            <FormLabel>Grid Y Axis Size</FormLabel>
+            <NumberInput
+              variant="windows"
+              max={25}
+              clampValueOnBlur={false}
+              value={gameVariables.gameXCount}
+              onChange={(value) => {
+                if (value.length && parseInt(value) > 0) {
+                  setGameVariables({
+                    ...gameVariables,
+                    gameXCount: parseInt(value),
+                  })
+                } else {
+                  setGameVariables({
+                    ...gameVariables,
+                    gameXCount: 0,
+                  })
+                }
+              }}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
           <FormControl id="mineCount" mt={4}>
             <FormLabel>Number of mines</FormLabel>
             <NumberInput
               variant="windows"
               defaultValue={10}
-              max={max}
+              max={maxMines}
               clampValueOnBlur={false}
               value={gameVariables.mineCount}
               onChange={(value) => {
@@ -172,6 +170,20 @@ export function NewGameModal({
                     mineCount: 0,
                   })
                 }
+              }}
+              onBlur={async (e) => {
+                if (e.target.value.length) {
+                  let val = parseInt(e.target.value)
+                  if (val > 0 && val >= maxMines) {
+                    setTimeout(() => {
+                      setGameVariables({
+                        ...gameVariables,
+                        mineCount: maxMines,
+                      })
+                    }, 2000)
+                  }
+                }
+                return
               }}
             >
               <NumberInputField />
