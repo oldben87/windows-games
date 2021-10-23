@@ -12,7 +12,7 @@ export const MineField = ({
   gameVariables: GameVariables
 }) => {
   return (
-    <Flex m={2}>
+    <Flex mt={2} direction="column">
       {gameState.map((row, i) => {
         return (
           <MineRow

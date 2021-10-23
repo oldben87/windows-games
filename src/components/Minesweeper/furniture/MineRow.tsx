@@ -14,7 +14,7 @@ export const MineRow = ({
   gameVariables: GameVariables
 }) => {
   return (
-    <Flex direction="column">
+    <Flex direction="row">
       {gameRow.map((square) => (
         <MineSquare
           mineSquare={square}

@@ -12,6 +12,7 @@ export const Background = ({children}: Props) => {
       minWidth="100%"
       background="primaryGreen"
       p={2}
+      overflow="scroll"
     >
       {children}
     </Flex>

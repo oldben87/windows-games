@@ -100,17 +100,17 @@ export function NewGameModal({
               variant="windows"
               max={25}
               clampValueOnBlur={false}
-              value={gameVariables.gameYCount}
+              value={gameVariables.gameXCount}
               onChange={(value) => {
                 if (value.length && parseInt(value) > 0) {
                   setGameVariables({
                     ...gameVariables,
-                    gameYCount: parseInt(value),
+                    gameXCount: parseInt(value),
                   })
                 } else {
                   setGameVariables({
                     ...gameVariables,
-                    gameYCount: 0,
+                    gameXCount: 0,
                   })
                 }
               }}
@@ -128,17 +128,17 @@ export function NewGameModal({
               variant="windows"
               max={25}
               clampValueOnBlur={false}
-              value={gameVariables.gameXCount}
+              value={gameVariables.gameYCount}
               onChange={(value) => {
                 if (value.length && parseInt(value) > 0) {
                   setGameVariables({
                     ...gameVariables,
-                    gameXCount: parseInt(value),
+                    gameYCount: parseInt(value),
                   })
                 } else {
                   setGameVariables({
                     ...gameVariables,
-                    gameXCount: 0,
+                    gameYCount: 0,
                   })
                 }
               }}

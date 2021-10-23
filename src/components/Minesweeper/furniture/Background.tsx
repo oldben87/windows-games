@@ -13,7 +13,8 @@ export const Background = ({children}: BackgroundProps) => {
       background="lightGrey"
       p={2}
       direction="column"
-      alignItems="center"
+      alignItems="flex-start"
+      overflow="scroll"
     >
       {children}
     </Flex>

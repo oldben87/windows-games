@@ -9,7 +9,7 @@ export const GameHeader = ({
   openNewGameModal: () => void
 }) => {
   return (
-    <Flex h="100px" bgColor="grey" w="100%" p={2} justify="space-evenly">
+    <Flex h="100px" bgColor="grey" w="95vw" p={2} justify="space-evenly">
       <Flex direction="column" alignItems="center" w="110px">
         <Text>Mine Total:</Text>
         <Text>{gameVariables.mineCount}</Text>
