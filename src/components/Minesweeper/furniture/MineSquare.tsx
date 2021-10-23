@@ -1,8 +1,10 @@
-import {Flex, Text} from "@chakra-ui/react"
+import {Flex, Icon, Text} from "@chakra-ui/react"
 import {unhideSquares} from "../helpers/unhideSquares"
 import {GameSquare, GameState, GameVariables} from "../types"
 import useLongPress from "hooks/useLongPress"
 import {updateSquare} from "../helpers/unhideSquares"
+import {CgFlagAlt} from "react-icons/cg"
+import {GiMineExplosion, GiUnlitBomb} from "react-icons/gi"
 
 const getFontColor = (square: GameSquare) => {
   if (square.hasFlag) {
@@ -71,21 +73,31 @@ const getSquareStyle = (square: GameSquare, gameVariables: GameVariables) => {
   }
 }
 
-const getSquareValue = (square: GameSquare, gameVariables: GameVariables) => {
+const getSquareValue = (
+  square: GameSquare,
+  gameVariables: GameVariables,
+): React.ReactNode => {
   if (square.isHidden && square.hasFlag) {
-    return "F"
+    return <Icon as={CgFlagAlt} height="70%" width="70%" />
   }
-  if (
-    (square.isMine && gameVariables.hasLost) ||
-    (square.isMine && !square.isHidden)
-  ) {
-    return "M"
+
+  if (square.isMine && !square.isHidden) {
+    return <Icon as={GiMineExplosion} height="70%" width="70%" />
   }
+
+  if (square.isMine && gameVariables.hasLost) {
+    return <Icon as={GiUnlitBomb} height="70%" width="70%" />
+  }
+
   if (square.isHidden) {
     return null
   }
 
-  return square.value === 0 ? null : square.value
+  return (
+    <Text fontWeight={700} color={getFontColor(square)}>
+      {square.value === 0 ? null : square.value}
+    </Text>
+  )
 }
 
 export const MineSquare = ({
@@ -152,9 +164,7 @@ export const MineSquare = ({
       alignItems="center"
       {...longEventPress}
     >
-      <Text fontWeight={700} color={getFontColor(mineSquare)}>
-        {getSquareValue(mineSquare, gameVariables)}
-      </Text>
+      {getSquareValue(mineSquare, gameVariables)}
     </Flex>
   )
 }
