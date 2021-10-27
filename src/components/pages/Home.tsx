@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react"
 import {Link} from "react-router-dom"
-import {Flex, Text, Image, Icon} from "@chakra-ui/react"
+import {Flex, Text, Image, Icon, Box} from "@chakra-ui/react"
 import format from "date-fns/format"
 import {ImWindows} from "react-icons/im"
 import {ErrorWindow} from "../homePage/ErrorWindow"
@@ -13,7 +13,7 @@ interface GameButtonProps {
 
 const GameButton = ({title, src, link}: GameButtonProps) => {
   return (
-    <Link to={link}>
+    <Link style={{maxWidth: "80px"}} to={link}>
       <Flex
         direction="column"
         justify="center"
@@ -42,6 +42,9 @@ export default function Home() {
   return (
     <Flex direction="column" h="100vh" bgColor="darkerBlue" justify="center">
       <GameButton title="Solitaire" src="SolitaireIcon.png" link="/solitiare" />
+      <Box h={5} />
+      <GameButton title="Mine Sweeper" src="bomb.png" link="/minesweeper" />
+
       <Flex
         w="100%"
         h="50px"
