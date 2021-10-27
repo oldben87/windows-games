@@ -2,7 +2,9 @@ export const components = {
   NumberInput: {
     variants: {
       windows: {
-        bg: "white",
+        bg: "blue",
+        borderRadius: "0",
+        color: "red",
       },
     },
   },
