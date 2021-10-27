@@ -95,7 +95,7 @@ export function NewGameModal({
           direction="column"
         >
           <FormControl id="xAxis">
-            <FormLabel>Grid X Axis Size</FormLabel>
+            <FormLabel>Squares wide</FormLabel>
             <NumberInput
               variant="windows"
               max={25}
@@ -123,7 +123,7 @@ export function NewGameModal({
             </NumberInput>
           </FormControl>
           <FormControl id="yAxis" mt={4}>
-            <FormLabel>Grid Y Axis Size</FormLabel>
+            <FormLabel>Squares high</FormLabel>
             <NumberInput
               variant="windows"
               max={25}
