@@ -3,7 +3,7 @@ import {Link} from "react-router-dom"
 import {Flex, Text, Image, Icon, Box} from "@chakra-ui/react"
 import format from "date-fns/format"
 import {ImWindows} from "react-icons/im"
-import {ErrorWindow} from "../homePage/ErrorWindow"
+import {ErrorWindow} from "../Home/ErrorWindow"
 
 interface GameButtonProps {
   title: string
