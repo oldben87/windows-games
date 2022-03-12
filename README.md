@@ -1,6 +1,7 @@
 I thought it would be fun to remake a couple of classic games in react.
 Enjoy.
 
+Soon to be rebranded for the new developer website
 
 ### `npm start`
 
