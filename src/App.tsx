@@ -12,6 +12,15 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/solitiare" element={<SolitiareBoard />} />
         <Route path="/minesweeper" element={<MinesweeperBoard />} />
+        <Route
+          path="/privacy"
+          element={
+            <div>
+              <h1>Speedle Privacy Policy</h1>
+              <p>We do not collect or store your data</p>
+            </div>
+          }
+        />
       </Routes>
     </>
   )
