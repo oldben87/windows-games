@@ -1,7 +1,7 @@
-import { setIdOrMoveCard } from 'components/Solitaire/helpers'
-import { getSelectedCardPosition } from 'components/Solitaire/helpers'
-import { CardPile, CardState, GameState } from 'components/Solitaire/types'
-import { GameCard, GameCardTop } from '../furniture'
+import {setIdOrMoveCard} from "components/Solitaire/helpers"
+import {getSelectedCardPosition} from "components/Solitaire/helpers"
+import {CardPile, CardState, GameState} from "components/Solitaire/types"
+import {GameCard, GameCardTop} from "../furniture"
 
 interface Props {
   cardIndex: number
@@ -34,7 +34,7 @@ export const CardOrCardTop = ({
   const isFirst = index === 0
 
   const selectedCardIsInColumn = gameState[columnName].some(
-    num => num.toString() === selectedId,
+    (num) => num.toString() === selectedId,
   )
 
   const position = selectedCardIsInColumn
