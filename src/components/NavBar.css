@@ -3,3 +3,9 @@
   color: #222222;
   font-weight: bold;
 }
+
+.NavBarLink-selected {
+  background-color: white;
+  color: #222222;
+  font-weight: bold;
+}

@@ -1,12 +1,33 @@
 import {Flex} from "@chakra-ui/react"
-import {Link} from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
 
 import "./NavBar.css"
 
-const NavLink = ({title, link}: {title: string; link: string}) => (
-  <Link to={link}>
+const NavLink = ({
+  title,
+  link,
+  selected,
+}: {
+  title: string
+  link: string
+  selected?: boolean
+}) => {
+  return !selected ? (
+    <Link to={link}>
+      <Flex
+        className={"NavBarLink"}
+        border="solid 2px white"
+        borderRadius={3}
+        w={75}
+        py={1}
+        justify="center"
+      >
+        {title}
+      </Flex>
+    </Link>
+  ) : (
     <Flex
-      className={"NavBarLink"}
+      className={"NavBarLink-selected"}
       border="solid 2px white"
       borderRadius={3}
       w={75}
@@ -15,10 +36,19 @@ const NavLink = ({title, link}: {title: string; link: string}) => (
     >
       {title}
     </Flex>
-  </Link>
-)
+  )
+}
+
+const Links = [
+  {title: "Home", link: "/"},
+  {title: "Apps", link: "/apps"},
+  {title: "About", link: "/about"},
+  {title: "Contact", link: "/contact"},
+]
 
 export const NavBar = () => {
+  const location = useLocation()
+  console.log(location)
   return (
     <>
       <Flex
@@ -33,10 +63,13 @@ export const NavBar = () => {
         alignItems="center"
       >
         <Flex width={[320]} justify="space-between">
-          <NavLink link="/" title="Home" />
-          <NavLink link="/apps" title="Apps" />
-          <NavLink link="/about" title="About" />
-          <NavLink link="/contact" title="Contact" />
+          {Links.map((link) => (
+            <NavLink
+              title={link.title}
+              link={link.link}
+              selected={location.pathname === link.link}
+            />
+          ))}
         </Flex>
       </Flex>
     </>
