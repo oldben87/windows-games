@@ -1,4 +1,4 @@
-import {Flex} from "@chakra-ui/react"
+import {Flex, Image} from "@chakra-ui/react"
 import {Link, useLocation} from "react-router-dom"
 
 import "./NavBar.css"
@@ -50,28 +50,39 @@ export const NavBar = () => {
   const location = useLocation()
   console.log(location)
   return (
-    <>
+    <Flex
+      w="100%"
+      bg="#222222"
+      h={[120, 120, 70]}
+      flexDirection={["column", "column", "row"]}
+      color="white"
+      fontFamily="Noto Sans"
+      alignItems={["center"]}
+      justifyContent={["center"]}
+      position="relative"
+    >
+      <Image
+        height={[70, 70, "100%"]}
+        mx={1}
+        src="/Jedi-Apps-Logo(150x75).png"
+        position="absolute"
+        top={0}
+        left={["calc(50%-70px)", "calc(50%-70px)", 5]}
+      />
       <Flex
-        w="100%"
-        bg="#222222"
-        h={70}
-        dir="row"
-        p="4px"
-        color="white"
-        fontFamily="Noto Sans"
-        justify="center"
-        alignItems="center"
+        width={[320]}
+        mt={["60px", "60px", 0]}
+        justify="space-between"
+        alignItems={"center"}
       >
-        <Flex width={[320]} justify="space-between">
-          {Links.map((link) => (
-            <NavLink
-              title={link.title}
-              link={link.link}
-              selected={location.pathname === link.link}
-            />
-          ))}
-        </Flex>
+        {Links.map((link) => (
+          <NavLink
+            title={link.title}
+            link={link.link}
+            selected={location.pathname === link.link}
+          />
+        ))}
       </Flex>
-    </>
+    </Flex>
   )
 }
