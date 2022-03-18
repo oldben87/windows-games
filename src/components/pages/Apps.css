@@ -10,12 +10,12 @@
   background-color: #8fd4e0;
   color: #123940;
   font-weight: bold;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .ExternalLink-selected {
   background-color: #8fd4e0;
   color: #123940;
   font-weight: bold;
-  text-decoration: none;
+  text-decoration: none !important;
 }

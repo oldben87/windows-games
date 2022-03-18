@@ -10,4 +10,8 @@ export const colors = {
     darkBlue: "#237280",
     darkestBlue: "#123940",
   },
+  arfidiary: {
+    lightBlue: "#dffcfc",
+    brandBlue: "#28878b",
+  },
 }
