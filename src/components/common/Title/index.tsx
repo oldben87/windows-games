@@ -7,7 +7,7 @@ const Title = ({
   fontWeight,
   color = colors.speedle.darkestBlue,
 }: TextProps) => (
-  <Text fontWeight={fontWeight} fontSize={28} color={color} p={1}>
+  <Text fontWeight={fontWeight} fontSize={28} color={color} py={1}>
     {children}
   </Text>
 )

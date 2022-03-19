@@ -1,6 +1,7 @@
 import Home from "components/pages/Home"
 import Apps from "components/pages/Apps"
 import Contact from "components/pages/Contact"
+import About from "components/pages/About"
 import {Route, Routes} from "react-router-dom"
 import MinesweeperBoard from "components/Minesweeper/GameBoard"
 import SolitiareBoard from "components/Solitaire/GameBoard"
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/apps" element={<Apps />} />
+          <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route
             path="/privacy"
