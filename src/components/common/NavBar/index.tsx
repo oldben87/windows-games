@@ -48,7 +48,6 @@ const Links = [
 
 export const NavBar = () => {
   const location = useLocation()
-  console.log(location)
   return (
     <Flex
       as={"nav"}
@@ -60,7 +59,8 @@ export const NavBar = () => {
       fontFamily="Noto Sans"
       alignItems={["center"]}
       justifyContent={["center"]}
-      position="relative"
+      position="fixed"
+      zIndex={1}
     >
       <Image
         height={[70, 70, "100%"]}

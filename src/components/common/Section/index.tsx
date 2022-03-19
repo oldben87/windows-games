@@ -1,5 +1,5 @@
 import React from "react"
-import {Box, Flex} from "@chakra-ui/react"
+import {Box} from "@chakra-ui/react"
 
 type Position = "TOP" | "BOTTOM" | "CENTRE"
 
@@ -29,21 +29,18 @@ const getPositionBorderRadius = (pos?: Position) => {
 }
 
 const Section = ({children, bgColor, underColor, position}: Props) => (
-  <Flex
-    as={"section"}
+  <Box
     p={0}
     m={0}
-    width="100vw"
-    minHeight={[
-      "calc(100vh - 150px)",
-      "calc(100vh - 150px)",
-      "calc(100vh - 120px)",
-    ]}
+    width="100%"
     bgColor={underColor}
+    height="100%"
+    flexGrow={1}
+    flexBasis={1}
   >
     <Box
-      height="inherit"
-      w="inherit"
+      width="100%"
+      height="100%"
       bgColor={bgColor}
       {...getPositionBorderRadius(position)}
       overflow="hidden"
@@ -52,7 +49,7 @@ const Section = ({children, bgColor, underColor, position}: Props) => (
     >
       {children}
     </Box>
-  </Flex>
+  </Box>
 )
 
 export default Section

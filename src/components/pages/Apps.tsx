@@ -1,74 +1,16 @@
-import {Box, Flex, Text, Image, Link} from "@chakra-ui/react"
-import React from "react"
+import {Box, Flex, Image} from "@chakra-ui/react"
+import ContentContainer from "components/common/ContentContainer"
+import ExternalLink from "components/common/ExternalLink"
+import TextBox from "components/common/TextBox"
+import Title from "components/common/Title"
 import {colors} from "styles/colors"
 import Section from "../common/Section"
-
-import "./Apps.css"
-
-interface TextProps {
-  children: React.ReactNode
-  color?: string
-  fontWeight?:
-    | number
-    | "bold"
-    | "hairline"
-    | "thin"
-    | "light"
-    | "normal"
-    | "medium"
-    | "semibold"
-    | "extrabold"
-    | "black"
-}
-const Title = ({
-  children,
-  fontWeight,
-  color = colors.speedle.darkestBlue,
-}: TextProps) => (
-  <Text fontWeight={fontWeight} fontSize={28} color={color} p={1}>
-    {children}
-  </Text>
-)
-
-const TextBox = ({children}: TextProps) => <Text my={1}>{children}</Text>
-
-interface LinkProps {
-  children: React.ReactNode
-  href: string
-  bgColor?: string
-}
-
-const ExternalLink = ({
-  children,
-  href,
-  bgColor = colors.speedle.darkestBlue,
-}: LinkProps) => (
-  <Link
-    href={href}
-    target="_blank"
-    rel="noreferrer"
-    bg={bgColor}
-    color="white"
-    className="ExternalLink"
-    textDecoration={"none"}
-  >
-    {children}
-  </Link>
-)
 
 export default function Apps() {
   return (
     <>
       <Section bgColor={colors.speedle.blue} position="TOP">
-        <Flex
-          height="100%"
-          boxShadow={"lg"}
-          bg="white"
-          borderRadius={3}
-          direction={["column", "column", "row"]}
-          justifyContent="space-around"
-          p={[4, 4, 50]}
-        >
+        <ContentContainer>
           <Flex
             h="100%"
             width={["100%", "100%", "45%"]}
@@ -111,25 +53,15 @@ export default function Apps() {
               width={["100%"]}
             />
           </Flex>
-        </Flex>
+        </ContentContainer>
       </Section>
       <Section
         position="BOTTOM"
         bgColor="white"
         underColor={colors.speedle.blue}
       >
-        <Flex
-          height="100%"
-          boxShadow={"lg"}
-          bg="white"
-          borderRadius={3}
-          direction={["column", "column", "row-reverse"]}
-          justifyContent="space-around"
-          p={[4, 4, 50]}
-          color={colors.arfidiary.brandBlue}
-        >
+        <ContentContainer fullScreenDirection="row-reverse">
           <Flex
-            h="100%"
             width={["100%", "100%", "45%"]}
             direction="column"
             justifyContent="space-around"
@@ -168,7 +100,7 @@ export default function Apps() {
               maxWidth={[250]}
             />
           </Flex>
-        </Flex>
+        </ContentContainer>
       </Section>
     </>
   )
