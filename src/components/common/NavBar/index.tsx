@@ -51,6 +51,7 @@ export const NavBar = () => {
   console.log(location)
   return (
     <Flex
+      as={"nav"}
       w="100%"
       bg="#222222"
       h={[120, 120, 70]}

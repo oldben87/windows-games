@@ -71,7 +71,6 @@ export const CardOrCardTop = ({
       isFirst={isFirst}
       card={card}
       faceUp={card.visible}
-      zindex={index}
       position={position}
       onClick={() => {
         if (!card.visible) {
