@@ -1,6 +1,8 @@
 import {Link} from "@chakra-ui/react"
 import {colors} from "styles/colors"
 
+import "./ExternalLink.css"
+
 interface LinkProps {
   children: React.ReactNode
   href: string

@@ -6,8 +6,6 @@ import Title from "components/common/Title"
 import {colors} from "styles/colors"
 import Section from "../common/Section"
 
-import "./Apps.css"
-
 export default function Apps() {
   return (
     <>
