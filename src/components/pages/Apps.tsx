@@ -20,7 +20,6 @@ interface TextProps {
     | "extrabold"
     | "black"
 }
-
 const Title = ({
   children,
   fontWeight,
@@ -98,15 +97,20 @@ export default function Apps() {
               </ExternalLink>
             </Flex>
           </Flex>
-          <Box borderRadius={5} boxShadow={"0 0 5px 2px rgba(0, 0, 0, 0.4)"}>
+          <Flex
+            borderRadius={5}
+            boxShadow={"0 0 5px 2px rgba(0, 0, 0, 0.4)"}
+            maxWidth={["250px"]}
+            alignSelf="center"
+          >
             <Image
               borderRadius={5}
               src="speedle(1).png"
               alt=""
               objectFit="contain"
-              maxWidth={["100%", "100%", 250]}
+              width={["100%"]}
             />
-          </Box>
+          </Flex>
         </Flex>
       </Section>
       <Section
@@ -150,15 +154,20 @@ export default function Apps() {
               </ExternalLink>
             </Flex>
           </Flex>
-          <Box borderRadius={5} boxShadow={"0 0 5px 2px rgba(0, 0, 0, 0.4)"}>
+          <Flex
+            borderRadius={5}
+            boxShadow={"0 0 5px 2px rgba(0, 0, 0, 0.4)"}
+            maxWidth={["250px"]}
+            alignSelf="center"
+          >
             <Image
               borderRadius={5}
               src="ArfiDiary.png"
               alt=""
               objectFit="contain"
-              maxWidth={["100%", "100%", 250]}
+              maxWidth={[250]}
             />
-          </Box>
+          </Flex>
         </Flex>
       </Section>
     </>
