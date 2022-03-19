@@ -2,10 +2,6 @@ import {CardProps, SelectedCardPositionEnum} from "components/Solitaire/types"
 import {Flex} from "@chakra-ui/react"
 import {CardValueRow} from "./CardValueRow"
 
-interface GameCardTopProps extends CardProps {
-  zindex: number
-}
-
 const getCardTopProps = (
   selectedCard: boolean,
   position: SelectedCardPositionEnum | null,
@@ -47,12 +43,11 @@ const getCardTopProps = (
 export const GameCardTop = ({
   card,
   faceUp,
-  zindex,
   isFirst,
   selectedId,
   onClick,
   position,
-}: GameCardTopProps) => {
+}: CardProps) => {
   const cardIsSelected = selectedId === card.id.toString()
 
   const cardTopProps = getCardTopProps(cardIsSelected, position)
@@ -60,7 +55,6 @@ export const GameCardTop = ({
     <Flex {...cardTopProps}>
       <Flex bgColor={isFirst || cardIsSelected ? "none" : "white"}>
         <Flex
-          zIndex={zindex}
           h="30px"
           w="90px"
           bg="white"
