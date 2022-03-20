@@ -1,4 +1,4 @@
-import Home from "components/pages/Home"
+import Home2 from "components/pages/Home2"
 import Apps from "components/pages/Apps"
 import Contact from "components/pages/Contact"
 import About from "components/pages/About"
@@ -14,7 +14,7 @@ function App() {
       <NavBar />
       <PageContainer>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home2 />} />
           <Route path="/apps" element={<Apps />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />

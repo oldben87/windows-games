@@ -63,6 +63,7 @@ export const NavBar = () => {
       justifyContent={["center"]}
       position="fixed"
       zIndex={1}
+      shadow="0 1px 5px 2px rgba(0,0,0,0.4)"
     >
       <Image
         height={[70, 70, "100%"]}

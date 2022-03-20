@@ -4,9 +4,14 @@ import {Property} from "csstype"
 interface Props {
   children: React.ReactNode
   fullScreenDirection?: Property.FlexDirection
+  bgColor?: string
 }
 
-const ContentContainer = ({children, fullScreenDirection = "row"}: Props) => {
+const ContentContainer = ({
+  children,
+  fullScreenDirection = "row",
+  bgColor = "white",
+}: Props) => {
   return (
     <Flex
       height="100%"
@@ -16,6 +21,7 @@ const ContentContainer = ({children, fullScreenDirection = "row"}: Props) => {
       direction={["column", "column", fullScreenDirection]}
       justifyContent="space-around"
       p={[4, 4, 50]}
+      bgColor={bgColor}
     >
       {children}
     </Flex>
