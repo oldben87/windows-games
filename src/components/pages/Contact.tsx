@@ -14,8 +14,14 @@ export default function Contact() {
           <Title>Contact us</Title>
           <TextBox>
             If you're having problems, or have some feedback about one of our
-            apps we would love to hear from you. Please feel free to use the
-            below link to pop us an email
+            apps I would love to hear from you.
+          </TextBox>
+          <TextBox>
+            I am also happy to help if you have an app you would like to
+            collaborate on.
+          </TextBox>
+          <TextBox>
+            Please feel free to use the below link to pop us an email.
           </TextBox>
         </Box>
         <Flex h="100%" alignItems={"center"}>
