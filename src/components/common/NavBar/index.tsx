@@ -1,5 +1,7 @@
 import {Flex, Image} from "@chakra-ui/react"
 import {Link, useLocation} from "react-router-dom"
+import {colors} from "styles/colors"
+// import {colors} from "styles/colors"
 
 import "./NavBar.css"
 
@@ -52,7 +54,7 @@ export const NavBar = () => {
     <Flex
       as={"nav"}
       w="100%"
-      bg="#222222"
+      bg={colors.speedle.darkestBlue}
       h={[120, 120, 70]}
       flexDirection={["column", "column", "row"]}
       color="white"
@@ -61,11 +63,12 @@ export const NavBar = () => {
       justifyContent={["center"]}
       position="fixed"
       zIndex={1}
+      shadow="0 1px 5px 2px rgba(0,0,0,0.4)"
     >
       <Image
         height={[70, 70, "100%"]}
         mx={1}
-        src="/Jedi-Apps-Logo(150x75).png"
+        src="/Website-Nav-Logo.png"
         position="absolute"
         top={0}
         left={["calc(50%-70px)", "calc(50%-70px)", 5]}

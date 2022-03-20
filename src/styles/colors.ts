@@ -5,6 +5,7 @@ export const colors = {
   primaryBlue: "#1fbdb2",
   darkerBlue: "#117fa3",
   offOrange: "#f9be7e",
+  dark: "#222222",
   speedle: {
     blue: "#8FD4E0",
     darkBlue: "#237280",
