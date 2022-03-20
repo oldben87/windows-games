@@ -14,8 +14,13 @@ export interface TextProps {
     | "semibold"
     | "extrabold"
     | "black"
+  textAlign?: "start" | "center"
 }
 
-const TextBox = ({children}: TextProps) => <Text my={1}>{children}</Text>
+const TextBox = ({children, ...rest}: TextProps) => (
+  <Text my={1} {...rest}>
+    {children}
+  </Text>
+)
 
 export default TextBox
