@@ -64,7 +64,7 @@ export default function Home() {
               justify={"center"}
               alignItems="center"
             >
-              <Link to={"/solitiare"}>
+              <Link to={"/solitaire"}>
                 <Image
                   src={"/SolitaireIcon.png"}
                   mx="auto"
