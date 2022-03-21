@@ -1,5 +1,5 @@
-import { GameState } from 'components/Solitaire/types'
-import { remove } from 'ramda'
+import {GameState} from "components/pages/Solitaire/types"
+import {remove} from "ramda"
 
 export const setInitialGameState = (
   shuffledDeck: Array<number>,

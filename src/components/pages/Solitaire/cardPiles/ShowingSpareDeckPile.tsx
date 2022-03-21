@@ -1,6 +1,10 @@
-import { setIdOrMoveCard } from 'components/Solitaire/helpers'
-import { CardState, GameState, SelectedCardPositionEnum } from 'components/Solitaire/types'
-import { CardEmpty, GameCard } from '../furniture'
+import {setIdOrMoveCard} from "components/pages/Solitaire/helpers"
+import {
+  CardState,
+  GameState,
+  SelectedCardPositionEnum,
+} from "components/pages/Solitaire/types"
+import {CardEmpty, GameCard} from "../furniture"
 
 interface Props {
   selectedId: string | null
@@ -39,7 +43,7 @@ export const ShowingSpareDeckPile = (props: Props) => {
           setCardState,
           gameState,
           setGameState,
-          'sparePileShowing',
+          "sparePileShowing",
         )
       }}
       position={SelectedCardPositionEnum.singleCard}
@@ -57,7 +61,7 @@ export const ShowingSpareDeckPile = (props: Props) => {
           setCardState,
           gameState,
           setGameState,
-          'sparePileShowing',
+          "sparePileShowing",
         )
       }}
     />

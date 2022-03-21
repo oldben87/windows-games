@@ -1,4 +1,7 @@
-import { SelectedCardPositionEnum, CardPile } from 'components/Solitaire/types'
+import {
+  SelectedCardPositionEnum,
+  CardPile,
+} from "components/pages/Solitaire/types"
 
 export const getSelectedCardPosition = (
   column: CardPile,

@@ -1,4 +1,7 @@
-import {CardProps, SelectedCardPositionEnum} from "components/Solitaire/types"
+import {
+  CardProps,
+  SelectedCardPositionEnum,
+} from "components/pages/Solitaire/types"
 import {Flex} from "@chakra-ui/react"
 import {CardValueRow} from "./CardValueRow"
 

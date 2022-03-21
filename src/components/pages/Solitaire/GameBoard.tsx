@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect} from "react"
 import {
   Flex,
   Spinner,
@@ -10,20 +10,20 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-} from '@chakra-ui/react'
-import { Background, PageTitle } from './furniture'
-import { CardPileColumn } from './cardPiles/CardPileColumn'
-import { HiddenSpareDeckPile } from './cardPiles/HiddenSpareDeckPile'
-import { ShowingSpareDeckPile } from './cardPiles/ShowingSpareDeckPile'
+} from "@chakra-ui/react"
+import {Background, PageTitle} from "./furniture"
+import {CardPileColumn} from "./cardPiles/CardPileColumn"
+import {HiddenSpareDeckPile} from "./cardPiles/HiddenSpareDeckPile"
+import {ShowingSpareDeckPile} from "./cardPiles/ShowingSpareDeckPile"
 import {
   getShuffledDeck,
   setInitialGameState,
   getCardState,
   moveAllAvailableCards,
   getTimeTaken,
-} from 'components/Solitaire/helpers'
-import { GameState, SuitEnum, CardState } from 'components/Solitaire/types'
-import { SuitPile } from './cardPiles/SuitPile'
+} from "components/pages/Solitaire/helpers"
+import {GameState, SuitEnum, CardState} from "components/pages/Solitaire/types"
+import {SuitPile} from "./cardPiles/SuitPile"
 
 export default function GameBoard() {
   const [shuffledDeck, setShuffledDeck] = useState<Array<number>>(
@@ -33,7 +33,7 @@ export default function GameBoard() {
   const [cardState, setCardState] = useState<CardState>({})
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const {isOpen, onOpen, onClose} = useDisclosure()
   const [score, setScore] = useState(0)
   const [gameStarted, setGameStarted] = useState(new Date())
 
@@ -70,7 +70,7 @@ export default function GameBoard() {
 
   return (
     <Background>
-      <Flex direction="column" maxWidth={'150px'}>
+      <Flex direction="column" maxWidth={"150px"}>
         <PageTitle title="Solitaire" />
         <Flex direction="column" textAlign="center" p={2}>
           <Text
@@ -92,8 +92,8 @@ export default function GameBoard() {
         </Flex>
         <Button
           background="darkerBlue"
-          _hover={{ bg: 'primaryBlue', border: 'none' }}
-          _active={{ bg: 'darkerBlue', border: 'none' }}
+          _hover={{bg: "primaryBlue", border: "none"}}
+          _active={{bg: "darkerBlue", border: "none"}}
           color="white"
           border="none"
           mt={2}
@@ -107,8 +107,8 @@ export default function GameBoard() {
         </Button>
         <Button
           background="darkerBlue"
-          _hover={{ bg: 'primaryBlue' }}
-          _active={{ bg: 'darkerBlue' }}
+          _hover={{bg: "primaryBlue"}}
+          _active={{bg: "darkerBlue"}}
           color="white"
           border="none"
           mt={2}
@@ -125,7 +125,7 @@ export default function GameBoard() {
         <Flex
           direction="column"
           justify="flex-start"
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             setSelectedId(null)
           }}
@@ -168,7 +168,7 @@ export default function GameBoard() {
                 cardState={cardState}
                 setCardState={setCardState}
                 setGameState={setGameState}
-                columnName={'suitPile1'}
+                columnName={"suitPile1"}
                 suit={SuitEnum.spades}
               />
               <SuitPile
@@ -178,7 +178,7 @@ export default function GameBoard() {
                 cardState={cardState}
                 setCardState={setCardState}
                 setGameState={setGameState}
-                columnName={'suitPile2'}
+                columnName={"suitPile2"}
                 suit={SuitEnum.hearts}
               />
               <SuitPile
@@ -188,7 +188,7 @@ export default function GameBoard() {
                 cardState={cardState}
                 setCardState={setCardState}
                 setGameState={setGameState}
-                columnName={'suitPile3'}
+                columnName={"suitPile3"}
                 suit={SuitEnum.clubs}
               />
               <SuitPile
@@ -198,7 +198,7 @@ export default function GameBoard() {
                 cardState={cardState}
                 setCardState={setCardState}
                 setGameState={setGameState}
-                columnName={'suitPile4'}
+                columnName={"suitPile4"}
                 suit={SuitEnum.diamonds}
               />
             </Flex>

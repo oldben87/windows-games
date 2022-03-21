@@ -1,4 +1,4 @@
-import { GameState, CardState, CardInfo } from 'components/Solitaire/types'
+import {GameState, CardState, CardInfo} from "components/pages/Solitaire/types"
 
 export const emptyArrayAndCardToMatch = (
   cardPile: Array<number>,
@@ -44,19 +44,19 @@ export function validateCardMove(
   const lastCardinTargetColumn =
     cardState[targetColumn[targetColumn.length - 1]]
 
-  if (gameState[columnName].find(num => num.toString() === selectedId)) {
+  if (gameState[columnName].find((num) => num.toString() === selectedId)) {
     return false
   }
 
   switch (columnName) {
-    case 'gameColumn1':
-    case 'gameColumn2':
-    case 'gameColumn3':
-    case 'gameColumn4':
-    case 'gameColumn5':
-    case 'gameColumn6':
-    case 'gameColumn7':
-    case 'gameColumn8':
+    case "gameColumn1":
+    case "gameColumn2":
+    case "gameColumn3":
+    case "gameColumn4":
+    case "gameColumn5":
+    case "gameColumn6":
+    case "gameColumn7":
+    case "gameColumn8":
       return (
         emptyArrayAndCardToMatch(
           gameState[columnName],
@@ -69,10 +69,10 @@ export function validateCardMove(
           lastCardinTargetColumn,
         )
       )
-    case 'suitPile1':
-    case 'suitPile2':
-    case 'suitPile3':
-    case 'suitPile4':
+    case "suitPile1":
+    case "suitPile2":
+    case "suitPile3":
+    case "suitPile4":
       return (
         (emptyArrayAndCardToMatch(
           gameState[columnName],
@@ -88,8 +88,8 @@ export function validateCardMove(
           singleCardSelected)
       )
 
-    case 'sparePileHidden':
-    case 'sparePileShowing':
+    case "sparePileHidden":
+    case "sparePileShowing":
       return true
     default:
       return false

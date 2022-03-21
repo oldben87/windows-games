@@ -1,20 +1,20 @@
-import { CardState, GameState, SuitEnum } from 'components/Solitaire/types'
-import { last, clone, dropLast } from 'ramda'
-import { validateCardMove } from 'components/Solitaire/helpers'
+import {CardState, GameState, SuitEnum} from "components/pages/Solitaire/types"
+import {last, clone, dropLast} from "ramda"
+import {validateCardMove} from "components/pages/Solitaire/helpers"
 
 const getSuitPile = (suit: SuitEnum) => {
   switch (suit) {
     case SuitEnum.spades:
-      return 'suitPile1'
+      return "suitPile1"
 
     case SuitEnum.hearts:
-      return 'suitPile2'
+      return "suitPile2"
 
     case SuitEnum.clubs:
-      return 'suitPile3'
+      return "suitPile3"
 
     default:
-      return 'suitPile4'
+      return "suitPile4"
   }
 }
 
@@ -25,15 +25,15 @@ export const moveAllAvailableCards = (
   let newGameState = clone(gameState)
 
   const columnList = [
-    'gameColumn1',
-    'gameColumn2',
-    'gameColumn3',
-    'gameColumn4',
-    'gameColumn5',
-    'gameColumn6',
-    'gameColumn7',
-    'gameColumn8',
-    'sparePileShowing',
+    "gameColumn1",
+    "gameColumn2",
+    "gameColumn3",
+    "gameColumn4",
+    "gameColumn5",
+    "gameColumn6",
+    "gameColumn7",
+    "gameColumn8",
+    "sparePileShowing",
   ]
 
   let i = 0

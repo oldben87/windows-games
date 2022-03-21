@@ -4,8 +4,8 @@ import {
   ModalHeader,
   ModalCloseButton,
   Flex,
-} from '@chakra-ui/react'
-import GameBoard from 'components/Solitaire/GameBoard'
+} from "@chakra-ui/react"
+import GameBoard from "components/pages/Solitaire/GameBoard"
 
 interface Props {
   isOpen: boolean
@@ -13,31 +13,31 @@ interface Props {
 }
 
 const windowsButtonStyle = {
-  borderRadius: 'none',
-  borderWidth: '2px',
-  borderTopColor: 'lightGray',
-  borderLeftColor: 'lightGray',
-  borderRightColor: 'black',
-  borderBottomColor: 'black',
-  bgColor: 'silver',
-  width: '25px',
-  height: '25px',
-  color: 'black',
-  marginBottom: '8px',
-  _hover: { bg: '#C0C0C0' },
+  borderRadius: "none",
+  borderWidth: "2px",
+  borderTopColor: "lightGray",
+  borderLeftColor: "lightGray",
+  borderRightColor: "black",
+  borderBottomColor: "black",
+  bgColor: "silver",
+  width: "25px",
+  height: "25px",
+  color: "black",
+  marginBottom: "8px",
+  _hover: {bg: "#C0C0C0"},
   _active: {
-    borderTopColor: 'black',
-    borderLeftColor: 'black',
-    borderRightColor: 'lightGray',
-    borderBottomColor: 'lightGray',
+    borderTopColor: "black",
+    borderLeftColor: "black",
+    borderRightColor: "lightGray",
+    borderBottomColor: "lightGray",
   },
 }
 
-export function GameBoardModal({ isOpen, onClose }: Props) {
+export function GameBoardModal({isOpen, onClose}: Props) {
   return (
     <Modal
       isOpen={isOpen}
-      size={'full'}
+      size={"full"}
       onClose={onClose}
       closeOnOverlayClick={false}
     >
@@ -59,7 +59,7 @@ export function GameBoardModal({ isOpen, onClose }: Props) {
           pl={2}
           m={0}
           borderRadius={0}
-          bgColor={'blue'}
+          bgColor={"blue"}
           color="white"
           borderWidth="2px"
           borderTopColor="white"
