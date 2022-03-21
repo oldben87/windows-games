@@ -1,10 +1,15 @@
-import { GameState, CardState, CardPile, CardInfo } from 'components/Solitaire/types'
-import { validateCardMove } from './validateCardMove'
-import { findIndex, last, splitAt } from 'ramda'
+import {
+  GameState,
+  CardState,
+  CardPile,
+  CardInfo,
+} from "components/pages/Solitaire/types"
+import {validateCardMove} from "./validateCardMove"
+import {findIndex, last, splitAt} from "ramda"
 
 const findCurrentArray = (gameState: GameState, selectedId: string) => {
   return Object.entries(gameState).find(([_, cardPile]: [string, CardPile]) => {
-    return cardPile.find(card => card.toString() === selectedId) !== undefined
+    return cardPile.find((card) => card.toString() === selectedId) !== undefined
   })
 }
 
@@ -27,7 +32,7 @@ const moveCards = (
   return {
     ...gameState,
     [initialArray[0]]: initialArray[1].filter(
-      number => number.toString() !== selectedId,
+      (number) => number.toString() !== selectedId,
     ),
     [arrayToMoveTo]: [...gameState[arrayToMoveTo], parseInt(selectedId, 10)],
   }
@@ -76,7 +81,7 @@ export const moveCardToPile = (
 
   // get index of selectedId
   const selectedIndex = findIndex(
-    num => num.toString() === selectedId,
+    (num) => num.toString() === selectedId,
     initialArray[1],
   )
 

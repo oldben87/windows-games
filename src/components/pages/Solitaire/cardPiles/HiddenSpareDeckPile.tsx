@@ -1,6 +1,6 @@
-import { setIdOrMoveCard } from 'components/Solitaire/helpers'
-import { CardState, GameState } from 'components/Solitaire/types'
-import { CardBack, CardEmpty } from '../furniture'
+import {setIdOrMoveCard} from "components/pages/Solitaire/helpers"
+import {CardState, GameState} from "components/pages/Solitaire/types"
+import {CardBack, CardEmpty} from "../furniture"
 
 interface Props {
   setSelectedId: (id: string | null) => void
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const HiddenSpareDeckPile = (props: Props) => {
-  const { gameState, setSelectedId, cardState, setCardState, setGameState } =
+  const {gameState, setSelectedId, cardState, setCardState, setGameState} =
     props
   return gameState.sparePileHidden.length ? (
     <CardBack
@@ -28,7 +28,7 @@ export const HiddenSpareDeckPile = (props: Props) => {
             setCardState,
             gameState,
             setGameState,
-            'sparePileShowing',
+            "sparePileShowing",
           )
         }
       }}

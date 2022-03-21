@@ -1,7 +1,7 @@
-import { Flex, Icon } from '@chakra-ui/react'
-import { SuitIcon } from '.'
-import { GiCardDraw } from 'react-icons/gi'
-import { SuitEnum } from 'components/Solitaire/types'
+import {Flex, Icon} from "@chakra-ui/react"
+import {SuitIcon} from "."
+import {GiCardDraw} from "react-icons/gi"
+import {SuitEnum} from "components/pages/Solitaire/types"
 
 export const CardEmpty = ({
   suit,
@@ -14,9 +14,9 @@ export const CardEmpty = ({
     <Flex
       h="140px"
       w="90px"
-      bg={'none'}
+      bg={"none"}
       borderRadius="0 0 8px 8px"
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation()
         onClick()
       }}
