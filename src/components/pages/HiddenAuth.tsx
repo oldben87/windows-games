@@ -3,7 +3,7 @@ import {User} from "firebase/auth"
 import {useEffect, useState} from "react"
 import {listenForAuthState, logoutUser} from "../../Firebase"
 import Section from "../common/Section"
-import {SignUpIn} from "../Auth/SignUpIn"
+import {Authentication} from "../Auth"
 import TextBox from "components/common/TextBox"
 import {colors} from "styles/colors"
 
@@ -59,7 +59,7 @@ export default function HiddenAuth() {
         </Button>
       )}
       {user === null && (
-        <SignUpIn
+        <Authentication
           user={user}
           setUser={setUser}
           state={state}

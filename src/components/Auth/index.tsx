@@ -19,7 +19,7 @@ interface ErrorState {
   confirmPassword: string | null
 }
 
-export const SignUpIn = ({
+export const Authentication = ({
   user,
   setUser,
   state,
