@@ -1,7 +1,6 @@
 import {Flex, Image} from "@chakra-ui/react"
 import {Link, useLocation} from "react-router-dom"
 import {colors} from "styles/colors"
-// import {colors} from "styles/colors"
 
 import "./NavBar.css"
 
@@ -50,6 +49,7 @@ const Links = [
 
 export const NavBar = () => {
   const location = useLocation()
+
   return (
     <Flex
       as={"nav"}
@@ -81,6 +81,7 @@ export const NavBar = () => {
       >
         {Links.map((link) => (
           <NavLink
+            key={link.title}
             title={link.title}
             link={link.link}
             selected={location.pathname === link.link}
