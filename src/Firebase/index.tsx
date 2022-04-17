@@ -27,7 +27,7 @@ export const signUpUser = async (email: string, password: string) => {
 }
 
 export const listenForAuthState = (callback: (user: User | null) => void) => {
-  onAuthStateChanged(Auth, callback)
+  return onAuthStateChanged(Auth, callback)
 }
 
 export const logInUser = async (email: string, password: string) => {
