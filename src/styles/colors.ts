@@ -15,4 +15,5 @@ export const colors = {
     lightBlue: "#dffcfc",
     brandBlue: "#28878b",
   },
+  error: "#DE3131",
 }

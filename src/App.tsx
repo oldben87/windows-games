@@ -8,6 +8,7 @@ import SolitaireBoard from "components/pages/Solitaire/GameBoard"
 import {NavBar} from "./components/common/NavBar"
 import PageContainer from "components/common/PageContainer"
 import Privacy from "components/pages/Privacy"
+import HiddenAuth from "components/pages/HiddenAuth"
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           {/* Games can go below */}
           <Route path="/solitaire" element={<SolitaireBoard />} />
           <Route path="/minesweeper" element={<MinesweeperBoard />} />
+          <Route path="/hiddenauth" element={<HiddenAuth />} />
         </Routes>
       </PageContainer>
     </>
