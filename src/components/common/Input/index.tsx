@@ -45,7 +45,7 @@ export const Input = ({
   show,
 }: InputProps) => {
   return (
-    <Flex direction="column" maxWidth={maxWidth} my={3}>
+    <Flex direction="column" maxWidth={maxWidth} my={2}>
       <TextBox>{title}</TextBox>
       <InputGroup>
         <ChakraInput

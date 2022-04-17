@@ -1,8 +1,7 @@
 import {Button, Flex} from "@chakra-ui/react"
 import {User} from "firebase/auth"
-import {useEffect, useState} from "react"
-import {signUpUser, listenForAuthState, logInUser} from "../../Firebase"
-import Section from "../common/Section"
+import {useState} from "react"
+import {signUpUser, logInUser} from "../../Firebase"
 import {Input} from "../common/Input"
 
 interface FormState {
@@ -38,13 +37,6 @@ export const Authentication = ({
   const [login, setLogin] = useState(true)
 
   const {email, password, loading, confirmPassword} = state
-
-  useEffect(() => {
-    listenForAuthState((user) => {
-      setState({...state, loading: false, email: null, password: null})
-      setUser(user)
-    })
-  }, [])
 
   const handleSignUp = async () => {
     setState({...state, email, loading: true})
@@ -144,73 +136,71 @@ export const Authentication = ({
   }
 
   return (
-    <Section>
-      <Flex direction={"column"}>
+    <Flex direction={"column"}>
+      <Input
+        title="Email"
+        placeholder="your@email.com"
+        value={email}
+        onChange={(event) => {
+          setState({
+            ...state,
+            email: event.target.value,
+          })
+          clearErrors()
+        }}
+        isInvalid={!!errors.email}
+      />
+      <Input
+        title="Password"
+        placeholder="Choose a password"
+        value={password}
+        onChange={(event) => {
+          setState({
+            ...state,
+            password: event.target.value,
+          })
+          clearErrors()
+        }}
+        isInvalid={!!errors.password}
+        show={show}
+        showHide={() => setShow(!show)}
+        type={show ? "text" : "password"}
+      />
+      {!login && (
         <Input
-          title="Email"
-          placeholder="your@email.com"
-          value={email}
+          title="Confirm password"
+          placeholder="Confirm your password"
+          value={confirmPassword}
           onChange={(event) => {
             setState({
               ...state,
-              email: event.target.value,
+              confirmPassword: event.target.value,
             })
             clearErrors()
           }}
-          isInvalid={!!errors.email}
-        />
-        <Input
-          title="Password"
-          placeholder="Choose a password"
-          value={password}
-          onChange={(event) => {
-            setState({
-              ...state,
-              password: event.target.value,
-            })
-            clearErrors()
-          }}
-          isInvalid={!!errors.password}
+          type={show ? "text" : "password"}
+          isInvalid={!!errors.confirmPassword}
           show={show}
           showHide={() => setShow(!show)}
-          type={show ? "text" : "password"}
         />
-        {!login && (
-          <Input
-            title="Confirm password"
-            placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(event) => {
-              setState({
-                ...state,
-                confirmPassword: event.target.value,
-              })
-              clearErrors()
-            }}
-            type={show ? "text" : "password"}
-            isInvalid={!!errors.confirmPassword}
-            show={show}
-            showHide={() => setShow(!show)}
-          />
-        )}
-        <Flex direction="column" maxWidth={400} my={8}>
-          <Button
-            mb={4}
-            onClick={login ? handleLogIn : handleSignUp}
-            isLoading={loading}
-            disabled={!!errors.email || !!errors.password || loading}
-          >
-            {login ? "Sign in" : "Sign up"}
+      )}
+      <Flex direction="column" maxWidth={400} my={8}>
+        <Button
+          mb={4}
+          onClick={login ? handleLogIn : handleSignUp}
+          isLoading={loading}
+          disabled={!!errors.email || !!errors.password || loading}
+        >
+          {login ? "Sign in" : "Sign up"}
+        </Button>
+        {user === null && (
+          <Button variant="link" onClick={() => setLogin(!login)}>
+            {login
+              ? "Don't have an account? Sign Up"
+              : "Already a user? Sign In"}
           </Button>
-          {user === null && (
-            <Button variant="link" onClick={() => setLogin(!login)}>
-              {login
-                ? "Don't have an account? Sign Up"
-                : "Already a user? Sign In"}
-            </Button>
-          )}
-        </Flex>
+        )}
       </Flex>
-    </Section>
+    </Flex>
   )
 }

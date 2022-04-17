@@ -1,4 +1,4 @@
-import {Button} from "@chakra-ui/react"
+import {Button, Spinner} from "@chakra-ui/react"
 import {User} from "firebase/auth"
 import {useEffect, useState} from "react"
 import {listenForAuthState, logoutUser} from "../../Firebase"
@@ -7,14 +7,23 @@ import {Authentication} from "../Auth"
 import TextBox from "components/common/TextBox"
 import {colors} from "styles/colors"
 
+interface Errors {
+  email: string | null
+  password: string | null
+  confirmPassword: string | null
+  general: string | null
+}
+
+const displayError = (errors: Errors) => {
+  return (
+    errors.email || errors.general || errors.confirmPassword || errors.password
+  )
+}
+
 export default function HiddenAuth() {
+  const [initialLoad, setInitialLoad] = useState(true)
   const [user, setUser] = useState<User | null>(null)
-  const [errors, setErrors] = useState<{
-    email: string | null
-    password: string | null
-    confirmPassword: string | null
-    general: string | null
-  }>({
+  const [errors, setErrors] = useState<Errors>({
     email: null,
     password: null,
     confirmPassword: null,
@@ -38,6 +47,7 @@ export default function HiddenAuth() {
     const cleanup = listenForAuthState((user) => {
       setState({...state, loading: false, email: null, password: null})
       setUser(user)
+      setInitialLoad(false)
     })
     return () => cleanup()
   }, [])
@@ -53,12 +63,13 @@ export default function HiddenAuth() {
 
   return (
     <Section>
+      {initialLoad && <Spinner />}
       {!!user && (
         <Button isLoading={loading} onClick={handleLogOut}>
           Log Out
         </Button>
       )}
-      {user === null && (
+      {user === null && !initialLoad && (
         <Authentication
           user={user}
           setUser={setUser}
@@ -68,17 +79,7 @@ export default function HiddenAuth() {
           setErrors={setErrors}
         />
       )}
-      <TextBox color={colors.error}>
-        {errors.email
-          ? errors.email
-          : errors.password
-          ? errors.password
-          : errors.general
-          ? errors.general
-          : errors.confirmPassword
-          ? errors.confirmPassword
-          : null}
-      </TextBox>
+      <TextBox color={colors.error}>{displayError(errors)}</TextBox>
     </Section>
   )
 }
