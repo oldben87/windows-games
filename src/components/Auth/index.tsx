@@ -184,7 +184,7 @@ export const Authentication = ({
           showHide={() => setShow(!show)}
         />
       )}
-      <Flex direction="column" maxWidth={400} my={8}>
+      <Flex direction="column" maxWidth={400} mt={4}>
         <Button
           mb={4}
           onClick={login ? handleLogIn : handleSignUp}
