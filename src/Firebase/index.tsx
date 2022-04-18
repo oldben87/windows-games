@@ -10,7 +10,7 @@ import {
 } from "firebase/auth"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD9Ig2ZhTdQ3Qe41I-_pLAMCT48jZMaGvg",
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
