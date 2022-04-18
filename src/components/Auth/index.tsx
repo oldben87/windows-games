@@ -1,7 +1,6 @@
 import {Button, Flex} from "@chakra-ui/react"
-import {User} from "firebase/auth"
 import {useState} from "react"
-import {signUpUser, logInUser, passwordReset} from "../../Firebase"
+import {signUpUser, logInUser, passwordReset} from "../../firebase"
 import {Input} from "../common/Input"
 
 interface FormState {
@@ -33,13 +32,11 @@ const getButtonText = (page: FormPage) => {
 }
 
 export const Authentication = ({
-  setUser,
   state,
   setState,
   errors,
   setErrors,
 }: {
-  setUser: (user: User | null) => void
   state: FormState
   setState: (state: FormState) => void
   errors: ErrorState
@@ -83,9 +80,8 @@ export const Authentication = ({
 
     try {
       signUpUser(email, password)
-        .then((user) => {
+        .then(() => {
           setState({...state, loading: false, email: null, password: null})
-          setUser(user.user)
         })
         .catch(() => {
           setState({...state, loading: false})
@@ -155,14 +151,10 @@ export const Authentication = ({
         return
       }
 
-      logInUser(email, password)
-        .then((result) => {
-          setUser(result.user)
-        })
-        .catch(() => {
-          setError("Login failed, invalid email or password")
-        })
-        .finally(() => setState({...state, loading: false}))
+      logInUser(email, password).catch(() => {
+        setError("Login failed, invalid email or password")
+        setState({...state, loading: false})
+      })
     } catch (error) {
       setError("Failed to log in")
       setState({...state, loading: false})

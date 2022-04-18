@@ -2,13 +2,40 @@ import Home2 from "components/pages/Home"
 import Apps from "components/pages/Apps"
 import Contact from "components/pages/Contact"
 import About from "components/pages/About"
-import {Route, Routes} from "react-router-dom"
+import {Route, Routes, Navigate, Outlet} from "react-router-dom"
+
 import MinesweeperBoard from "components/pages/Minesweeper/GameBoard"
 import SolitaireBoard from "components/pages/Solitaire/GameBoard"
 import {NavBar} from "./components/common/NavBar"
 import PageContainer from "components/common/PageContainer"
 import Privacy from "components/pages/Privacy"
 import HiddenAuth from "components/pages/HiddenAuth"
+import HiddenHome from "components/pages/HiddenHome"
+import {useEffect, useState} from "react"
+import {listenForAuthState} from "./firebase"
+import {User} from "firebase/auth"
+import {Spinner} from "@chakra-ui/react"
+
+const PrivateRoute = () => {
+  const [user, setUser] = useState<User | null>(null)
+  const [initialLoad, setInitialLoad] = useState(true)
+
+  useEffect(() => {
+    const cleanup = listenForAuthState((userRes) => {
+      setUser(userRes)
+      setInitialLoad(false)
+    })
+    return () => cleanup()
+  }, [])
+
+  if (initialLoad) {
+    return <Spinner />
+  }
+
+  if (!user) {
+    return <Navigate to="/hidden/auth" />
+  } else return <Outlet />
+}
 
 function App() {
   return (
@@ -24,7 +51,10 @@ function App() {
           {/* Games can go below */}
           <Route path="/solitaire" element={<SolitaireBoard />} />
           <Route path="/minesweeper" element={<MinesweeperBoard />} />
-          <Route path="/hiddenauth" element={<HiddenAuth />} />
+          <Route path="/hidden" element={<PrivateRoute />}>
+            <Route path="/hidden" element={<HiddenHome />} />
+          </Route>
+          <Route path="/hidden/auth" element={<HiddenAuth />} />
         </Routes>
       </PageContainer>
     </>

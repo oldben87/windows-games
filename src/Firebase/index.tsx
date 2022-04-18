@@ -23,6 +23,10 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig, "Jedi Apps")
 export const Auth = getAuth(firebase)
 
+export const currentUser = () => {
+  return Auth.currentUser
+}
+
 export const signUpUser = async (email: string, password: string) => {
   return await createUserWithEmailAndPassword(Auth, email, password)
 }
