@@ -7,6 +7,7 @@ import {
   sendPasswordResetEmail,
   signOut,
   User,
+  updateProfile,
 } from "firebase/auth"
 
 const firebaseConfig = {
@@ -57,4 +58,8 @@ export const passwordReset = async (email: string) => {
     .catch(() => {
       return {error: true as const, message: "Failed to reset password"}
     })
+}
+
+export const updateUserName = async (user: User, displayName: string) => {
+  return await updateProfile(user, {displayName})
 }

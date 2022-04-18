@@ -14,7 +14,8 @@ import HiddenHome from "components/pages/HiddenHome"
 import {useEffect, useState} from "react"
 import {listenForAuthState} from "./firebase"
 import {User} from "firebase/auth"
-import {Spinner} from "@chakra-ui/react"
+import {Flex, Spinner} from "@chakra-ui/react"
+import {colors} from "styles/colors"
 
 const PrivateRoute = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -29,7 +30,11 @@ const PrivateRoute = () => {
   }, [])
 
   if (initialLoad) {
-    return <Spinner />
+    return (
+      <Flex mt={5} justifyContent="center">
+        <Spinner size="lg" thickness="4px" color={colors.speedle.darkBlue} />
+      </Flex>
+    )
   }
 
   if (!user) {
