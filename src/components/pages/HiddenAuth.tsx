@@ -71,7 +71,6 @@ export default function HiddenAuth() {
       )}
       {user === null && !initialLoad && (
         <Authentication
-          user={user}
           setUser={setUser}
           state={state}
           setState={setState}

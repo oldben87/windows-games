@@ -1,7 +1,7 @@
 import {Button, Flex} from "@chakra-ui/react"
 import {User} from "firebase/auth"
 import {useState} from "react"
-import {signUpUser, logInUser} from "../../Firebase"
+import {signUpUser, logInUser, passwordReset} from "../../Firebase"
 import {Input} from "../common/Input"
 
 interface FormState {
@@ -18,15 +18,27 @@ interface ErrorState {
   confirmPassword: string | null
 }
 
+type FormPage = "signup" | "signin" | "reset"
+
+const getButtonText = (page: FormPage) => {
+  if (page === "reset") {
+    return "Send reset email"
+  }
+
+  if (page === "signin") {
+    return "Log me in"
+  }
+
+  return "Sign me up"
+}
+
 export const Authentication = ({
-  user,
   setUser,
   state,
   setState,
   errors,
   setErrors,
 }: {
-  user: User | null
   setUser: (user: User | null) => void
   state: FormState
   setState: (state: FormState) => void
@@ -34,7 +46,7 @@ export const Authentication = ({
   setErrors: (errors: ErrorState) => void
 }) => {
   const [show, setShow] = useState(false)
-  const [login, setLogin] = useState(true)
+  const [formPage, setFormPage] = useState<FormPage>("signin")
 
   const {email, password, loading, confirmPassword} = state
 
@@ -98,6 +110,28 @@ export const Authentication = ({
     })
   }
 
+  const handlePasswordReset = async () => {
+    setState({...state, loading: true})
+    try {
+      if (!email || email.length === 0) {
+        setErrors({...errors, email: "No email entered"})
+        setState({...state, loading: false})
+        return
+      }
+      passwordReset(email).then((result) => {
+        if ("success" in result) {
+          setFormPage("signin")
+        } else {
+          setError(result.message)
+        }
+        setState({...state, loading: false})
+      })
+    } catch {
+      setError("Login failed")
+      setState({...state, loading: false})
+    }
+  }
+
   const handleLogIn = async () => {
     setState({...state, loading: true})
     try {
@@ -135,6 +169,24 @@ export const Authentication = ({
     }
   }
 
+  const handleButtonClick = async () => {
+    if (formPage === "reset") {
+      await handlePasswordReset()
+      return
+    }
+
+    if (formPage === "signin") {
+      await handleLogIn()
+      return
+    }
+
+    await handleSignUp()
+    return
+  }
+
+  const isLogin = formPage === "signin"
+  const isReset = formPage === "reset"
+
   return (
     <Flex direction={"column"}>
       <Input
@@ -150,23 +202,25 @@ export const Authentication = ({
         }}
         isInvalid={!!errors.email}
       />
-      <Input
-        title="Password"
-        placeholder="Choose a password"
-        value={password}
-        onChange={(event) => {
-          setState({
-            ...state,
-            password: event.target.value,
-          })
-          clearErrors()
-        }}
-        isInvalid={!!errors.password}
-        show={show}
-        showHide={() => setShow(!show)}
-        type={show ? "text" : "password"}
-      />
-      {!login && (
+      {!isReset && (
+        <Input
+          title="Password"
+          placeholder="Choose a password"
+          value={password}
+          onChange={(event) => {
+            setState({
+              ...state,
+              password: event.target.value,
+            })
+            clearErrors()
+          }}
+          isInvalid={!!errors.password}
+          show={show}
+          showHide={() => setShow(!show)}
+          type={show ? "text" : "password"}
+        />
+      )}
+      {formPage === "signup" && (
         <Input
           title="Confirm password"
           placeholder="Confirm your password"
@@ -187,19 +241,34 @@ export const Authentication = ({
       <Flex direction="column" maxWidth={400} mt={4}>
         <Button
           mb={4}
-          onClick={login ? handleLogIn : handleSignUp}
+          onClick={handleButtonClick}
           isLoading={loading}
           disabled={!!errors.email || !!errors.password || loading}
         >
-          {login ? "Sign in" : "Sign up"}
+          {getButtonText(formPage)}
         </Button>
-        {user === null && (
-          <Button variant="link" onClick={() => setLogin(!login)}>
-            {login
-              ? "Don't have an account? Sign Up"
-              : "Already a user? Sign In"}
-          </Button>
+        {!isReset && (
+          <>
+            <Button
+              variant="link"
+              onClick={() => setFormPage(isLogin ? "signup" : "signin")}
+              mt={4}
+            >
+              {isLogin
+                ? "Don't have an account? Sign Up"
+                : "Already a user? Sign In"}
+            </Button>
+          </>
         )}
+        <Button
+          variant="link"
+          onClick={() => setFormPage(formPage !== "reset" ? "reset" : "signin")}
+          my={4}
+        >
+          {!isReset
+            ? "Forgot your password? Get a new one!"
+            : "Back to sign in"}
+        </Button>
       </Flex>
     </Flex>
   )
