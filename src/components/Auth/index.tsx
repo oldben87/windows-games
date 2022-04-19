@@ -1,6 +1,6 @@
 import {Button, Flex} from "@chakra-ui/react"
 import {useState} from "react"
-import {signUpUser, logInUser, passwordReset} from "../../firebase"
+import {signUpUser, logInUser, passwordReset} from "FirebaseApi/auth"
 import {Input} from "../common/Input"
 
 interface FormState {

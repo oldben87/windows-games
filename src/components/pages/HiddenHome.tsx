@@ -1,21 +1,44 @@
 import {
   Button,
   Flex,
-  Modal,
+  IconButton,
   ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   useDisclosure,
+  Icon,
 } from "@chakra-ui/react"
-import {logoutUser, currentUser, updateUserName} from "../../firebase"
+import {logoutUser, currentUser, updateUserName} from "FirebaseApi/auth"
 import {Navigate} from "react-router-dom"
 import Section from "components/common/Section"
 import TextBox from "components/common/TextBox"
 import {Input} from "components/common/Input"
-import {useState} from "react"
+import React, {useState} from "react"
+import {Modal} from "components/Modals"
+import {GrEdit} from "react-icons/gr"
+
+interface UserNameModalContent {
+  userName: string | null
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onClick: () => Promise<void>
+}
+
+const UserNameModalContent = ({
+  userName,
+  onChange,
+  onClick,
+}: UserNameModalContent) => {
+  return (
+    <ModalBody>
+      <Input
+        title={"User name"}
+        value={userName}
+        onChange={onChange}
+        placeholder="User name"
+        isInvalid={false}
+      />
+      <Button onClick={onClick}>Update</Button>
+    </ModalBody>
+  )
+}
 
 export default function HiddenHome() {
   const {isOpen, onOpen, onClose} = useDisclosure()
@@ -44,45 +67,40 @@ export default function HiddenHome() {
         <Button onClick={handleLogOut}>Log Out</Button>
       </Flex>
       <Section>
-        <Flex justifyContent={"space-between"}>
-          <TextBox>User: {user.displayName || user.email}</TextBox>
-          <Button onClick={onOpen}>Update display name</Button>
+        <Flex alignItems="center">
+          <TextBox textAlign="center">
+            User: {user.displayName || user.email}
+          </TextBox>
+          <IconButton
+            variant={"ghost"}
+            aria-label="Update user name"
+            onClick={onOpen}
+            icon={<Icon as={GrEdit} />}
+          >
+            Update user name
+          </IconButton>
         </Flex>
       </Section>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Set display name</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Input
-              title={"Display name"}
-              value={userName}
-              onChange={(event) => setUserName(event.target.value)}
-              placeholder="Display name"
-              isInvalid={false}
-            />
-            <Button
-              onClick={async () => {
-                setLoading(true)
-                if (!userName || userName.length === 0) {
-                  return
-                }
-                updateUserName(user, userName).then(() => {
-                  setLoading(false)
-                  onClose()
-                })
-              }}
-            >
-              Update
-            </Button>
-          </ModalBody>
-          <ModalFooter>
-            <Button isLoading={loading} onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        title={"Set display name"}
+        loading={loading}
+      >
+        <UserNameModalContent
+          userName={userName}
+          onChange={(event) => setUserName(event.target.value)}
+          onClick={async () => {
+            setLoading(true)
+            if (!userName || userName.length === 0) {
+              return
+            }
+            updateUserName(user, userName).then(() => {
+              setLoading(false)
+              onClose()
+            })
+          }}
+        />
       </Modal>
     </>
   )

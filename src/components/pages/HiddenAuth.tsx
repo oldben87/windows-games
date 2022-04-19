@@ -1,6 +1,6 @@
 import {User} from "firebase/auth"
 import {useEffect, useState} from "react"
-import {listenForAuthState} from "../../firebase"
+import {listenForAuthState} from "FirebaseApi/auth"
 import Section from "../common/Section"
 import {Authentication} from "../Auth"
 import TextBox from "components/common/TextBox"
