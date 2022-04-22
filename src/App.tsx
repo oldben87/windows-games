@@ -16,6 +16,7 @@ import {listenForAuthState} from "FirebaseApi/auth"
 import {User} from "firebase/auth"
 import {Flex, Spinner} from "@chakra-ui/react"
 import {colors} from "styles/colors"
+import HiddenRecipes from "components/pages/HiddenRecipes"
 
 const PrivateRoute = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -58,6 +59,9 @@ function App() {
           <Route path="/minesweeper" element={<MinesweeperBoard />} />
           <Route path="/hidden" element={<PrivateRoute />}>
             <Route path="/hidden" element={<HiddenHome />} />
+          </Route>
+          <Route path="/hidden/recipe" element={<PrivateRoute />}>
+            <Route path="/hidden/recipe" element={<HiddenRecipes />} />
           </Route>
           <Route path="/hidden/auth" element={<HiddenAuth />} />
         </Routes>
