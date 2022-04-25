@@ -1,11 +1,17 @@
 import {Button, Flex, Icon, IconButton, Select} from "@chakra-ui/react"
 import {Input} from "components/common/Input"
 import TextBox from "components/common/TextBox"
-import {FoodGroup, FoodUnit, Ingredient} from "FirebaseApi/database"
+import {
+  FoodGroup,
+  FoodUnit,
+  Ingredient,
+  setIngredients,
+} from "FirebaseApi/database"
 import {useState} from "react"
 import {HighlightRow} from "components/common/HighlightRow"
 import {GrAdd, GrTrash} from "react-icons/gr"
 import {remove} from "ramda"
+import {User} from "firebase/auth"
 
 const FoodUnitList = ["g", "kg", "ml", "ltr", "cup", "each"]
 const FoodGroupList = [
@@ -22,9 +28,13 @@ const FoodGroupList = [
 ]
 
 export const CreateIngredientModal = ({
+  user,
+  onClose,
   onSubmit,
 }: {
+  user: User
   onSubmit: (id: string) => void
+  onClose: () => void
 }) => {
   const [state, setState] = useState<Omit<Ingredient, "id">>({
     name: "",
@@ -137,7 +147,7 @@ export const CreateIngredientModal = ({
       <Flex width={400} direction="column" my={3}>
         <Flex alignItems={"flex-end"}>
           <Input
-            title="Varieties"
+            title="Varieties [optional]"
             type="text"
             value={newVariant}
             isInvalid={false}
@@ -181,8 +191,12 @@ export const CreateIngredientModal = ({
             setLoading(true)
             try {
               setLoading(false)
-              const newStuff = ""
-              onSubmit(newStuff)
+              const newStuff = await setIngredients(user.uid, state)
+              if (newStuff.id === null) {
+                onClose()
+                return
+              }
+              onSubmit(newStuff.id)
             } catch {
               setLoading(false)
             }

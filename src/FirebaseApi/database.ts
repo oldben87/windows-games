@@ -8,7 +8,7 @@ export const setIngredients = async (
   ingredient: Omit<Ingredient, "id">,
 ) => {
   return push(ref(DB, `ingredients/${userId}`), ingredient).then((result) => {
-    return {...result, id: result.key, result}
+    return {...result, id: result.key}
   })
 }
 

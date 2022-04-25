@@ -267,8 +267,10 @@ export default function HiddenRecipesAdd() {
               }}
             />
           )}
-          {modal.modal === "createIngredient" && (
+          {modal.modal === "createIngredient" && user != null && (
             <CreateIngredientModal
+              user={user}
+              onClose={onClose}
               onSubmit={(id: string) => {
                 setModal({
                   modal: "ingredient",
