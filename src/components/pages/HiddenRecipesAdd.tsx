@@ -3,7 +3,7 @@ import {Input} from "components/common/Input"
 import Section from "components/common/Section"
 import Title from "components/common/Title"
 import {currentUser} from "FirebaseApi/auth"
-import {Recipe, ingredients} from "FirebaseApi/database"
+import {Ingredient, Recipe} from "FirebaseApi/database"
 import {useState} from "react"
 import {
   Box,
@@ -22,6 +22,7 @@ import {IngredientModal} from "components/Modals/IngredientModal"
 import {AddStepModal} from "components/Modals/AddStepModal"
 import {CreateIngredientModal} from "components/Modals/CreateIngredientModal"
 import {HighlightRow} from "components/common/HighlightRow"
+import {typedSelector} from "Redux/typedSelector"
 
 const initialState: Recipe = {
   name: "",
@@ -35,7 +36,7 @@ interface ModalToOpen {
   modal: "ingredient" | "addStep" | "createIngredient"
   loading: boolean
   title: string
-  id?: string
+  ingredient?: Ingredient
 }
 
 export default function HiddenRecipesAdd() {
@@ -49,12 +50,12 @@ export default function HiddenRecipesAdd() {
     title: "Ingredient Details",
   })
 
-  const handleAddIngredient = (id: string) => {
+  const handleAddIngredient = (ingredient: Ingredient) => {
     setModal({
       modal: "ingredient",
       loading: false,
       title: "Ingredient Details",
-      id,
+      ingredient,
     })
     onOpen()
   }
@@ -64,7 +65,7 @@ export default function HiddenRecipesAdd() {
       modal: "addStep",
       loading: false,
       title: "Add new step",
-      id: undefined,
+      ingredient: undefined,
     })
     onOpen()
   }
@@ -77,6 +78,8 @@ export default function HiddenRecipesAdd() {
     })
     onOpen()
   }
+
+  const ingredients = typedSelector((state) => state.ingredients)
 
   return (
     <AuthedPage user={user}>
@@ -154,7 +157,15 @@ export default function HiddenRecipesAdd() {
               if (event.target.value === "") {
                 return
               }
-              handleAddIngredient(event.target.value)
+
+              const ingredient = ingredients.find(
+                (ing) => ing.id === event.target.value,
+              )
+
+              if (!ingredient) {
+                return
+              }
+              handleAddIngredient(ingredient)
             }}
           >
             {Object.values(ingredients).map((ing) => (
@@ -164,32 +175,38 @@ export default function HiddenRecipesAdd() {
             ))}
           </Select>
           <Flex direction={"column"} mb={2}>
-            {state.ingredients.map(({id, quantity, variant, note}, index) => {
-              const ingredient = ingredients[id]
-              const info = `${quantity}${
-                ingredient.unit !== "each" ? ingredient.unit : ""
-              } x ${variant || ""} ${ingredient.name}${
-                note ? ` (${note})` : ""
-              }`
-              return (
-                <HighlightRow key={id + index}>
-                  <TextBox>{info}</TextBox>
-                  <IconButton
-                    variant={"ghost"}
-                    aria-label={`Remove ${ingredient.name}`}
-                    icon={<Icon as={GrTrash} />}
-                    ml={1}
-                    my={1}
-                    onClick={() => {
-                      setState({
-                        ...state,
-                        ingredients: remove(index, 1, state.ingredients),
-                      })
-                    }}
-                  />
-                </HighlightRow>
-              )
-            })}
+            {state.ingredients
+              .map(({id, quantity, variant, note}, index) => {
+                const ingredient = ingredients.find((ing) => ing.id === id)
+                if (!ingredient) {
+                  return
+                }
+
+                const info = `${quantity}${
+                  ingredient.unit !== "each" ? ingredient.unit : ""
+                } x ${variant || ""} ${ingredient.name}${
+                  note ? ` (${note})` : ""
+                }`
+                return (
+                  <HighlightRow key={id + index}>
+                    <TextBox>{info}</TextBox>
+                    <IconButton
+                      variant={"ghost"}
+                      aria-label={`Remove ${ingredient.name}`}
+                      icon={<Icon as={GrTrash} />}
+                      ml={1}
+                      my={1}
+                      onClick={() => {
+                        setState({
+                          ...state,
+                          ingredients: remove(index, 1, state.ingredients),
+                        })
+                      }}
+                    />
+                  </HighlightRow>
+                )
+              })
+              .filter(Boolean)}
           </Flex>
 
           <Flex direction={"column"} my={2}>
@@ -243,9 +260,9 @@ export default function HiddenRecipesAdd() {
         loading={modal.loading}
       >
         <ModalBody>
-          {modal.modal === "ingredient" && modal.id && (
+          {modal.modal === "ingredient" && modal.ingredient && (
             <IngredientModal
-              id={modal.id}
+              ingredient={modal.ingredient}
               onSubmit={(ingredient) => {
                 setState({
                   ...state,
@@ -272,11 +289,16 @@ export default function HiddenRecipesAdd() {
               user={user}
               onClose={onClose}
               onSubmit={(id: string) => {
+                const ingredient = ingredients.find((ing) => ing.id === id)
+                if (!ingredient) {
+                  return
+                }
+
                 setModal({
                   modal: "ingredient",
                   loading: false,
                   title: "Ingredient Details",
-                  id,
+                  ingredient,
                 })
               }}
             />

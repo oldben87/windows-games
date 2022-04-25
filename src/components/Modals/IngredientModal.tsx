@@ -1,20 +1,20 @@
 import {Button, Select} from "@chakra-ui/react"
 import {Input} from "components/common/Input"
 import TextBox from "components/common/TextBox"
-import {ingredients, RecipeIngredient} from "FirebaseApi/database"
+import {Ingredient, RecipeIngredient} from "FirebaseApi/database"
 import {useState} from "react"
 
 export const IngredientModal = ({
-  id,
   onSubmit,
+  ingredient,
 }: {
-  id: string
   onSubmit: (ingredient: RecipeIngredient) => void
+  ingredient: Ingredient
 }) => {
   const [state, setState] = useState<Omit<RecipeIngredient, "id">>({
     quantity: 0,
   })
-  const ingredeintToAdd = ingredients[id]
+  const ingredeintToAdd = ingredient
   return (
     <>
       <TextBox fontWeight={"semibold"}>{ingredeintToAdd.name}</TextBox>
@@ -51,7 +51,7 @@ export const IngredientModal = ({
           </Select>
         </>
       )}
-      <Button mt={6} onClick={() => onSubmit({...state, id})}>
+      <Button mt={6} onClick={() => onSubmit({...state, id: ingredient.id})}>
         Add to recipe
       </Button>
     </>

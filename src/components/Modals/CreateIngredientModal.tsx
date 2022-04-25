@@ -5,7 +5,7 @@ import {
   FoodGroup,
   FoodUnit,
   Ingredient,
-  setIngredients,
+  saveIngredient,
 } from "FirebaseApi/database"
 import {useState} from "react"
 import {HighlightRow} from "components/common/HighlightRow"
@@ -144,7 +144,7 @@ export const CreateIngredientModal = ({
           })}
         </Select>
       </Flex>
-      <Flex width={400} direction="column" my={3}>
+      <Flex maxWidth={400} direction="column" my={3}>
         <Flex alignItems={"flex-end"}>
           <Input
             title="Varieties [optional]"
@@ -191,7 +191,7 @@ export const CreateIngredientModal = ({
             setLoading(true)
             try {
               setLoading(false)
-              const newStuff = await setIngredients(user.uid, state)
+              const newStuff = await saveIngredient(user.uid, state)
               if (newStuff.id === null) {
                 onClose()
                 return

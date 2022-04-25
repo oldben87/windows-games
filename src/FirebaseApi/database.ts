@@ -1,13 +1,32 @@
 import firebase from "./index"
-import {getDatabase, ref, push} from "firebase/database"
+import {getDatabase, ref, push, get, child} from "firebase/database"
 
 export const DB = getDatabase(firebase)
 
-export const setIngredients = async (
+export const saveIngredient = async (
   userId: string,
   ingredient: Omit<Ingredient, "id">,
 ) => {
   return push(ref(DB, `ingredients/${userId}`), ingredient).then((result) => {
+    return {...result, id: result.key}
+  })
+}
+
+export const getIngredientsByUser = async (userId: string) => {
+  return await get(child(ref(DB), `ingredients/${userId}`)).then((snapShot) => {
+    if (snapShot.exists()) {
+      return Object.entries(snapShot.val()).map(([id, ingredient]) => {
+        return {...(ingredient as Omit<Ingredient, "id">), id}
+      })
+    }
+  })
+}
+
+export const saveRecipe = async (
+  userId: string,
+  recipe: Omit<Recipe, "id">,
+) => {
+  return push(ref(DB, `recipes/${userId}`), recipe).then((result) => {
     return {...result, id: result.key}
   })
 }
