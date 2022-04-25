@@ -18,7 +18,7 @@ interface Props {
 
 export const Modal = ({onClose, isOpen, title, loading, children}: Props) => {
   return (
-    <ChakraModal onClose={onClose} isOpen={isOpen} isCentered>
+    <ChakraModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{title}</ModalHeader>

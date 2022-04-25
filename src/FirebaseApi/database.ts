@@ -1,10 +1,18 @@
 import firebase from "./index"
-
-import {getDatabase} from "firebase/database"
+import {getDatabase, ref, push} from "firebase/database"
 
 export const DB = getDatabase(firebase)
 
-type FoodGroup =
+export const setIngredients = async (
+  userId: string,
+  ingredient: Omit<Ingredient, "id">,
+) => {
+  return push(ref(DB, `ingredients/${userId}`), ingredient).then((result) => {
+    return {...result, id: result.key, result}
+  })
+}
+
+export type FoodGroup =
   | "fruit/veg"
   | "meat/poultry"
   | "seafood/fish"
@@ -16,14 +24,14 @@ type FoodGroup =
   | "sauce"
   | "cupboard"
 
-type FoodUnit = "gram" | "kg" | "ml" | "ltr" | "cup" | "each"
+export type FoodUnit = "g" | "kg" | "ml" | "ltr" | "cup" | "each"
 
-interface Ingredient {
+export interface Ingredient {
   id: string
   name: string
   unit: FoodUnit
   group: FoodGroup
-  unitInGrams?: number
+  unitIngs?: number
   variants?: Array<string>
 }
 
@@ -33,13 +41,13 @@ export const ingredients: Record<string, Ingredient> = {
     name: "Pepper",
     unit: "each",
     group: "fruit/veg",
-    unitInGrams: 150,
+    unitIngs: 150,
     variants: ["Green", "Red", "Yellow", "Orange"],
   },
   def: {
     id: "def",
     name: "Pasta",
-    unit: "gram",
+    unit: "g",
     group: "cupboard",
     variants: ["Spaghetti", "Farfalle", "Penne"],
   },
@@ -54,7 +62,7 @@ export const ingredients: Record<string, Ingredient> = {
     id: "cde",
     name: "Mince",
     unit: "kg",
-    unitInGrams: 1000,
+    unitIngs: 1000,
     group: "meat/poultry",
     variants: ["Beef", "Pork", "Lamb", "Turkey"],
   },
@@ -67,24 +75,24 @@ export const ingredients: Record<string, Ingredient> = {
   fgh: {
     id: "fgh",
     name: "Oregano",
-    unit: "gram",
+    unit: "g",
     group: "herb",
   },
 }
 
-interface RecipeStep {
+export interface RecipeStep {
   title: string
-  directions?: string
+  details?: string
 }
 
-interface RecipeIngredient {
+export interface RecipeIngredient {
   id: string
   quantity: number
   note?: string
   variant?: string
 }
 
-interface Recipe {
+export interface Recipe {
   name: string
   ingredients: Array<RecipeIngredient>
   description?: string
@@ -106,7 +114,7 @@ export const recipes: Record<string, Recipe> = {
     serves: 4,
     description: "Meat and pasta",
     cookingInstructions: [
-      {title: "Fill pan", directions: "Put in pasta and boil with water"},
+      {title: "Fill pan", details: "Put in pasta and boil with water"},
     ],
   },
 }
