@@ -152,7 +152,7 @@ export default function HiddenRecipesAdd() {
           </Flex>
           <Select
             width={400}
-            placeholder="Add new ingredient"
+            defaultValue={""}
             onChange={(event) => {
               if (event.target.value === "") {
                 return
@@ -168,6 +168,9 @@ export default function HiddenRecipesAdd() {
               handleAddIngredient(ingredient)
             }}
           >
+            <option value="" disabled>
+              Choose ingredient
+            </option>
             {Object.values(ingredients).map((ing) => (
               <option key={ing.id} value={ing.id}>
                 {ing.name}
@@ -288,12 +291,7 @@ export default function HiddenRecipesAdd() {
             <CreateIngredientModal
               user={user}
               onClose={onClose}
-              onSubmit={(id: string) => {
-                const ingredient = ingredients.find((ing) => ing.id === id)
-                if (!ingredient) {
-                  return
-                }
-
+              onSubmit={(ingredient: Ingredient) => {
                 setModal({
                   modal: "ingredient",
                   loading: false,

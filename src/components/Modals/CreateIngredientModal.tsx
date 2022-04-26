@@ -12,6 +12,8 @@ import {HighlightRow} from "components/common/HighlightRow"
 import {GrAdd, GrTrash} from "react-icons/gr"
 import {remove} from "ramda"
 import {User} from "firebase/auth"
+import {useDispatch} from "react-redux"
+import {addIngredient} from "Redux/slices/ingredientSlice"
 
 const FoodUnitList = ["g", "kg", "ml", "ltr", "cup", "each"]
 const FoodGroupList = [
@@ -33,7 +35,7 @@ export const CreateIngredientModal = ({
   onSubmit,
 }: {
   user: User
-  onSubmit: (id: string) => void
+  onSubmit: (ingredient: Ingredient) => void
   onClose: () => void
 }) => {
   const [state, setState] = useState<Omit<Ingredient, "id">>({
@@ -55,6 +57,8 @@ export const CreateIngredientModal = ({
     setNewVariant(null)
   }
 
+  const dispatch = useDispatch()
+
   return (
     <>
       <Input
@@ -66,7 +70,7 @@ export const CreateIngredientModal = ({
       <Flex maxWidth={400} direction="column" my={3}>
         <TextBox>Measurement</TextBox>
         <Select
-          placeholder="Pick measurement"
+          defaultValue=""
           onChange={(event) => {
             if (event.target.value === "") {
               return
@@ -74,6 +78,9 @@ export const CreateIngredientModal = ({
             setState({...state, unit: event.target.value as FoodUnit})
           }}
         >
+          <option value={""} disabled>
+            {"Pick measurement"}
+          </option>
           {FoodUnitList.map((unit) => {
             return (
               <option key={unit} value={unit}>
@@ -127,7 +134,7 @@ export const CreateIngredientModal = ({
       <Flex maxWidth={400} direction="column" my={3}>
         <TextBox>Category</TextBox>
         <Select
-          placeholder="Pick category"
+          defaultValue=""
           onChange={(event) => {
             if (event.target.value === "") {
               return
@@ -135,6 +142,9 @@ export const CreateIngredientModal = ({
             setState({...state, group: event.target.value as FoodGroup})
           }}
         >
+          <option value={""} disabled>
+            Pick category
+          </option>
           {FoodGroupList.map((group) => {
             return (
               <option key={group} value={group}>
@@ -191,12 +201,22 @@ export const CreateIngredientModal = ({
             setLoading(true)
             try {
               setLoading(false)
+              if (state.name.trim().length === 0) {
+                setLoading(false)
+                return
+              }
+
               const newStuff = await saveIngredient(user.uid, state)
               if (newStuff.id === null) {
+                console.log("No Id found???")
                 onClose()
                 return
               }
-              onSubmit(newStuff.id)
+
+              const newIngredgient = {...state, id: newStuff.id}
+
+              dispatch(addIngredient(newIngredgient))
+              onSubmit(newIngredgient)
             } catch {
               setLoading(false)
             }

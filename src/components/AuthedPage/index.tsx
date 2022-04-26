@@ -3,6 +3,7 @@ import {logoutUser} from "FirebaseApi/auth"
 import {Navigate} from "react-router-dom"
 import React from "react"
 import {User} from "firebase/auth"
+import {useHydrateStore} from "hooks/useHydrateStore"
 
 export default function AuthedPage({
   children,
@@ -14,6 +15,8 @@ export default function AuthedPage({
   const handleLogOut = () => {
     logoutUser()
   }
+
+  const {loading} = useHydrateStore(user)
 
   if (!user) {
     return <Navigate to="/hidden/auth" />
@@ -28,7 +31,9 @@ export default function AuthedPage({
         zIndex={50}
         right={5}
       >
-        <Button onClick={handleLogOut}>Log Out</Button>
+        <Button isLoading={loading} onClick={handleLogOut}>
+          Log Out
+        </Button>
       </Flex>
       {children}
     </>

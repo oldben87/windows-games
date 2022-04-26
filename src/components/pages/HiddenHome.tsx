@@ -10,14 +10,12 @@ import {logoutUser, currentUser, updateUserName} from "FirebaseApi/auth"
 import Section from "components/common/Section"
 import TextBox from "components/common/TextBox"
 import {Input} from "components/common/Input"
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import {Modal} from "components/Modals"
 import {GrEdit, GrAdd} from "react-icons/gr"
 import AuthedPage from "components/AuthedPage"
 import {Link} from "react-router-dom"
-import {getIngredientsByUser, recipes} from "FirebaseApi/database"
-import {addIngredients} from "Redux/slices/ingredientSlice"
-import {useDispatch} from "react-redux"
+import {recipes} from "FirebaseApi/database"
 
 interface UserNameModalContent {
   userName: string | null
@@ -54,32 +52,6 @@ export default function HiddenHome() {
   const handleLogOut = () => {
     logoutUser()
   }
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    const loadIngredients = async () => {
-      try {
-        setLoading(true)
-        if (!user) {
-          setLoading(false)
-          return
-        }
-
-        return await getIngredientsByUser(user.uid)
-      } catch {
-        setLoading(false)
-      }
-    }
-
-    loadIngredients().then((result) => {
-      if (!result) {
-        setLoading(false)
-        return
-      }
-      dispatch(addIngredients(result))
-    })
-  }, [])
 
   return (
     <AuthedPage user={user}>

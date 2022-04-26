@@ -8,7 +8,7 @@ export const ingredientsSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<Ingredient>) => {
-      state = [...state, action.payload]
+      return [...state, action.payload]
     },
     addIngredients: (_, action: PayloadAction<Array<Ingredient>>) => {
       return action.payload
