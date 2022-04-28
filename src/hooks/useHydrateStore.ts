@@ -1,8 +1,9 @@
 import {User} from "firebase/auth"
-import {getIngredientsByUser} from "FirebaseApi/database"
+import {getIngredientsByUser, getRecipeByUser} from "FirebaseApi/database"
 import {useEffect, useState} from "react"
 import {useDispatch} from "react-redux"
 import {addIngredients} from "Redux/slices/ingredientSlice"
+import {addRecipes} from "Redux/slices/recipeSlice"
 
 export const useHydrateStore = (user: User | null) => {
   const [loading, setLoading] = useState(true)
@@ -21,18 +22,24 @@ export const useHydrateStore = (user: User | null) => {
           return
         }
 
-        return await getIngredientsByUser(user.uid)
+        const ingredients = await getIngredientsByUser(user.uid)
+        const recipes = await getRecipeByUser(user.uid)
+
+        return {ingredients, recipes}
       } catch {
         setLoading(false)
       }
     }
 
     loadIngredients().then((result) => {
-      if (!result) {
-        setLoading(false)
-        return
+      if (result?.ingredients) {
+        dispatch(addIngredients(result.ingredients))
       }
-      dispatch(addIngredients(result))
+
+      if (result?.recipes) {
+        dispatch(addRecipes(result.recipes))
+      }
+
       setLoading(false)
     })
 

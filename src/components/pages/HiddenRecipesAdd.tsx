@@ -3,10 +3,11 @@ import {Input} from "components/common/Input"
 import Section from "components/common/Section"
 import Title from "components/common/Title"
 import {currentUser} from "FirebaseApi/auth"
-import {Ingredient, Recipe} from "FirebaseApi/database"
+import {Ingredient, Recipe, saveRecipe} from "FirebaseApi/database"
 import {useState} from "react"
 import {
   Box,
+  Button,
   Flex,
   Icon,
   IconButton,
@@ -22,9 +23,13 @@ import {IngredientModal} from "components/Modals/IngredientModal"
 import {AddStepModal} from "components/Modals/AddStepModal"
 import {CreateIngredientModal} from "components/Modals/CreateIngredientModal"
 import {HighlightRow} from "components/common/HighlightRow"
-import {typedSelector} from "Redux/typedSelector"
+import {useTypedSelector} from "hooks/typedSelector"
+import {addRecipe} from "Redux/slices/recipeSlice"
+import {useDispatch} from "react-redux"
 
-const initialState: Recipe = {
+type NewRecipe = Omit<Recipe, "id">
+
+const initialState: NewRecipe = {
   name: "",
   description: "",
   ingredients: [],
@@ -40,8 +45,9 @@ interface ModalToOpen {
 }
 
 export default function HiddenRecipesAdd() {
-  const [state, setState] = useState<Recipe>(initialState)
+  const [state, setState] = useState<NewRecipe>(initialState)
   const user = currentUser()
+  const [loading, setLoading] = useState(false)
 
   const {isOpen, onClose, onOpen} = useDisclosure()
   const [modal, setModal] = useState<ModalToOpen>({
@@ -79,7 +85,7 @@ export default function HiddenRecipesAdd() {
     onOpen()
   }
 
-  const ingredients = typedSelector((state) => state.ingredients)
+  const ingredients = useTypedSelector((state) => state.ingredients)
 
   return (
     <AuthedPage user={user}>
@@ -254,6 +260,38 @@ export default function HiddenRecipesAdd() {
                 )
               })}
           </Flex>
+          <Button
+            mt={2}
+            minWidth={"100%"}
+            onClick={async () => {
+              setLoading(true)
+              try {
+                if (state.name.trim().length === 0) {
+                  setLoading(false)
+                  return
+                }
+
+                if (!user) {
+                  setLoading(false)
+                  return
+                }
+
+                const newRecipe = await saveRecipe(user.uid, state)
+                if (newRecipe.id === null) {
+                  onClose()
+                  return
+                }
+
+                const recipe = {...state, id: newRecipe.id}
+
+                useDispatch()(addRecipe(recipe))
+                setLoading(false)
+              } catch {}
+            }}
+            isLoading={loading}
+          >
+            Save Recipe
+          </Button>
         </Box>
       </Section>
       <Modal

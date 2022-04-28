@@ -15,7 +15,7 @@ import {Modal} from "components/Modals"
 import {GrEdit, GrAdd} from "react-icons/gr"
 import AuthedPage from "components/AuthedPage"
 import {Link} from "react-router-dom"
-import {recipes} from "FirebaseApi/database"
+import {useTypedSelector} from "hooks/typedSelector"
 
 interface UserNameModalContent {
   userName: string | null
@@ -52,6 +52,8 @@ export default function HiddenHome() {
   const handleLogOut = () => {
     logoutUser()
   }
+
+  const {recipes} = useTypedSelector((state) => state)
 
   return (
     <AuthedPage user={user}>

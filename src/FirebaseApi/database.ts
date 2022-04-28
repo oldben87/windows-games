@@ -31,6 +31,16 @@ export const saveRecipe = async (
   })
 }
 
+export const getRecipeByUser = async (userId: string) => {
+  return await get(child(ref(DB), `recipes/${userId}`)).then((snapShot) => {
+    if (snapShot.exists()) {
+      return Object.entries(snapShot.val()).map(([id, recipe]) => {
+        return {...(recipe as Omit<Recipe, "id">), id}
+      })
+    }
+  })
+}
+
 export type FoodGroup =
   | "fruit/veg"
   | "meat/poultry"
@@ -112,6 +122,7 @@ export interface RecipeIngredient {
 }
 
 export interface Recipe {
+  id: string
   name: string
   ingredients: Array<RecipeIngredient>
   description?: string
@@ -121,6 +132,7 @@ export interface Recipe {
 
 export const recipes: Record<string, Recipe> = {
   bcd: {
+    id: "",
     name: "Spag Bowl",
     ingredients: [
       {id: "abc", quantity: 1, note: "Chopped", variant: "Red"},
