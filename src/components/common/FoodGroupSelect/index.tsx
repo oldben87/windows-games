@@ -1,5 +1,6 @@
 import {Select} from "@chakra-ui/react"
 import {FoodGroup} from "FirebaseApi/database"
+import {getFoodGroupTitle} from "helpers/getFoodGroupTitle"
 
 const foodGroupsList = [
   "fruit/veg",
@@ -36,7 +37,7 @@ export const FoodGroupSelect = ({
       {foodGroupsList.map((group) => {
         return (
           <option key={group} value={group}>
-            {group}
+            {getFoodGroupTitle(group as FoodGroup)}
           </option>
         )
       })}
