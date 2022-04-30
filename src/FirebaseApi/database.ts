@@ -1,5 +1,5 @@
 import firebase from "./index"
-import {getDatabase, ref, push, get, child} from "firebase/database"
+import {getDatabase, ref, push, get, child, set} from "firebase/database"
 
 export const DB = getDatabase(firebase)
 
@@ -20,6 +20,16 @@ export const getIngredientsByUser = async (userId: string) => {
       })
     }
   })
+}
+
+export const updateIngredientForUser = async (
+  userId: string,
+  ingredient: Ingredient,
+) => {
+  return await set(
+    ref(DB, `ingredients/${userId}/${ingredient.id}`),
+    ingredient,
+  ).then(() => ingredient)
 }
 
 export const saveRecipe = async (

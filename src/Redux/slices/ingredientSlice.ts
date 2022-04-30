@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {Ingredient} from "FirebaseApi/database"
+import {adjust} from "ramda"
 
 interface IngredientState {
   ingredients: Array<Ingredient>
@@ -24,9 +25,19 @@ export const ingredientsSlice = createSlice({
         hasLoaded: true,
       }
     },
+    updateIngredient: (state, action: PayloadAction<Ingredient>) => {
+      const index = state.ingredients.findIndex(
+        (ing) => ing.id === action.payload.id,
+      )
+      return {
+        ...state,
+        ingredients: adjust(index, () => action.payload, state.ingredients),
+      }
+    },
   },
 })
 
-export const {addIngredient, addIngredients} = ingredientsSlice.actions
+export const {addIngredient, addIngredients, updateIngredient} =
+  ingredientsSlice.actions
 
 export default ingredientsSlice.reducer

@@ -1,33 +1,32 @@
 import {Button, Flex, Icon, IconButton} from "@chakra-ui/react"
-import {Input} from "components/common/Input"
-import TextBox from "components/common/TextBox"
-import {Ingredient, saveIngredient} from "FirebaseApi/database"
-import {useState} from "react"
-import {HighlightRow} from "components/common/HighlightRow"
-import {GrAdd, GrTrash} from "react-icons/gr"
-import {remove} from "ramda"
-import {User} from "firebase/auth"
-import {useDispatch} from "react-redux"
-import {addIngredient} from "Redux/slices/ingredientSlice"
 import {FoodGroupSelect} from "components/common/FoodGroupSelect"
 import {FoodMeasurementSelect} from "components/common/FoodMeasurementSelect"
+import {HighlightRow} from "components/common/HighlightRow"
+import {Input} from "components/common/Input"
+import TextBox from "components/common/TextBox"
+import {User} from "firebase/auth"
+import {Ingredient, updateIngredientForUser} from "FirebaseApi/database"
+import {remove} from "ramda"
+import {useState} from "react"
+import {GrAdd, GrTrash} from "react-icons/gr"
+import {useDispatch} from "react-redux"
+import {updateIngredient} from "Redux/slices/ingredientSlice"
 
-export const CreateIngredientModal = ({
-  user,
-  onClose,
-  onSubmit,
-}: {
-  user: User
+interface Props {
+  ingredient: Ingredient
   onSubmit: (ingredient?: Ingredient) => void
   onClose: () => void
-}) => {
-  const [state, setState] = useState<Omit<Ingredient, "id">>({
-    name: "",
-    unit: "g",
-    group: "fruit/veg",
-  })
-  const [loading, setLoading] = useState(false)
+  user: User
+}
 
+export const EditIngredientModal = ({
+  ingredient,
+  onSubmit,
+  onClose,
+  user,
+}: Props) => {
+  const [state, setState] = useState(ingredient)
+  const [loading, setLoading] = useState(false)
   const [newVariant, setNewVariant] = useState<string | null>(null)
   const handleNewVariant = () => {
     if (newVariant === null || newVariant.trim().length === 0) {
@@ -43,7 +42,7 @@ export const CreateIngredientModal = ({
   const dispatch = useDispatch()
 
   return (
-    <>
+    <Flex maxWidth={400} direction={"column"}>
       <Input
         title={"Name"}
         isInvalid={false}
@@ -168,17 +167,16 @@ export const CreateIngredientModal = ({
                 return
               }
 
-              const newStuff = await saveIngredient(user.uid, state)
+              const newStuff = await updateIngredientForUser(user.uid, state)
               if (newStuff.id === null) {
-                console.log("No Id found???")
                 onClose()
                 return
               }
 
               const newIngredgient = {...state, id: newStuff.id}
 
-              dispatch(addIngredient(newIngredgient))
-              onSubmit(newIngredgient)
+              dispatch(updateIngredient(newIngredgient))
+              onSubmit()
             } catch {
               setLoading(false)
             }
@@ -188,6 +186,6 @@ export const CreateIngredientModal = ({
           Save Ingredient
         </Button>
       </Flex>
-    </>
+    </Flex>
   )
 }

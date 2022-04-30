@@ -13,6 +13,7 @@ import Section from "components/common/Section"
 import TextBox from "components/common/TextBox"
 import {Modal} from "components/Modals"
 import {CreateIngredientModal} from "components/Modals/CreateIngredientModal"
+import {EditIngredientModal} from "components/Modals/EditIngredientModal"
 import {currentUser} from "FirebaseApi/auth"
 import {FoodGroup, Ingredient} from "FirebaseApi/database"
 import {getFoodGroupTitle} from "helpers/getFoodGroupTitle"
@@ -111,7 +112,21 @@ export default function HiddenIngredients() {
             {filteredSortedIngredients.map((ingredient) => {
               return (
                 <HighlightRow key={ingredient.id}>
-                  {ingredient.name}
+                  <Flex
+                    h="100%"
+                    w="100%"
+                    onClick={() => {
+                      setModal({
+                        title: ingredient.name,
+                        modal: "editIngredient",
+                        loading: false,
+                        ingredient,
+                      })
+                      onOpen()
+                    }}
+                  >
+                    {ingredient.name}
+                  </Flex>
                 </HighlightRow>
               )
             })}
@@ -134,6 +149,18 @@ export default function HiddenIngredients() {
               }}
             />
           )}
+          {modal.modal === "editIngredient" &&
+            modal.ingredient &&
+            user != null && (
+              <EditIngredientModal
+                ingredient={modal.ingredient}
+                onClose={onClose}
+                onSubmit={() => {
+                  onClose()
+                }}
+                user={user}
+              />
+            )}
           {modal.modal === "filter" && (
             <FoodGroupSelect
               defaultTitle="No Filter"
