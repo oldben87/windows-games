@@ -55,7 +55,7 @@ export default function HiddenHome() {
   return (
     <AuthedPage user={user}>
       <>
-        <Section>
+        <Section pt={[0, 0, 0]}>
           <Flex alignItems="center">
             <TextBox textAlign="center">
               User: {user?.displayName || user?.email}

@@ -8,6 +8,7 @@ interface Props {
   underColor?: string
   bgColor?: string
   position?: Position
+  pt?: Array<number>
 }
 
 const SECTION_RADIUS = 100
@@ -28,7 +29,7 @@ const getPositionBorderRadius = (pos?: Position) => {
   }
 }
 
-const Section = ({children, bgColor, underColor, position}: Props) => (
+const Section = ({children, bgColor, underColor, position, pt}: Props) => (
   <Box
     p={0}
     m={0}
@@ -46,6 +47,7 @@ const Section = ({children, bgColor, underColor, position}: Props) => (
       overflow="hidden"
       py={[10, 10, 50]}
       px={[7, 7, 10]}
+      pt={pt}
     >
       {children}
     </Box>

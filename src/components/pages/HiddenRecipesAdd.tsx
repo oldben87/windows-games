@@ -89,7 +89,7 @@ export default function HiddenRecipesAdd() {
 
   return (
     <AuthedPage user={user}>
-      <Section>
+      <Section pt={[0, 0, 0]}>
         <Box maxWidth={400}>
           <Title>Add new recipe</Title>
           <Input

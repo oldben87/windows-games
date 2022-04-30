@@ -7,7 +7,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react"
 import AuthedPage from "components/AuthedPage"
-import ContentContainer from "components/common/ContentContainer"
 import {FoodGroupSelect} from "components/common/FoodGroupSelect"
 import {HighlightRow} from "components/common/HighlightRow"
 import Section from "components/common/Section"
@@ -59,67 +58,65 @@ export default function HiddenIngredients() {
 
   return (
     <AuthedPage user={user}>
-      <Section>
-        <ContentContainer fullScreenDirection="column">
-          <Flex direction={"column"} height="100%">
-            <Flex mt={2} alignItems={"center"} maxWidth={400}>
-              <Flex alignItems={"center"}>
-                <TextBox fontSize="lg" fontWeight={"semibold"}>
-                  {filterValue
-                    ? getFoodGroupTitle(filterValue)
-                    : "All ingredients"}
-                </TextBox>
-                <IconButton
-                  variant={"ghost"}
-                  aria-label="Filter ingredients"
-                  ml={1}
-                  my={1}
-                  onClick={() => {
-                    setModal({
-                      modal: "filter",
-                      loading: false,
-                      title: "Filter ingredient list",
-                    })
-                    onOpen()
-                  }}
-                  icon={
-                    <Icon
-                      mr={1}
-                      as={filterValue ? RiFilter2Fill : RiFilter2Line}
-                    />
-                  }
-                  title="Add n"
-                />
-              </Flex>
-              <Button
+      <Section pt={[0, 0, 0]}>
+        <Flex direction={"column"} height="100%">
+          <Flex mt={2} alignItems={"center"} maxWidth={400}>
+            <Flex alignItems={"center"}>
+              <TextBox fontSize="lg" fontWeight={"semibold"}>
+                {filterValue
+                  ? getFoodGroupTitle(filterValue)
+                  : "All ingredients"}
+              </TextBox>
+              <IconButton
                 variant={"ghost"}
-                aria-label="Add new ingredient"
-                ml={5}
+                aria-label="Filter ingredients"
+                ml={1}
                 my={1}
                 onClick={() => {
                   setModal({
-                    modal: "createIngredient",
+                    modal: "filter",
                     loading: false,
-                    title: "New ingredient",
+                    title: "Filter ingredient list",
                   })
                   onOpen()
                 }}
-                rightIcon={<Icon mr={1} as={GrAdd} />}
-              >
-                Add
-              </Button>
+                icon={
+                  <Icon
+                    mr={1}
+                    as={filterValue ? RiFilter2Fill : RiFilter2Line}
+                  />
+                }
+                title="Add n"
+              />
             </Flex>
-            <Flex direction={"column"} maxWidth={400}>
-              {filteredSortedIngredients.map((ingredient) => {
-                return (
-                  <HighlightRow key={ingredient.id}>
-                    {ingredient.name}
-                  </HighlightRow>
-                )
-              })}
-            </Flex>
+            <Button
+              variant={"ghost"}
+              aria-label="Add new ingredient"
+              ml={5}
+              my={1}
+              onClick={() => {
+                setModal({
+                  modal: "createIngredient",
+                  loading: false,
+                  title: "New ingredient",
+                })
+                onOpen()
+              }}
+              rightIcon={<Icon mr={1} as={GrAdd} />}
+            >
+              Add
+            </Button>
           </Flex>
-        </ContentContainer>
+          <Flex direction={"column"} maxWidth={400}>
+            {filteredSortedIngredients.map((ingredient) => {
+              return (
+                <HighlightRow key={ingredient.id}>
+                  {ingredient.name}
+                </HighlightRow>
+              )
+            })}
+          </Flex>
+        </Flex>
       </Section>
       <Modal
         onClose={onClose}
