@@ -12,10 +12,11 @@ import TextBox from "components/common/TextBox"
 import {Input} from "components/common/Input"
 import React, {useState} from "react"
 import {Modal} from "components/Modals"
-import {GrEdit, GrAdd} from "react-icons/gr"
+import {GrEdit, GrAdd, GrList} from "react-icons/gr"
 import AuthedPage from "components/AuthedPage"
 import {Link} from "react-router-dom"
 import {useTypedSelector} from "hooks/typedSelector"
+import {HighlightRow} from "components/common/HighlightRow"
 
 interface UserNameModalContent {
   userName: string | null
@@ -53,7 +54,7 @@ export default function HiddenHome() {
     logoutUser()
   }
 
-  const {recipes} = useTypedSelector((state) => state)
+  const recipes = useTypedSelector((state) => state.recipes.recipes)
 
   return (
     <AuthedPage user={user}>
@@ -96,9 +97,22 @@ export default function HiddenHome() {
             </Link>
           </Flex>
           <Flex>
-            {Object.entries(recipes).map(([id, recipe]) => {
-              return <p key={id}>{recipe.name}</p>
+            {recipes.map((recipe) => {
+              return <HighlightRow key={recipe.id}>{recipe.name}</HighlightRow>
             })}
+          </Flex>
+          <Flex alignItems={"center"}>
+            <TextBox>Ingredients</TextBox>
+            <Link to={"/hidden/ingredients"}>
+              <IconButton
+                variant={"ghost"}
+                aria-label="View ingredients"
+                icon={<Icon as={GrList} />}
+                ml={2}
+              >
+                New Recipes
+              </IconButton>
+            </Link>
           </Flex>
         </Section>
         <Modal

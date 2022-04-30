@@ -17,6 +17,7 @@ import {User} from "firebase/auth"
 import {Flex, Spinner} from "@chakra-ui/react"
 import {colors} from "styles/colors"
 import HiddenRecipesAdd from "components/pages/HiddenRecipesAdd"
+import HiddenIngredients from "components/pages/HiddenIngredients"
 
 const PrivateRoute = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -54,20 +55,19 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
-          {/* Games can go below */}
+          {/* Games */}
           <Route path="/solitaire" element={<SolitaireBoard />} />
           <Route path="/minesweeper" element={<MinesweeperBoard />} />
+
+          {/* Auth Routes Here */}
           <Route path="/hidden" element={<PrivateRoute />}>
             <Route path="/hidden" element={<HiddenHome />} />
           </Route>
           <Route path="/hidden/recipe" element={<PrivateRoute />}>
             <Route path="/hidden/recipe" element={<HiddenRecipesAdd />} />
           </Route>
-          <Route path="/hidden/recipe" element={<PrivateRoute />}>
-            <Route
-              path="/hidden/recipe/:recipeId"
-              element={<HiddenRecipesAdd />}
-            />
+          <Route path="/hidden/ingredients" element={<PrivateRoute />}>
+            <Route path="/hidden/ingredients" element={<HiddenIngredients />} />
           </Route>
           <Route path="/hidden/auth" element={<HiddenAuth />} />
         </Routes>

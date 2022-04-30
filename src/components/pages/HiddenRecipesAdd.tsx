@@ -85,7 +85,7 @@ export default function HiddenRecipesAdd() {
     onOpen()
   }
 
-  const ingredients = useTypedSelector((state) => state.ingredients)
+  const ingredients = useTypedSelector((state) => state.ingredients.ingredients)
 
   return (
     <AuthedPage user={user}>

@@ -1,13 +1,20 @@
 import {User} from "firebase/auth"
-import {getIngredientsByUser, getRecipeByUser} from "FirebaseApi/database"
+import {
+  getIngredientsByUser,
+  getRecipeByUser,
+  Ingredient,
+  Recipe,
+} from "FirebaseApi/database"
 import {useEffect, useState} from "react"
 import {useDispatch} from "react-redux"
 import {addIngredients} from "Redux/slices/ingredientSlice"
 import {addRecipes} from "Redux/slices/recipeSlice"
+import {useTypedSelector} from "./typedSelector"
 
 export const useHydrateStore = (user: User | null) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const state = useTypedSelector((state) => state)
 
   const dispatch = useDispatch()
 
@@ -21,9 +28,27 @@ export const useHydrateStore = (user: User | null) => {
           setError("No user found")
           return
         }
+        let resIngredients: Array<Ingredient> | undefined
+        if (!state.ingredients.hasLoaded) {
+          resIngredients = await getIngredientsByUser(user.uid)
+        }
 
-        const ingredients = await getIngredientsByUser(user.uid)
-        const recipes = await getRecipeByUser(user.uid)
+        let resRecipes: Array<Recipe> | undefined
+        if (!state.recipes.hasLoaded) {
+          resRecipes = await getRecipeByUser(user.uid)
+        }
+
+        const ingredients = resIngredients
+          ? resIngredients
+          : state.ingredients.ingredients
+          ? state.ingredients.ingredients
+          : undefined
+
+        const recipes = resRecipes
+          ? resRecipes
+          : state.recipes.recipes
+          ? state.recipes.recipes
+          : undefined
 
         return {ingredients, recipes}
       } catch {
@@ -32,13 +57,8 @@ export const useHydrateStore = (user: User | null) => {
     }
 
     loadIngredients().then((result) => {
-      if (result?.ingredients) {
-        dispatch(addIngredients(result.ingredients))
-      }
-
-      if (result?.recipes) {
-        dispatch(addRecipes(result.recipes))
-      }
+      dispatch(addIngredients(result?.ingredients ? result.ingredients : []))
+      dispatch(addRecipes(result?.recipes ? result.recipes : []))
 
       setLoading(false)
     })

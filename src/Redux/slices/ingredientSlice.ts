@@ -1,17 +1,28 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {Ingredient} from "FirebaseApi/database"
 
-const initialState: Array<Ingredient> = []
+interface IngredientState {
+  ingredients: Array<Ingredient>
+  hasLoaded: boolean
+}
+
+const initialState: IngredientState = {
+  ingredients: [],
+  hasLoaded: false,
+}
 
 export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<Ingredient>) => {
-      return [...state, action.payload]
+      return {...state, ingredients: [...state.ingredients, action.payload]}
     },
     addIngredients: (_, action: PayloadAction<Array<Ingredient>>) => {
-      return action.payload
+      return {
+        ingredients: action.payload,
+        hasLoaded: true,
+      }
     },
   },
 })

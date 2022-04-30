@@ -12,6 +12,7 @@ export const HighlightRow = ({children}: {children: React.ReactNode}) => {
       maxWidth={400}
       alignItems="center"
       justifyContent={"space-between"}
+      cursor="pointer"
     >
       {children}
     </Flex>
