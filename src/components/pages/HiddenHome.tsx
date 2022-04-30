@@ -6,7 +6,7 @@ import {
   useDisclosure,
   Icon,
 } from "@chakra-ui/react"
-import {logoutUser, currentUser, updateUserName} from "FirebaseApi/auth"
+import {currentUser, updateUserName} from "FirebaseApi/auth"
 import Section from "components/common/Section"
 import TextBox from "components/common/TextBox"
 import {Input} from "components/common/Input"
@@ -50,24 +50,11 @@ export default function HiddenHome() {
   const [userName, setUserName] = useState(user?.displayName || null)
   const [loading, setLoading] = useState(false)
 
-  const handleLogOut = () => {
-    logoutUser()
-  }
-
   const recipes = useTypedSelector((state) => state.recipes.recipes)
 
   return (
     <AuthedPage user={user}>
       <>
-        <Flex
-          justifyContent={"flex-end"}
-          position={"absolute"}
-          top={"15px"}
-          zIndex={50}
-          right={5}
-        >
-          <Button onClick={handleLogOut}>Log Out</Button>
-        </Flex>
         <Section>
           <Flex alignItems="center">
             <TextBox textAlign="center">
