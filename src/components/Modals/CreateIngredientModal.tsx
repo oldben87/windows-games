@@ -35,7 +35,7 @@ export const CreateIngredientModal = ({
   onSubmit,
 }: {
   user: User
-  onSubmit: (ingredient: Ingredient) => void
+  onSubmit: (ingredient?: Ingredient) => void
   onClose: () => void
 }) => {
   const [state, setState] = useState<Omit<Ingredient, "id">>({

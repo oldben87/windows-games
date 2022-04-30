@@ -329,13 +329,15 @@ export default function HiddenRecipesAdd() {
             <CreateIngredientModal
               user={user}
               onClose={onClose}
-              onSubmit={(ingredient: Ingredient) => {
-                setModal({
-                  modal: "ingredient",
-                  loading: false,
-                  title: "Ingredient Details",
-                  ingredient,
-                })
+              onSubmit={(ingredient) => {
+                if (ingredient) {
+                  setModal({
+                    modal: "ingredient",
+                    loading: false,
+                    title: "Ingredient Details",
+                    ingredient,
+                  })
+                }
               }}
             />
           )}
