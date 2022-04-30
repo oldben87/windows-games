@@ -1,12 +1,7 @@
 import {Button, Flex, Icon, IconButton, Select} from "@chakra-ui/react"
 import {Input} from "components/common/Input"
 import TextBox from "components/common/TextBox"
-import {
-  FoodGroup,
-  FoodUnit,
-  Ingredient,
-  saveIngredient,
-} from "FirebaseApi/database"
+import {FoodUnit, Ingredient, saveIngredient} from "FirebaseApi/database"
 import {useState} from "react"
 import {HighlightRow} from "components/common/HighlightRow"
 import {GrAdd, GrTrash} from "react-icons/gr"
@@ -14,20 +9,9 @@ import {remove} from "ramda"
 import {User} from "firebase/auth"
 import {useDispatch} from "react-redux"
 import {addIngredient} from "Redux/slices/ingredientSlice"
+import {FoodGroupSelect} from "components/common/FoodGroupSelect"
 
 const FoodUnitList = ["g", "kg", "ml", "ltr", "cup", "each"]
-const FoodGroupList = [
-  "fruit/veg",
-  "meat/poultry",
-  "seafood/fish",
-  "dairy",
-  "herb",
-  "spice",
-  "seasoning",
-  "tin/jar",
-  "sauce",
-  "cupboard",
-]
 
 export const CreateIngredientModal = ({
   user,
@@ -133,26 +117,16 @@ export const CreateIngredientModal = ({
       )}
       <Flex maxWidth={400} direction="column" my={3}>
         <TextBox>Category</TextBox>
-        <Select
-          defaultValue=""
-          onChange={(event) => {
-            if (event.target.value === "") {
+        <FoodGroupSelect
+          defaultTitle="Pick category"
+          onChange={(value) => {
+            if (!value) {
               return
             }
-            setState({...state, group: event.target.value as FoodGroup})
+
+            setState({...state, group: value})
           }}
-        >
-          <option value={""} disabled>
-            Pick category
-          </option>
-          {FoodGroupList.map((group) => {
-            return (
-              <option key={group} value={group}>
-                {group}
-              </option>
-            )
-          })}
-        </Select>
+        />
       </Flex>
       <Flex maxWidth={400} direction="column" my={3}>
         <Flex alignItems={"flex-end"}>

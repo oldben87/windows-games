@@ -3,10 +3,10 @@ import {
   Icon,
   IconButton,
   ModalBody,
-  Select,
   useDisclosure,
 } from "@chakra-ui/react"
 import AuthedPage from "components/AuthedPage"
+import {FoodGroupSelect} from "components/common/FoodGroupSelect"
 import {HighlightRow} from "components/common/HighlightRow"
 import Section from "components/common/Section"
 import TextBox from "components/common/TextBox"
@@ -26,19 +26,6 @@ interface ModalToOpen {
   ingredient?: Ingredient
 }
 
-const foodGroupsList = [
-  "fruit/veg",
-  "meat/poultry",
-  "seafood/fish",
-  "dairy",
-  "herb",
-  "spice",
-  "seasoning",
-  "tin/jar",
-  "sauce",
-  "cupboard",
-]
-
 export default function HiddenIngredients() {
   const [filterValue, setFilterValue] = useState<FoodGroup | undefined>()
   const [modal, setModal] = useState<ModalToOpen>({
@@ -47,7 +34,6 @@ export default function HiddenIngredients() {
     title: "Ingredient: None",
   })
   const {onClose, isOpen, onOpen} = useDisclosure()
-  console.log(filterValue, setFilterValue)
   const user = currentUser()
   const ingredients = useTypedSelector((state) => state.ingredients.ingredients)
 
@@ -124,29 +110,14 @@ export default function HiddenIngredients() {
             />
           )}
           {modal.modal === "filter" && (
-            <>
-              <Select
-                defaultValue={filterValue}
-                onChange={(event) => {
-                  if (event.target.value === "") {
-                    setFilterValue(undefined)
-                    onClose()
-                    return
-                  }
-                  setFilterValue(event.target.value as FoodGroup)
-                  onClose()
-                }}
-              >
-                <option value={""}>No filter</option>
-                {foodGroupsList.map((group) => {
-                  return (
-                    <option key={group} value={group}>
-                      {group}
-                    </option>
-                  )
-                })}
-              </Select>
-            </>
+            <FoodGroupSelect
+              defaultTitle="No Filter"
+              defaultValue={filterValue}
+              onChange={(value) => {
+                setFilterValue(value)
+                onClose()
+              }}
+            />
           )}
         </ModalBody>
       </Modal>
