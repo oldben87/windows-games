@@ -70,6 +70,18 @@ export const getRecipeByUser = async (userId: string) => {
   })
 }
 
+export const updateRecipeForUser = async (userId: string, recipe: Recipe) => {
+  return await set(ref(DB, `recipes/${userId}/${recipe.id}`), recipe).then(
+    () => recipe,
+  )
+}
+
+export const deleteRecipeForUser = async (userId: string, recipeId: string) => {
+  return await remove(ref(DB, `recipes/${userId}/${recipeId}`)).then(() => ({
+    success: true,
+  }))
+}
+
 export type FoodGroup =
   | "fruit/veg"
   | "meat/poultry"

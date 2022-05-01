@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {Recipe} from "FirebaseApi/database"
+import {adjust, remove} from "ramda"
 
 interface RecipeState {
   recipes: Array<Recipe>
@@ -8,7 +9,7 @@ interface RecipeState {
 
 const initialState: RecipeState = {recipes: [], hasLoaded: false}
 
-export const ingredientsSlice = createSlice({
+export const recipesSlice = createSlice({
   name: "recipes",
   initialState,
   reducers: {
@@ -21,9 +22,26 @@ export const ingredientsSlice = createSlice({
         recipes: action.payload,
       }
     },
+    updateRecipe: (state, action: PayloadAction<Recipe>) => {
+      const index = state.recipes.findIndex(
+        (ing) => ing.id === action.payload.id,
+      )
+      return {
+        ...state,
+        recipes: adjust(index, () => action.payload, state.recipes),
+      }
+    },
+    deleteRecipe: (state, action: PayloadAction<string>) => {
+      const index = state.recipes.findIndex((ing) => ing.id === action.payload)
+      return {
+        ...state,
+        recipes: remove(index, 1, state.recipes),
+      }
+    },
   },
 })
 
-export const {addRecipe, addRecipes} = ingredientsSlice.actions
+export const {addRecipe, addRecipes, updateRecipe, deleteRecipe} =
+  recipesSlice.actions
 
-export default ingredientsSlice.reducer
+export default recipesSlice.reducer
