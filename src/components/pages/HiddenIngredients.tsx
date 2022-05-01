@@ -53,9 +53,7 @@ export default function HiddenIngredients() {
     loading: false,
     title: "Ingredient: None",
   })
-  const [loading, setLoading] = useState<{loading: boolean; id?: string}>({
-    loading: false,
-  })
+  const [loading, setLoading] = useState<string | null>(null)
   const {onClose, isOpen, onOpen} = useDisclosure()
   const user = currentUser()
   const state = useTypedSelector((state) => state)
@@ -72,42 +70,40 @@ export default function HiddenIngredients() {
   const dispatch = useDispatch()
 
   const handleDeletePress = async (id: string) => {
-    let inUse: Array<string> = []
-    const ingredientNotUsed = recipes.every((recipe) => {
-      if (!recipe.ingredients.every((ing) => ing.id !== id)) {
-        inUse.push(recipe.name)
-        return false
-      }
-      return true
-    })
+    let inUse = recipes.reduce<Array<string>>((acc, recipe) => {
+      if (recipe.ingredients.every((ing) => ing.id !== id)) {
+        return acc
+      } else return [...acc, recipe.name]
+    }, [])
 
-    if (!ingredientNotUsed) {
+    if (inUse.length > 0) {
       setModal({
         modal: "error",
         loading: false,
         title: "Ingredient in use",
         errorMessage: `Please remove the ingredients from the following recipes:\n${inUse.join(
-          ",\n",
+          ", ",
         )}`,
       })
       onOpen()
     } else {
-      setLoading({loading: true, id})
+      setLoading(id)
       try {
         if (!user) {
           return
         }
+
         deleteIngredientForUser(user.uid, id).then((result) => {
           if (result.success) {
             dispatch(deleteIngredient(id))
-            setLoading({loading: false})
+            setLoading(null)
           }
         })
 
-        setLoading({loading: false})
+        setLoading(null)
       } catch (error) {
         const err = error as {message: string}
-        setLoading({loading: false})
+        setLoading(null)
         setModal({
           modal: "error",
           loading: false,
@@ -170,11 +166,7 @@ export default function HiddenIngredients() {
           </Flex>
           <Flex direction={"column"} maxWidth={400}>
             {filteredSortedIngredients.map((ingredient) => {
-              const isLoading =
-                (loading.loading &&
-                  loading.id &&
-                  loading.id === ingredient.id) ||
-                false
+              const isLoading = loading === ingredient.id
               return (
                 <ActionRow
                   key={ingredient.id}
