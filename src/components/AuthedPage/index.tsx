@@ -59,7 +59,7 @@ export default function AuthedPage({
   const {loading} = useHydrateStore(user)
 
   if (!user) {
-    return <Navigate to="/hidden/auth" />
+    return <Navigate to="/auth/login" />
   }
 
   return (
@@ -89,12 +89,12 @@ export default function AuthedPage({
             </Text>
           </Button>
         </Flex>
-        <Link to={"/hidden"}>
+        <Link to={"/auth"}>
           <Button height={30} px={2} mr={2}>
             Receipes
           </Button>
         </Link>
-        <Link to={"/hidden/ingredients"}>
+        <Link to={"/auth/ingredients"}>
           <Button height={30} px={2} mr={2}>
             Ingredients
           </Button>

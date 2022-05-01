@@ -44,7 +44,7 @@ export default function HiddenHome() {
       <Section pt={[0, 0, 0]}>
         <Flex alignItems={"center"}>
           Recipes:
-          <Link to={"/hidden/recipe"}>
+          <Link to={"/auth/recipe"}>
             <IconButton
               variant={"ghost"}
               aria-label="Add new recipe"
@@ -62,7 +62,7 @@ export default function HiddenHome() {
                 key={recipe.id}
                 item={recipe}
                 onClick={() => {
-                  navigate(`/hidden/recipe/${recipe.id}`)
+                  navigate(`/auth/recipe/${recipe.id}`)
                 }}
                 onTrashClick={async () => {
                   await handleDeletePress(recipe.id)

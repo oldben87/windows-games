@@ -9,16 +9,16 @@ import SolitaireBoard from "components/pages/Solitaire/GameBoard"
 import {NavBar} from "./components/common/NavBar"
 import PageContainer from "components/common/PageContainer"
 import Privacy from "components/pages/Privacy"
-import HiddenAuth from "components/pages/HiddenAuth"
-import HiddenHome from "components/pages/HiddenHome"
+import HiddenAuth from "components/pages/Authed/HiddenAuth"
 import {useEffect, useState} from "react"
 import {listenForAuthState} from "FirebaseApi/auth"
 import {User} from "firebase/auth"
 import {Flex, Spinner} from "@chakra-ui/react"
 import {colors} from "styles/colors"
-import HiddenRecipesAdd from "components/pages/HiddenRecipesAdd"
-import HiddenIngredients from "components/pages/HiddenIngredients"
-import HiddenRecipesEdit from "components/pages/HiddenRecipeEdit"
+import HiddenHome from "components/pages/Authed/HiddenHome"
+import HiddenRecipesAdd from "components/pages/Authed/HiddenRecipesAdd"
+import HiddenIngredients from "components/pages/Authed/HiddenIngredients"
+import HiddenRecipesEdit from "components/pages/Authed/HiddenRecipeEdit"
 
 const PrivateRoute = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -41,7 +41,7 @@ const PrivateRoute = () => {
   }
 
   if (!user) {
-    return <Navigate to="/hidden/auth" />
+    return <Navigate to="/auth/login" />
   } else return <Outlet />
 }
 
@@ -61,22 +61,22 @@ function App() {
           <Route path="/minesweeper" element={<MinesweeperBoard />} />
 
           {/* Auth Routes Here */}
-          <Route path="/hidden" element={<PrivateRoute />}>
-            <Route path="/hidden" element={<HiddenHome />} />
+          <Route path="/auth" element={<PrivateRoute />}>
+            <Route path="/auth" element={<HiddenHome />} />
           </Route>
-          <Route path="/hidden/recipe" element={<PrivateRoute />}>
-            <Route path="/hidden/recipe" element={<HiddenRecipesAdd />} />
+          <Route path="/auth/recipe" element={<PrivateRoute />}>
+            <Route path="/auth/recipe" element={<HiddenRecipesAdd />} />
           </Route>
-          <Route path="/hidden/recipe/:recipeId" element={<PrivateRoute />}>
+          <Route path="/auth/recipe/:recipeId" element={<PrivateRoute />}>
             <Route
-              path="/hidden/recipe/:recipeId"
+              path="/auth/recipe/:recipeId"
               element={<HiddenRecipesEdit />}
             />
           </Route>
-          <Route path="/hidden/ingredients" element={<PrivateRoute />}>
-            <Route path="/hidden/ingredients" element={<HiddenIngredients />} />
+          <Route path="/auth/ingredients" element={<PrivateRoute />}>
+            <Route path="/auth/ingredients" element={<HiddenIngredients />} />
           </Route>
-          <Route path="/hidden/auth" element={<HiddenAuth />} />
+          <Route path="/auth/login" element={<HiddenAuth />} />
         </Routes>
       </PageContainer>
     </>

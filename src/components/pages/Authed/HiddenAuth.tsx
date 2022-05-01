@@ -1,8 +1,8 @@
 import {User} from "firebase/auth"
 import {useEffect, useState} from "react"
 import {listenForAuthState} from "FirebaseApi/auth"
-import Section from "../common/Section"
-import {Authentication} from "../Auth"
+import Section from "../../common/Section"
+import {Authentication} from "../../Auth"
 import TextBox from "components/common/TextBox"
 import {colors} from "styles/colors"
 import {useNavigate} from "react-router-dom"
@@ -49,7 +49,7 @@ export default function HiddenAuth() {
       setState({...state, loading: false, email: null, password: null})
       setUser(user)
       if (user) {
-        navigate("/hidden")
+        navigate("/auth")
       }
       setInitialLoad(false)
     })

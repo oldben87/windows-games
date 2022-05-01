@@ -17,14 +17,14 @@ export default function HiddenRecipesEdit() {
   const params = useParams()
 
   if (!params?.recipeId) {
-    return <Navigate to="/hidden" />
+    return <Navigate to="/auth" />
   }
 
   const recipes = useTypedSelector((state) => state.recipes.recipes)
   const recipe = recipes.find((rec) => rec.id === params.recipeId)
 
   if (!recipe) {
-    return <Navigate to="/hidden" />
+    return <Navigate to="/auth" />
   }
 
   return (
@@ -56,7 +56,7 @@ export default function HiddenRecipesEdit() {
 
             dispatch(updateRecipe(recipeToSubmit))
             setLoading(false)
-            navigate("/hidden")
+            navigate("/auth")
           }}
         />
       </Section>

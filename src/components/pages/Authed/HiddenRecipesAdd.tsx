@@ -46,7 +46,7 @@ export default function HiddenRecipesAdd() {
 
             dispatch(addRecipe(recipe))
             setLoading(false)
-            navigate("/hidden")
+            navigate("/auth")
           }}
         />
       </Section>
