@@ -10,7 +10,6 @@ export const AddStepModal = ({
 }) => {
   const [state, setState] = useState<RecipeStep>({
     title: "",
-    details: undefined,
   })
   return (
     <>

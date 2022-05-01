@@ -18,6 +18,7 @@ import {Flex, Spinner} from "@chakra-ui/react"
 import {colors} from "styles/colors"
 import HiddenRecipesAdd from "components/pages/HiddenRecipesAdd"
 import HiddenIngredients from "components/pages/HiddenIngredients"
+import HiddenRecipesEdit from "components/pages/HiddenRecipeEdit"
 
 const PrivateRoute = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -65,6 +66,12 @@ function App() {
           </Route>
           <Route path="/hidden/recipe" element={<PrivateRoute />}>
             <Route path="/hidden/recipe" element={<HiddenRecipesAdd />} />
+          </Route>
+          <Route path="/hidden/recipe/:recipeId" element={<PrivateRoute />}>
+            <Route
+              path="/hidden/recipe/:recipeId"
+              element={<HiddenRecipesEdit />}
+            />
           </Route>
           <Route path="/hidden/ingredients" element={<PrivateRoute />}>
             <Route path="/hidden/ingredients" element={<HiddenIngredients />} />
