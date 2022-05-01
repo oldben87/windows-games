@@ -9,6 +9,8 @@ export const HighlightRow = ({children}: {children: React.ReactNode}) => {
       boxSizing="border-box"
       border={"2px solid transparent"}
       _hover={{border: "2px solid lightgrey"}}
+      height={"100%"}
+      width={"100%"}
       maxWidth={400}
       alignItems="center"
       justifyContent={"space-between"}

@@ -1,5 +1,13 @@
 import firebase from "./index"
-import {getDatabase, ref, push, get, child, set} from "firebase/database"
+import {
+  getDatabase,
+  ref,
+  push,
+  get,
+  child,
+  set,
+  remove,
+} from "firebase/database"
 
 export const DB = getDatabase(firebase)
 
@@ -30,6 +38,17 @@ export const updateIngredientForUser = async (
     ref(DB, `ingredients/${userId}/${ingredient.id}`),
     ingredient,
   ).then(() => ingredient)
+}
+
+export const deleteIngredientForUser = async (
+  userId: string,
+  ingredientId: string,
+) => {
+  return await remove(ref(DB, `ingredients/${userId}/${ingredientId}`)).then(
+    () => ({
+      success: true,
+    }),
+  )
 }
 
 export const saveRecipe = async (
