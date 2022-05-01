@@ -1,9 +1,37 @@
-import {Button, Flex} from "@chakra-ui/react"
-import {logoutUser} from "FirebaseApi/auth"
+import {Button, Flex, Icon, ModalBody, useDisclosure} from "@chakra-ui/react"
+import {logoutUser, updateUserName} from "FirebaseApi/auth"
 import {Link, Navigate} from "react-router-dom"
-import React from "react"
+import React, {useState} from "react"
 import {User} from "firebase/auth"
 import {useHydrateStore} from "hooks/useHydrateStore"
+import {GrEdit} from "react-icons/gr"
+import {Input} from "components/common/Input"
+import {Modal} from "components/Modals"
+
+interface UserNameModalContent {
+  userName: string | null
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onClick: () => Promise<void>
+}
+
+const UserNameModalContent = ({
+  userName,
+  onChange,
+  onClick,
+}: UserNameModalContent) => {
+  return (
+    <ModalBody>
+      <Input
+        title={"User name"}
+        value={userName}
+        onChange={onChange}
+        placeholder="User name"
+        isInvalid={false}
+      />
+      <Button onClick={onClick}>Update</Button>
+    </ModalBody>
+  )
+}
 
 export default function AuthedPage({
   children,
@@ -16,6 +44,11 @@ export default function AuthedPage({
     logoutUser()
   }
 
+  const {onOpen, isOpen, onClose} = useDisclosure()
+
+  const [userName, setUserName] = useState(user?.displayName || null)
+  const [loadingUpdate, setLoadingUpdate] = useState(false)
+
   const {loading} = useHydrateStore(user)
 
   if (!user) {
@@ -25,6 +58,20 @@ export default function AuthedPage({
   return (
     <>
       <Flex justify={"center"}>
+        <Flex alignItems="center">
+          <Button
+            textAlign="center"
+            variant={"ghost"}
+            aria-label="Update user name"
+            onClick={onOpen}
+            rightIcon={<Icon as={GrEdit} />}
+            height={30}
+            px={2}
+            mr={2}
+          >
+            User: {user?.displayName || user?.email}
+          </Button>
+        </Flex>
         <Link to={"/hidden"}>
           <Button height={30} px={2} mr={2}>
             Receipes
@@ -40,6 +87,32 @@ export default function AuthedPage({
         </Button>
       </Flex>
       {children}
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        title={"Set display name"}
+        loading={loadingUpdate}
+      >
+        <UserNameModalContent
+          userName={userName}
+          onChange={(event) => setUserName(event.target.value)}
+          onClick={async () => {
+            setLoadingUpdate(true)
+            if (!userName || userName.length === 0) {
+              return
+            }
+
+            if (!user) {
+              return
+            }
+
+            updateUserName(user, userName).then(() => {
+              setLoadingUpdate(false)
+              onClose()
+            })
+          }}
+        />
+      </Modal>
     </>
   )
 }
