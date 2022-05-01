@@ -64,8 +64,16 @@ export default function AuthedPage({
 
   return (
     <>
-      <Flex justify={"center"}>
-        <Flex alignItems="center">
+      <Flex
+        justify={"center"}
+        position={"fixed"}
+        left={0}
+        right={0}
+        top={[120, 120, 70]}
+        bgColor={"white"}
+        zIndex={2}
+      >
+        <Flex alignItems="center" display={["none", "block"]}>
           <Button
             textAlign="center"
             variant={"ghost"}
@@ -95,7 +103,7 @@ export default function AuthedPage({
           Log Out
         </Button>
       </Flex>
-      {children}
+      <Flex mt={30}>{children}</Flex>
       <Modal
         onClose={onClose}
         isOpen={isOpen}
