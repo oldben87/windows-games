@@ -5,7 +5,7 @@ import {
   InputRightElement,
   Button,
 } from "@chakra-ui/react"
-import {ChangeEvent} from "react"
+import {ChangeEvent, FocusEvent} from "react"
 import {colors} from "styles/colors"
 import TextBox from "../TextBox"
 
@@ -13,8 +13,9 @@ type InputProps =
   | {
       title: string
       value: string | number | null
-      type?: string
+      type?: React.HTMLInputTypeAttribute
       onChange: (event: ChangeEvent<HTMLInputElement>) => void
+      onBlur?: (val: FocusEvent<HTMLInputElement>) => void
       isInvalid: boolean
       maxWidth?: number
       placeholder?: string
@@ -24,8 +25,9 @@ type InputProps =
   | {
       title: string
       value: string | number | null
-      type?: string
+      type?: React.HTMLInputTypeAttribute
       onChange: (event: ChangeEvent<HTMLInputElement>) => void
+      onBlur?: (val: FocusEvent<HTMLInputElement>) => void
       isInvalid: boolean
       maxWidth?: number
       placeholder?: string
@@ -38,6 +40,7 @@ export const Input = ({
   value,
   type = "text",
   onChange,
+  onBlur,
   isInvalid,
   maxWidth = 400,
   placeholder,
@@ -45,7 +48,7 @@ export const Input = ({
   show,
 }: InputProps) => {
   return (
-    <Flex direction="column" maxWidth={maxWidth} my={2}>
+    <Flex direction="column" maxWidth={maxWidth} width="100%" my={2}>
       <TextBox>{title}</TextBox>
       <InputGroup>
         <ChakraInput
@@ -55,6 +58,7 @@ export const Input = ({
           errorBorderColor={colors.error}
           isInvalid={isInvalid}
           placeholder={placeholder}
+          onBlur={onBlur}
         />
         {show !== undefined && showHide !== undefined && (
           <InputRightElement width="4.5rem">

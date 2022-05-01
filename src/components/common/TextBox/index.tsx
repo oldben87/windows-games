@@ -15,6 +15,12 @@ export interface TextProps {
     | "extrabold"
     | "black"
   textAlign?: "start" | "center"
+  mb?: number
+  mt?: number
+  ml?: number
+  mr?: number
+  maxWidth?: number
+  fontSize?: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
 const TextBox = ({children, ...rest}: TextProps) => (

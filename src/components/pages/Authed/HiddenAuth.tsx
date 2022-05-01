@@ -1,11 +1,11 @@
-import {Button, Spinner} from "@chakra-ui/react"
 import {User} from "firebase/auth"
 import {useEffect, useState} from "react"
-import {listenForAuthState, logoutUser} from "../../Firebase"
-import Section from "../common/Section"
-import {Authentication} from "../Auth"
+import {listenForAuthState} from "FirebaseApi/auth"
+import Section from "../../common/Section"
+import {Authentication} from "../../Auth"
 import TextBox from "components/common/TextBox"
 import {colors} from "styles/colors"
+import {useNavigate} from "react-router-dom"
 
 interface Errors {
   email: string | null
@@ -41,38 +41,25 @@ export default function HiddenAuth() {
     password: null,
     confirmPassword: null,
   })
-  const {loading} = state
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const cleanup = listenForAuthState((user) => {
       setState({...state, loading: false, email: null, password: null})
       setUser(user)
+      if (user) {
+        navigate("/auth")
+      }
       setInitialLoad(false)
     })
     return () => cleanup()
   }, [])
 
-  const handleLogOut = () => {
-    setState({...state, loading: true})
-
-    logoutUser().catch(() => {
-      setState({...state, loading: false, email: null, password: null})
-      setUser(null)
-    })
-  }
-
   return (
     <Section>
-      {initialLoad && <Spinner />}
-      {!!user && (
-        <Button isLoading={loading} onClick={handleLogOut}>
-          Log Out
-        </Button>
-      )}
       {user === null && !initialLoad && (
         <Authentication
-          user={user}
-          setUser={setUser}
           state={state}
           setState={setState}
           errors={errors}

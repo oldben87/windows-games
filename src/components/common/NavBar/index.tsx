@@ -62,7 +62,7 @@ export const NavBar = () => {
       alignItems={["center"]}
       justifyContent={["center"]}
       position="fixed"
-      zIndex={1}
+      zIndex={3}
       shadow="0 1px 5px 2px rgba(0,0,0,0.4)"
     >
       <Image
