@@ -1,18 +1,43 @@
 import {Flex, IconButton, Icon} from "@chakra-ui/react"
 import {currentUser} from "FirebaseApi/auth"
 import Section from "components/common/Section"
-import {GrAdd, GrTrash} from "react-icons/gr"
+import {GrAdd} from "react-icons/gr"
 import AuthedPage from "components/AuthedPage"
 import {Link, useNavigate} from "react-router-dom"
 import {useTypedSelector} from "hooks/typedSelector"
-import {HighlightRow} from "components/common/HighlightRow"
-import TextBox from "components/common/TextBox"
+import {ActionRow} from "components/common/ActionRow"
+import {deleteRecipeForUser} from "FirebaseApi/database"
+import {useState} from "react"
+import {deleteRecipe} from "Redux/slices/recipeSlice"
+import {useDispatch} from "react-redux"
 
 export default function HiddenHome() {
   const user = currentUser()
+  const [loading, setLoading] = useState<string | null>(null)
 
   const recipes = useTypedSelector((state) => state.recipes.recipes)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleDeletePress = async (id: string) => {
+    setLoading(id)
+
+    try {
+      if (!user) {
+        return
+      }
+
+      deleteRecipeForUser(user.uid, id).then((result) => {
+        if (result.success) {
+          dispatch(deleteRecipe(id))
+        }
+      })
+
+      setLoading(null)
+    } catch (error) {
+      setLoading(null)
+    }
+  }
 
   return (
     <AuthedPage user={user}>
@@ -33,14 +58,16 @@ export default function HiddenHome() {
         <Flex direction={"column"}>
           {recipes.map((recipe) => {
             return (
-              <RowToList
+              <ActionRow
                 key={recipe.id}
                 item={recipe}
                 onClick={() => {
                   navigate(`/hidden/recipe/${recipe.id}`)
                 }}
-                onTrashClick={() => {}}
-                trashLoading={false}
+                onTrashClick={async () => {
+                  await handleDeletePress(recipe.id)
+                }}
+                trashLoading={loading === recipe.id}
               />
             )
           })}
@@ -49,35 +76,3 @@ export default function HiddenHome() {
     </AuthedPage>
   )
 }
-
-interface RowToListProps {
-  item: {id: string; name: string}
-  onTrashClick: () => void
-  onClick: () => void
-  trashLoading: boolean
-}
-
-const RowToList = ({
-  item,
-  onClick,
-  onTrashClick,
-  trashLoading,
-}: RowToListProps) => (
-  <Flex key={item.id} maxWidth={400} alignItems="center">
-    <IconButton
-      variant={"ghost"}
-      aria-label={`Remove ${item.name}`}
-      icon={<Icon as={GrTrash} />}
-      ml={2}
-      my={1}
-      size={"sm"}
-      onClick={onTrashClick}
-      isLoading={trashLoading}
-    />
-    <HighlightRow>
-      <Flex h="100%" w="100%" onClick={onClick} alignItems="center">
-        <TextBox>{item.name}</TextBox>
-      </Flex>
-    </HighlightRow>
-  </Flex>
-)

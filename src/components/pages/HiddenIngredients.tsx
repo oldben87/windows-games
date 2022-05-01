@@ -7,8 +7,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react"
 import AuthedPage from "components/AuthedPage"
+import {ActionRow} from "components/common/ActionRow"
 import {FoodGroupSelect} from "components/common/FoodGroupSelect"
-import {HighlightRow} from "components/common/HighlightRow"
 import Section from "components/common/Section"
 import TextBox from "components/common/TextBox"
 import {Modal} from "components/Modals"
@@ -24,7 +24,7 @@ import {getFoodGroupTitle} from "helpers/getFoodGroupTitle"
 import {useTypedSelector} from "hooks/typedSelector"
 import {filter, prop, sortBy} from "ramda"
 import {useState} from "react"
-import {GrAdd, GrTrash} from "react-icons/gr"
+import {GrAdd} from "react-icons/gr"
 import {RiFilter2Fill, RiFilter2Line} from "react-icons/ri"
 import {useDispatch} from "react-redux"
 import {deleteIngredient} from "Redux/slices/ingredientSlice"
@@ -176,38 +176,23 @@ export default function HiddenIngredients() {
                   loading.id === ingredient.id) ||
                 false
               return (
-                <Flex key={ingredient.id} maxWidth={400} alignItems="center">
-                  <IconButton
-                    variant={"ghost"}
-                    aria-label={`Remove ${ingredient.name}`}
-                    icon={<Icon as={GrTrash} />}
-                    ml={2}
-                    my={1}
-                    size={"sm"}
-                    onClick={async () => {
-                      await handleDeletePress(ingredient.id)
-                    }}
-                    isLoading={isLoading}
-                  />
-                  <HighlightRow>
-                    <Flex
-                      h="100%"
-                      w="100%"
-                      onClick={() => {
-                        setModal({
-                          title: ingredient.name,
-                          modal: "editIngredient",
-                          loading: false,
-                          ingredient,
-                        })
-                        onOpen()
-                      }}
-                      alignItems="center"
-                    >
-                      <TextBox>{ingredient.name}</TextBox>
-                    </Flex>
-                  </HighlightRow>
-                </Flex>
+                <ActionRow
+                  key={ingredient.id}
+                  item={ingredient}
+                  onTrashClick={async () => {
+                    await handleDeletePress(ingredient.id)
+                  }}
+                  trashLoading={isLoading}
+                  onClick={() => {
+                    setModal({
+                      title: ingredient.name,
+                      modal: "editIngredient",
+                      loading: false,
+                      ingredient,
+                    })
+                    onOpen()
+                  }}
+                />
               )
             })}
           </Flex>
