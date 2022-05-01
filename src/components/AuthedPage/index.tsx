@@ -1,4 +1,11 @@
-import {Button, Flex, Icon, ModalBody, useDisclosure} from "@chakra-ui/react"
+import {
+  Button,
+  Flex,
+  Icon,
+  ModalBody,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react"
 import {logoutUser, updateUserName} from "FirebaseApi/auth"
 import {Link, Navigate} from "react-router-dom"
 import React, {useState} from "react"
@@ -69,7 +76,9 @@ export default function AuthedPage({
             px={2}
             mr={2}
           >
-            User: {user?.displayName || user?.email}
+            <Text isTruncated maxWidth={150}>
+              User: {user?.displayName || user?.email}
+            </Text>
           </Button>
         </Flex>
         <Link to={"/hidden"}>
