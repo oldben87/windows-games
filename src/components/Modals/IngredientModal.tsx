@@ -38,12 +38,15 @@ export const IngredientModal = ({
         <>
           <TextBox mt={3}>Pick a type [optional]</TextBox>
           <Select
-            defaultValue={""}
-            onChange={(e) => setState({...state, variant: e.target.value})}
+            defaultValue={state.variant}
+            onChange={(e) =>
+              setState({
+                ...state,
+                variant: e.target.value.length > 0 ? e.target.value : undefined,
+              })
+            }
           >
-            <option value="" disabled>
-              Pick a type
-            </option>
+            <option value="">Pick a type</option>
             {ingredeintToAdd.variants.map((variant, index) => (
               <option key={variant + index} value={variant}>
                 {variant}

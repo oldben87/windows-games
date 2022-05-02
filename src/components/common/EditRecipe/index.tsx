@@ -152,7 +152,7 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
           />
         </Flex>
         <Select
-          width={400}
+          maxWidth={400}
           defaultValue={""}
           onChange={(event) => {
             if (event.target.value === "") {
