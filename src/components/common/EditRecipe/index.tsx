@@ -22,6 +22,7 @@ import {AddStepModal} from "components/Modals/AddStepModal"
 import {CreateIngredientModal} from "components/Modals/CreateIngredientModal"
 import {HighlightRow} from "components/common/HighlightRow"
 import {useTypedSelector} from "hooks/typedSelector"
+import {getRecipeIngredientText} from "helpers/getRecipeIngredientText"
 
 type NewRecipe = Omit<Recipe, "id"> & {id?: string}
 
@@ -177,17 +178,15 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
         </Select>
         <Flex direction={"column"} mb={2}>
           {state.ingredients
-            .map(({id, quantity, variant, note}, index) => {
+            .map((recipeIngredient, index) => {
+              const {id} = recipeIngredient
+
               const ingredient = ingredients.find((ing) => ing.id === id)
               if (!ingredient) {
                 return
               }
 
-              const info = `${quantity}${
-                ingredient.unit !== "each" ? ingredient.unit : ""
-              } x ${variant || ""} ${ingredient.name}${
-                note ? ` (${note})` : ""
-              }`
+              const info = getRecipeIngredientText(recipeIngredient, ingredient)
               return (
                 <HighlightRow key={id + index}>
                   <TextBox>{info}</TextBox>
