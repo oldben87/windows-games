@@ -16,7 +16,7 @@ import {
 import TextBox from "components/common/TextBox"
 import {Modal} from "components/Modals"
 import {GrAdd, GrTrash} from "react-icons/gr"
-import {remove} from "ramda"
+import {prop, remove, sortBy} from "ramda"
 import {IngredientModal} from "components/Modals/IngredientModal"
 import {AddStepModal} from "components/Modals/AddStepModal"
 import {CreateIngredientModal} from "components/Modals/CreateIngredientModal"
@@ -80,6 +80,8 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
   }
 
   const ingredients = useTypedSelector((state) => state.ingredients.ingredients)
+
+  const sortedIngredients = sortBy(prop("name"), ingredients)
 
   return (
     <>
@@ -170,7 +172,7 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
           <option value="" disabled>
             Choose ingredient
           </option>
-          {Object.values(ingredients).map((ing) => (
+          {sortedIngredients.map((ing) => (
             <option key={ing.id} value={ing.id}>
               {ing.name}
             </option>
