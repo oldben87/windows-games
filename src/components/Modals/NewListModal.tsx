@@ -18,11 +18,10 @@ const DEFAULT_LIST_LENGTH = 7
 export const getRecipeList = (list: Array<{id: string}>, maxNumber: number) => {
   const result: Array<RecipeListItem> = []
 
-  const maxNum = list.length > maxNumber ? maxNumber : list.length
-
+  const maxNum = maxNumber < list.length ? maxNumber : list.length
   do {
     const rdmNum = Math.random()
-    const index = Math.floor(rdmNum * maxNum)
+    const index = Math.floor(rdmNum * list.length)
 
     if (
       list[index] !== undefined &&
@@ -30,7 +29,7 @@ export const getRecipeList = (list: Array<{id: string}>, maxNumber: number) => {
     ) {
       result.push({recipeId: list[index].id})
     }
-  } while (result.length < 4)
+  } while (result.length < maxNum)
 
   return result
 }
