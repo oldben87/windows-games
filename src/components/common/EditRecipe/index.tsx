@@ -42,6 +42,7 @@ interface ModalToOpen {
 export function EditRecipe({recipe, onSubmit, loading}: Props) {
   const [state, setState] = useState<NewRecipe>(recipe)
   const user = currentUser()
+  const [ingredientSelected, setIngredientSelected] = useState("")
 
   const {isOpen, onClose, onOpen} = useDisclosure()
   const [modal, setModal] = useState<ModalToOpen>({
@@ -153,7 +154,7 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
         </Flex>
         <Select
           maxWidth={400}
-          defaultValue={""}
+          value={ingredientSelected}
           onChange={(event) => {
             if (event.target.value === "") {
               return
@@ -166,6 +167,8 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
             if (!ingredient) {
               return
             }
+
+            setIngredientSelected(ingredient.id)
             handleAddIngredient(ingredient)
           }}
         >
@@ -283,6 +286,7 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
                   ...state,
                   ingredients: [...state.ingredients, ingredient],
                 })
+                setIngredientSelected("")
                 onClose()
               }}
             />
