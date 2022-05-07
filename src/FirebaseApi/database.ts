@@ -94,7 +94,15 @@ export type FoodGroup =
   | "sauce"
   | "cupboard"
 
-export type FoodUnit = "g" | "kg" | "ml" | "ltr" | "cup" | "each"
+export type FoodUnit =
+  | "g"
+  | "kg"
+  | "ml"
+  | "ltr"
+  | "cup"
+  | "each"
+  | "tbsp"
+  | "tsp"
 
 export interface Ingredient {
   id: string
@@ -103,51 +111,6 @@ export interface Ingredient {
   group: FoodGroup
   unitIngs?: number
   variants?: Array<string>
-}
-
-export const ingredients: Record<string, Ingredient> = {
-  abc: {
-    id: "abc",
-    name: "Pepper",
-    unit: "each",
-    group: "fruit/veg",
-    unitIngs: 150,
-    variants: ["Green", "Red", "Yellow", "Orange"],
-  },
-  def: {
-    id: "def",
-    name: "Pasta",
-    unit: "g",
-    group: "cupboard",
-    variants: ["Spaghetti", "Farfalle", "Penne"],
-  },
-  bcd: {
-    id: "bcd",
-    name: "Onions",
-    unit: "each",
-    group: "fruit/veg",
-    variants: ["Red", "Brown", "Shallots"],
-  },
-  cde: {
-    id: "cde",
-    name: "Mince",
-    unit: "kg",
-    unitIngs: 1000,
-    group: "meat/poultry",
-    variants: ["Beef", "Pork", "Lamb", "Turkey"],
-  },
-  efg: {
-    id: "efg",
-    name: "Passata",
-    unit: "ml",
-    group: "cupboard",
-  },
-  fgh: {
-    id: "fgh",
-    name: "Oregano",
-    unit: "g",
-    group: "herb",
-  },
 }
 
 export interface RecipeStep {
@@ -169,24 +132,4 @@ export interface Recipe {
   description?: string
   serves?: number
   cookingInstructions?: Array<RecipeStep>
-}
-
-export const recipes: Record<string, Recipe> = {
-  bcd: {
-    id: "",
-    name: "Spag Bowl",
-    ingredients: [
-      {id: "abc", quantity: 1, note: "Chopped", variant: "Red"},
-      {id: "def", quantity: 150, variant: "Spaghetti"},
-      {id: "bcd", quantity: 1, variant: "Brown"},
-      {id: "cde", quantity: 0.5, variant: "Beef"},
-      {id: "efg", quantity: 400},
-      {id: "fgh", quantity: 5},
-    ],
-    serves: 4,
-    description: "Meat and pasta",
-    cookingInstructions: [
-      {title: "Fill pan", details: "Put in pasta and boil with water"},
-    ],
-  },
 }

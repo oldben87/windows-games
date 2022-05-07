@@ -1,7 +1,16 @@
 import {Select} from "@chakra-ui/react"
 import {FoodUnit} from "FirebaseApi/database"
 
-const FoodUnitList = ["g", "kg", "ml", "ltr", "cup", "each"]
+const FoodUnitList: Array<FoodUnit> = [
+  "g",
+  "kg",
+  "ml",
+  "ltr",
+  "cup",
+  "each",
+  "tsp",
+  "tbsp",
+]
 
 interface Props {
   onChange: (value?: FoodUnit) => void
