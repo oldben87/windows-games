@@ -106,6 +106,7 @@ export const EditIngredientModal = ({
         <TextBox>Category</TextBox>
         <FoodGroupSelect
           defaultTitle="Pick category"
+          defaultValue={ingredient.group}
           onChange={(value) => {
             if (!value) {
               return
