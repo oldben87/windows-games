@@ -18,10 +18,16 @@ export default function Home() {
             <Title>Jedi Apps</Title>
             <TextBox>Building apps and games for fun.</TextBox>
             <Box my={5}>
-              <TextBox>See our latest app SPEEDLE in open Beta now!</TextBox>
+              <TextBox>See our latest app SPEEDLE!</TextBox>
               <Box my={3}>
-                <ExternalLink href="https://play.google.com/store/apps/details?id=com.speedle">
+                <ExternalLink
+                  mr={2}
+                  href="https://play.google.com/store/apps/details?id=com.speedle"
+                >
                   Google Play
+                </ExternalLink>
+                <ExternalLink href="https://apps.apple.com/gb/app/speedle/id1615658854">
+                  App Store
                 </ExternalLink>
               </Box>
             </Box>

@@ -14,7 +14,7 @@ const data: Array<PrivacyData> = [
     title: "1. The type of personal information we collect",
     body: "We currently collect and process the following information:",
     listItems: [
-      "We store no user information on this website or in the mobile application Speedle.",
+      "We store no user information in the mobile application Speedle.",
       "We do not collect or sell your information to any partners or third parties.",
       "If you contact us using a contact form we will use your email address and name to respond to any messages, emails or other forms of correspondance.",
       "Using information available via the Google Play Store or Apple App Store, we may use device information to help resolve issues, bugs or complaints.",
@@ -58,10 +58,9 @@ export default function Privacy() {
       <Box my={3}>
         <Title>Privacy Policy</Title>
         <TextBox>
-          This privacy policy covers this website and the mobile application
-          Speedle.
+          This privacy policy covers the mobile application Speedle.
         </TextBox>
-        <TextBox>Last updated on: 20th March 2022</TextBox>
+        <TextBox>Last updated on: 8th May 2022</TextBox>
       </Box>
       {data.map((section) => (
         <Box key={section.title} my={3}>

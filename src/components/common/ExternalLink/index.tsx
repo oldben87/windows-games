@@ -7,12 +7,18 @@ interface LinkProps {
   children: React.ReactNode
   href: string
   bgColor?: string
+  mr?: number
+  ml?: number
+  mt?: number
+  mb?: number
+  m?: number
 }
 
 const ExternalLink = ({
   children,
   href,
   bgColor = colors.speedle.darkestBlue,
+  ...rest
 }: LinkProps) => (
   <Link
     href={href}
@@ -22,6 +28,7 @@ const ExternalLink = ({
     color="white"
     className="ExternalLink"
     textDecoration={"none"}
+    {...rest}
   >
     {children}
   </Link>
