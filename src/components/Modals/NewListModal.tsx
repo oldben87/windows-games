@@ -5,7 +5,7 @@ import {Ingredient, Recipe, RecipeIngredient} from "FirebaseApi/database"
 import {getRecipeIngredientText} from "helpers/getRecipeIngredientText"
 import {remove} from "ramda"
 import {useEffect, useState} from "react"
-import {GrTrash} from "react-icons/gr"
+import {GrTrash, GrCopy} from "react-icons/gr"
 
 interface Props {
   recipes: Array<Recipe>
@@ -153,7 +153,41 @@ export const NewListModal = ({recipes, ingredients}: Props) => {
       </Select>
       {ingredientsList.length > 0 && (
         <>
-          <Title>Shopping List</Title>
+          <Flex alignItems={"center"}>
+            <Title>Shopping List</Title>
+            <IconButton
+              variant={"ghost"}
+              aria-label={`Copy shopping list`}
+              icon={<Icon as={GrCopy} />}
+              ml={2}
+              my={1}
+              size={"sm"}
+              onClick={async () => {
+                const list = ingredientsList.reduce<Array<string>>(
+                  (acc, ing) => {
+                    const ingredient = ingredients.find(
+                      (ingred) => ing.id === ingred.id,
+                    )
+                    if (!ingredient) {
+                      return acc
+                    }
+
+                    return [
+                      ...acc,
+                      getRecipeIngredientText(ing, ingredient, {
+                        noNote: true,
+                      }),
+                    ]
+                  },
+                  [],
+                )
+
+                navigator.clipboard
+                  .writeText(list.join("\n"))
+                  .then(() => alert("Copied"))
+              }}
+            />
+          </Flex>
           {ingredientsList
             .map((ing) => {
               const ingredient = ingredients.find(
