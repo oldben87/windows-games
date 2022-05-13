@@ -82,6 +82,28 @@ export const deleteRecipeForUser = async (userId: string, recipeId: string) => {
   }))
 }
 
+export interface RecipeListItem {
+  recipeId: string
+  serves?: number
+}
+
+export const getRecipeListByUser = async (userId: string) => {
+  return await get(child(ref(DB), `recipeLists/${userId}`)).then((snapShot) => {
+    if (snapShot.exists()) {
+      return snapShot.val() as Array<RecipeListItem>
+    }
+  })
+}
+
+export const saveRecipeList = async (
+  userId: string,
+  recipeList: Array<RecipeListItem>,
+) => {
+  return push(ref(DB, `recipeLists/${userId}`), recipeList).then((result) => {
+    return result
+  })
+}
+
 export type FoodGroup =
   | "fruit/veg"
   | "meat/poultry"
