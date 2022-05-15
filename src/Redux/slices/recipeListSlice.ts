@@ -14,7 +14,7 @@ const initialState: RecipeListState = {
   hasLoaded: false,
 }
 
-export const recipesSlice = createSlice({
+export const recipeListSlice = createSlice({
   name: "recipeList",
   initialState,
   reducers: {
@@ -56,6 +56,9 @@ export const recipesSlice = createSlice({
         currentRecipeList: [],
       }
     },
+    clearRecipeLists: () => {
+      return initialState
+    },
   },
 })
 
@@ -65,6 +68,7 @@ export const {
   saveCurrentListToLastList,
   replaceCurrentList,
   removeFromCurrentRecipeList,
-} = recipesSlice.actions
+  clearRecipeLists,
+} = recipeListSlice.actions
 
-export default recipesSlice.reducer
+export default recipeListSlice.reducer

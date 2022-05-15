@@ -43,6 +43,9 @@ export const ingredientsSlice = createSlice({
         ingredients: remove(index, 1, state.ingredients),
       }
     },
+    clearIngredients: () => {
+      return initialState
+    },
   },
 })
 
@@ -51,6 +54,7 @@ export const {
   addIngredients,
   updateIngredient,
   deleteIngredient,
+  clearIngredients,
 } = ingredientsSlice.actions
 
 export default ingredientsSlice.reducer

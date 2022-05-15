@@ -2,12 +2,15 @@ import {User} from "firebase/auth"
 import {
   getIngredientsByUser,
   getRecipeByUser,
+  getRecipeListByUser,
   Ingredient,
   Recipe,
+  RecipeListItem,
 } from "FirebaseApi/database"
 import {useEffect, useState} from "react"
 import {useDispatch} from "react-redux"
 import {addIngredients} from "Redux/slices/ingredientSlice"
+import {addLastRecipeList} from "Redux/slices/recipeListSlice"
 import {addRecipes} from "Redux/slices/recipeSlice"
 import {useTypedSelector} from "./typedSelector"
 
@@ -38,6 +41,11 @@ export const useHydrateStore = (user: User | null) => {
           resRecipes = await getRecipeByUser(user.uid)
         }
 
+        let resRecipeList: Array<RecipeListItem> | undefined
+        if (!state.recipeList.hasLoaded) {
+          resRecipeList = await getRecipeListByUser(user.uid)
+        }
+
         const ingredients = resIngredients
           ? resIngredients
           : state.ingredients.ingredients
@@ -50,7 +58,13 @@ export const useHydrateStore = (user: User | null) => {
           ? state.recipes.recipes
           : undefined
 
-        return {ingredients, recipes}
+        const recipeList = resRecipeList
+          ? resRecipeList
+          : state.recipeList.lastRecipeList.length > 0
+          ? state.recipeList.lastRecipeList
+          : undefined
+
+        return {ingredients, recipes, recipeList}
       } catch {
         setLoading(false)
       }
@@ -59,6 +73,7 @@ export const useHydrateStore = (user: User | null) => {
     loadIngredients().then((result) => {
       dispatch(addIngredients(result?.ingredients ? result.ingredients : []))
       dispatch(addRecipes(result?.recipes ? result.recipes : []))
+      dispatch(addLastRecipeList(result?.recipeList ? result.recipeList : []))
 
       setLoading(false)
     })
