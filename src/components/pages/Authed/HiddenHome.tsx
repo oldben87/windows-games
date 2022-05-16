@@ -20,9 +20,12 @@ import {useDispatch} from "react-redux"
 import TextBox from "components/common/TextBox"
 import {Modal} from "components/Modals"
 import {NewListModal} from "components/Modals/NewListModal"
+import {ViewRecipeList} from "components/Modals/ViewRecipeList"
+import {getRecipeList} from "helpers/getRecipeList"
+import {replaceCurrentList} from "Redux/slices/recipeListSlice"
 
 interface ModalState {
-  type: "error" | "list"
+  type: "error" | "currentList" | "lastList"
   title: string
   errorMessage?: string
 }
@@ -31,13 +34,14 @@ export default function HiddenHome() {
   const user = currentUser()
   const [loading, setLoading] = useState<string | null>(null)
   const [{type, title}, setModal] = useState<ModalState>({
-    type: "list",
+    type: "currentList",
     title: "",
   })
 
   const state = useTypedSelector((state) => state)
   const {recipes} = state.recipes
   const {ingredients} = state.ingredients
+  const {currentRecipeList, lastRecipeList} = state.recipeList
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -74,7 +78,12 @@ export default function HiddenHome() {
           borderRadius={"50%"}
           alignItems="center"
           onClick={() => {
-            setModal({title: "New List", type: "list"})
+            if (lastRecipeList.length > 0) {
+              setModal({title: "Last list saved", type: "lastList"})
+            } else {
+              setModal({title: "New List", type: "currentList"})
+            }
+
             onOpen()
           }}
           size={"sm"}
@@ -114,8 +123,25 @@ export default function HiddenHome() {
       </Section>
       <Modal isOpen={isOpen} onClose={onClose} title={title} loading={false}>
         <ModalBody>
-          {type === "list" && (
-            <NewListModal recipes={recipes} ingredients={ingredients} />
+          {type === "currentList" && (
+            <NewListModal
+              recipes={recipes}
+              ingredients={ingredients}
+              currentList={currentRecipeList}
+              user={user}
+            />
+          )}
+          {type === "lastList" && (
+            <ViewRecipeList
+              recipes={recipes}
+              ingredients={ingredients}
+              list={lastRecipeList}
+              onNewList={() => {
+                const recipeList = getRecipeList(recipes, 7)
+                dispatch(replaceCurrentList(recipeList))
+                setModal({type: "currentList", title: "New List"})
+              }}
+            />
           )}
         </ModalBody>
       </Modal>

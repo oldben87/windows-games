@@ -99,7 +99,7 @@ export const saveRecipeList = async (
   userId: string,
   recipeList: Array<RecipeListItem>,
 ) => {
-  return push(ref(DB, `recipeLists/${userId}`), recipeList).then((result) => {
+  return set(ref(DB, `recipeLists/${userId}`), recipeList).then((result) => {
     return result
   })
 }

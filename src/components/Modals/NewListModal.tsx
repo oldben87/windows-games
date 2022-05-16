@@ -1,105 +1,84 @@
-import {Flex, Icon, IconButton, Select} from "@chakra-ui/react"
+import {Button, Flex, Icon, IconButton, Select} from "@chakra-ui/react"
 import TextBox from "components/common/TextBox"
 import Title from "components/common/Title"
-import {Ingredient, Recipe, RecipeIngredient} from "FirebaseApi/database"
+import {User} from "firebase/auth"
+import {
+  Ingredient,
+  Recipe,
+  RecipeListItem,
+  saveRecipeList as saveList,
+} from "FirebaseApi/database"
+import {getIngredientsList} from "helpers/getIngredientsList"
 import {getRecipeIngredientText} from "helpers/getRecipeIngredientText"
-import {remove} from "ramda"
+import {getRecipeList} from "helpers/getRecipeList"
 import {useEffect, useState} from "react"
 import {GrTrash, GrCopy} from "react-icons/gr"
+import {useDispatch} from "react-redux"
+import {
+  removeFromCurrentRecipeList,
+  replaceCurrentList,
+  addToCurrentRecipeList,
+  saveCurrentListToLastList,
+} from "Redux/slices/recipeListSlice"
 
 interface Props {
   recipes: Array<Recipe>
   ingredients: Array<Ingredient>
-}
-
-interface RecipeListItem {
-  recipeId: string
-  serves?: number
+  currentList: Array<RecipeListItem>
+  user: User | null
 }
 
 const DEFAULT_LIST_LENGTH = 7
 
-export const getRecipeList = (list: Array<{id: string}>, maxNumber: number) => {
-  const result: Array<RecipeListItem> = []
+export const NewListModal = ({
+  recipes,
+  ingredients,
+  currentList,
+  user,
+}: Props) => {
+  const [showShopping, setShowShopping] = useState(true)
+  const [loading, setLoading] = useState(false)
 
-  const maxNum = maxNumber < list.length ? maxNumber : list.length
-  do {
-    const rdmNum = Math.random()
-    const index = Math.floor(rdmNum * list.length)
-
-    if (
-      list[index] !== undefined &&
-      result.every(({recipeId}) => recipeId !== list[index].id)
-    ) {
-      result.push({recipeId: list[index].id})
-    }
-  } while (result.length < maxNum)
-
-  return result
-}
-
-const getIngredientsList = (
-  recipes: Array<Recipe>,
-  recipeList: Array<RecipeListItem>,
-) => {
-  const ingredientsHash: Record<string, RecipeIngredient> = {}
-
-  recipeList.forEach(({recipeId}) => {
-    const recipe = recipes.find((rec) => rec.id === recipeId)
-    if (!recipe) {
-      return
-    }
-
-    recipe.ingredients.forEach((ing) => {
-      const hashKey = ing.variant ? `${ing.id}---${ing.variant}` : ing.id
-      const current = ingredientsHash[hashKey]
-      if (!current) {
-        ingredientsHash[hashKey] = ing
-      } else {
-        ingredientsHash[hashKey] = {
-          ...current,
-          quantity: current.quantity + ing.quantity,
-        }
-      }
-    })
-  })
-
-  return Object.values(ingredientsHash)
-}
-
-export const NewListModal = ({recipes, ingredients}: Props) => {
-  const [list, setList] = useState<Array<RecipeListItem>>([])
-  const [ingredientsList, setIngredientsList] = useState<
-    Array<RecipeIngredient>
-  >([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    if (list.length === 0) {
+    if (currentList.length === 0) {
       const recipeList = getRecipeList(recipes, DEFAULT_LIST_LENGTH)
-      setList(recipeList)
-      setIngredientsList(getIngredientsList(recipes, recipeList))
+      dispatch(replaceCurrentList(recipeList))
     }
   }, [])
 
-  const removeItemFromList = (index: number) => {
-    const newList = remove(index, 1, list)
-    setList(newList)
-    setIngredientsList(getIngredientsList(recipes, newList))
+  const removeItemFromList = (id: string) => {
+    dispatch(removeFromCurrentRecipeList(id))
   }
 
   const addToList = (recipe: Recipe) => {
-    const newList = [...list, {recipeId: recipe.id, serves: recipe.serves}]
-    setList(newList)
-    setIngredientsList(getIngredientsList(recipes, newList))
+    dispatch(
+      addToCurrentRecipeList({recipeId: recipe.id, serves: recipe.serves}),
+    )
   }
 
+  const ingredientsList = getIngredientsList(recipes, currentList)
+
+  const saveRecipeList = async () => {
+    setLoading(true)
+    if (!user) {
+      setLoading(false)
+      return
+    }
+
+    saveList(user.uid, currentList).then(() => {
+      dispatch(saveCurrentListToLastList())
+      setLoading(false)
+    })
+  }
   return (
     <>
       <Title>Meals</Title>
-      {list.length > 0 && (
+      {currentList.length > 0 && (
         <>
-          {list
-            .map((item, index) => {
+          {currentList
+            .map((item) => {
               const recipe = recipes.find((rec) => rec.id === item.recipeId)
               if (!recipe) {
                 return
@@ -114,7 +93,7 @@ export const NewListModal = ({recipes, ingredients}: Props) => {
                     my={1}
                     size={"sm"}
                     onClick={() => {
-                      removeItemFromList(index)
+                      removeItemFromList(item.recipeId)
                     }}
                   />
                   <p>{recipe.name}</p>
@@ -142,7 +121,7 @@ export const NewListModal = ({recipes, ingredients}: Props) => {
           Choose a recipe
         </option>
         {recipes
-          .filter((rec) => list.every((li) => li.recipeId !== rec.id))
+          .filter((rec) => currentList.every((li) => li.recipeId !== rec.id))
           .map((rec) => {
             return (
               <option key={rec.id} value={rec.id}>
@@ -151,10 +130,24 @@ export const NewListModal = ({recipes, ingredients}: Props) => {
             )
           })}
       </Select>
+      <Flex width={"100%"} my={2}>
+        <Button
+          width={"100%"}
+          onClick={async () => {
+            await saveRecipeList()
+          }}
+          isLoading={loading}
+        >
+          Save List
+        </Button>
+      </Flex>
       {ingredientsList.length > 0 && (
         <>
           <Flex alignItems={"center"}>
             <Title>Shopping List</Title>
+            <Button onClick={() => setShowShopping(!showShopping)} mx={2}>
+              {showShopping ? "Hide" : "Show"}
+            </Button>
             <IconButton
               variant={"ghost"}
               aria-label={`Copy shopping list`}
@@ -188,24 +181,25 @@ export const NewListModal = ({recipes, ingredients}: Props) => {
               }}
             />
           </Flex>
-          {ingredientsList
-            .map((ing) => {
-              const ingredient = ingredients.find(
-                (ingred) => ing.id === ingred.id,
-              )
-              if (!ingredient) {
-                return
-              }
+          {showShopping &&
+            ingredientsList
+              .map((ing) => {
+                const ingredient = ingredients.find(
+                  (ingred) => ing.id === ingred.id,
+                )
+                if (!ingredient) {
+                  return
+                }
 
-              const key = ing.variant ? ing.id + ing.variant : ing.id
+                const key = ing.variant ? ing.id + ing.variant : ing.id
 
-              return (
-                <p key={key}>
-                  {getRecipeIngredientText(ing, ingredient, {noNote: true})}
-                </p>
-              )
-            })
-            .filter(Boolean)}
+                return (
+                  <p key={key}>
+                    {getRecipeIngredientText(ing, ingredient, {noNote: true})}
+                  </p>
+                )
+              })
+              .filter(Boolean)}
         </>
       )}
     </>

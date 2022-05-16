@@ -37,7 +37,7 @@ export const recipeListSlice = createSlice({
       )
       return {
         ...state,
-        recipes: remove(index, 1, state.currentRecipeList),
+        currentRecipeList: remove(index, 1, state.currentRecipeList),
       }
     },
     replaceCurrentList: (
