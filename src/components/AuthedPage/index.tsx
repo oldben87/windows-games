@@ -76,6 +76,7 @@ export default function AuthedPage({
   const {loading} = useHydrateStore(user)
 
   if (!user) {
+    useLogout()
     return <Navigate to="/auth/login" />
   }
 
