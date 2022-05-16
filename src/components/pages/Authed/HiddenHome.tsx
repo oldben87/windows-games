@@ -129,6 +129,7 @@ export default function HiddenHome() {
               ingredients={ingredients}
               currentList={currentRecipeList}
               user={user}
+              onClose={onClose}
             />
           )}
           {type === "lastList" && (
@@ -136,9 +137,12 @@ export default function HiddenHome() {
               recipes={recipes}
               ingredients={ingredients}
               list={lastRecipeList}
+              currentList={currentRecipeList}
               onNewList={() => {
-                const recipeList = getRecipeList(recipes, 7)
-                dispatch(replaceCurrentList(recipeList))
+                if (currentRecipeList.length === 0) {
+                  const recipeList = getRecipeList(recipes, 7)
+                  dispatch(replaceCurrentList(recipeList))
+                }
                 setModal({type: "currentList", title: "New List"})
               }}
             />

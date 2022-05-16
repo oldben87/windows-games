@@ -26,6 +26,7 @@ interface Props {
   ingredients: Array<Ingredient>
   currentList: Array<RecipeListItem>
   user: User | null
+  onClose: () => void
 }
 
 const DEFAULT_LIST_LENGTH = 7
@@ -35,6 +36,7 @@ export const NewListModal = ({
   ingredients,
   currentList,
   user,
+  onClose,
 }: Props) => {
   const [showShopping, setShowShopping] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -69,6 +71,7 @@ export const NewListModal = ({
 
     saveList(user.uid, currentList).then(() => {
       dispatch(saveCurrentListToLastList())
+      onClose()
       setLoading(false)
     })
   }

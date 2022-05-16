@@ -10,6 +10,7 @@ interface Props {
   recipes: Array<Recipe>
   ingredients: Array<Ingredient>
   list: Array<RecipeListItem>
+  currentList: Array<RecipeListItem>
   onNewList: () => void
 }
 
@@ -17,6 +18,7 @@ export const ViewRecipeList = ({
   recipes,
   ingredients,
   list,
+  currentList,
   onNewList,
 }: Props) => {
   const [showShopping, setShowShopping] = useState(true)
@@ -53,7 +55,7 @@ export const ViewRecipeList = ({
 
       <Flex my={2} width={"100%"}>
         <Button width={"100%"} isLoading={loading} onClick={handleNewListClick}>
-          Generate new list
+          {currentList.length === 0 ? "Generate new list" : "View new list"}
         </Button>
       </Flex>
 
