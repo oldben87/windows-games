@@ -14,6 +14,10 @@ import {useHydrateStore} from "hooks/useHydrateStore"
 import {GrEdit} from "react-icons/gr"
 import {Input} from "components/common/Input"
 import {Modal} from "components/Modals"
+import {useDispatch} from "react-redux"
+import {clearRecipeLists} from "Redux/slices/recipeListSlice"
+import {clearRecipes} from "Redux/slices/recipeSlice"
+import {clearIngredients} from "Redux/slices/ingredientSlice"
 
 interface UserNameModalContent {
   userName: string | null
@@ -47,8 +51,21 @@ export default function AuthedPage({
   children: React.ReactNode
   user: User | null
 }) {
+  const dispatch = useDispatch()
+
+  const useLogout = () => {
+    dispatch(clearRecipeLists())
+    dispatch(clearRecipes())
+    dispatch(clearIngredients())
+
+    return {success: true}
+  }
+
   const handleLogOut = () => {
-    logoutUser()
+    const loggedOut = useLogout()
+    if (loggedOut.success) {
+      logoutUser()
+    }
   }
 
   const {onOpen, isOpen, onClose} = useDisclosure()
@@ -59,6 +76,7 @@ export default function AuthedPage({
   const {loading} = useHydrateStore(user)
 
   if (!user) {
+    useLogout()
     return <Navigate to="/auth/login" />
   }
 

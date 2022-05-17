@@ -38,10 +38,13 @@ export const recipesSlice = createSlice({
         recipes: remove(index, 1, state.recipes),
       }
     },
+    clearRecipes: () => {
+      return initialState
+    },
   },
 })
 
-export const {addRecipe, addRecipes, updateRecipe, deleteRecipe} =
+export const {addRecipe, addRecipes, updateRecipe, deleteRecipe, clearRecipes} =
   recipesSlice.actions
 
 export default recipesSlice.reducer
