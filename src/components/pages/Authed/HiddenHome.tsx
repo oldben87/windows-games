@@ -138,9 +138,16 @@ export default function HiddenHome() {
               ingredients={ingredients}
               list={lastRecipeList}
               currentList={currentRecipeList}
-              onNewList={() => {
+              onNewList={({ignoreList, noOfMeals}) => {
                 if (currentRecipeList.length === 0) {
-                  const recipeList = getRecipeList(recipes, 7)
+                  const filteredRecipes = ignoreList
+                    ? recipes.filter((rec) =>
+                        lastRecipeList.every(
+                          (curRec) => curRec.recipeId !== rec.id,
+                        ),
+                      )
+                    : recipes
+                  const recipeList = getRecipeList(filteredRecipes, noOfMeals)
                   dispatch(replaceCurrentList(recipeList))
                 }
                 setModal({type: "currentList", title: "New List"})

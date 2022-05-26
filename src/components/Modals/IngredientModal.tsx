@@ -34,7 +34,7 @@ export const IngredientModal = ({
         value={state.note || ""}
         onChange={(e) => setState({...state, note: e.target.value})}
       />
-      {ingredeintToAdd.variants && (
+      {ingredeintToAdd.variants && ingredeintToAdd.variants.length && (
         <>
           <TextBox mt={3}>Pick a type [optional]</TextBox>
           <Select
