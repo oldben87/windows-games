@@ -1,4 +1,16 @@
-import {Button, Flex, Icon, IconButton} from "@chakra-ui/react"
+import {
+  Button,
+  Flex,
+  Icon,
+  IconButton,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Switch,
+} from "@chakra-ui/react"
+import TextBox from "components/common/TextBox"
 import Title from "components/common/Title"
 import {Ingredient, Recipe, RecipeListItem} from "FirebaseApi/database"
 import {getIngredientsList} from "helpers/getIngredientsList"
@@ -11,7 +23,13 @@ interface Props {
   ingredients: Array<Ingredient>
   list: Array<RecipeListItem>
   currentList: Array<RecipeListItem>
-  onNewList: () => void
+  onNewList: ({
+    noOfMeals,
+    ignoreList,
+  }: {
+    noOfMeals: number
+    ignoreList: boolean
+  }) => void
 }
 
 export const ViewRecipeList = ({
@@ -22,14 +40,16 @@ export const ViewRecipeList = ({
   onNewList,
 }: Props) => {
   const [showShopping, setShowShopping] = useState(true)
+  const [ignoreList, setIgnoreList] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [noOfMeals, setNoOfMeals] = useState(7)
 
   const ingredientsList = getIngredientsList(recipes, list)
 
   const handleNewListClick = () => {
     setLoading(true)
 
-    onNewList()
+    onNewList({ignoreList, noOfMeals})
   }
 
   return (
@@ -53,8 +73,44 @@ export const ViewRecipeList = ({
         </>
       )}
 
-      <Flex my={2} width={"100%"}>
-        <Button width={"100%"} isLoading={loading} onClick={handleNewListClick}>
+      <Flex
+        my={3}
+        width={"100%"}
+        direction="column"
+        borderTop={"solid darkgrey 1px"}
+        borderBottom={"solid darkgrey 1px"}
+        py={3}
+      >
+        <Flex width={"100%"} alignItems="center" justify={"space-evenly"}>
+          <Flex alignItems="center" maxW={"50%"}>
+            <TextBox mr={2}>Ignore old list</TextBox>
+            <Switch
+              isChecked={ignoreList}
+              onChange={() => setIgnoreList(!ignoreList)}
+            />
+          </Flex>
+          <Flex alignItems="center" maxW={"50%"}>
+            <TextBox mr={2}>Meals</TextBox>
+            <NumberInput
+              value={noOfMeals}
+              min={1}
+              max={10}
+              onChange={(val) => setNoOfMeals(parseInt(val, 10))}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Flex>
+        </Flex>
+        <Button
+          width={"100%"}
+          mt={2}
+          isLoading={loading}
+          onClick={handleNewListClick}
+        >
           {currentList.length === 0 ? "Generate new list" : "View new list"}
         </Button>
       </Flex>
