@@ -140,7 +140,7 @@ export default function HiddenHome() {
               currentList={currentRecipeList}
               onNewList={({ignoreList, noOfMeals}) => {
                 if (currentRecipeList.length === 0) {
-                  const filteredRecipes = ignoreList
+                  const filteredRecipes = !ignoreList
                     ? recipes.filter((rec) =>
                         lastRecipeList.every(
                           (curRec) => curRec.recipeId !== rec.id,
