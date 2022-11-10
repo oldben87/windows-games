@@ -1,10 +1,11 @@
-import {Box, Flex, Image} from "@chakra-ui/react"
+import {Box, Flex, Icon, Image} from "@chakra-ui/react"
 import ContentContainer from "components/common/ContentContainer"
 import ExternalLink from "components/common/ExternalLink"
 import TextBox from "components/common/TextBox"
 import Title from "components/common/Title"
 import {colors} from "styles/colors"
 import Section from "../common/Section"
+import {GiInfo} from "react-icons/gi"
 
 export default function Apps() {
   return (
@@ -76,14 +77,18 @@ export default function Apps() {
               <TextBox>Log which foods are being eaten and when</TextBox>
               <TextBox>Keep a seperate diary for different loved ones</TextBox>
             </Box>
-            <Flex direction="column">
-              <TextBox>Try now on:</TextBox>
-              <ExternalLink
-                href="https://play.google.com/store/apps/details?id=com.speedle"
-                bgColor={colors.arfidiary.brandBlue}
-              >
-                Google Play
-              </ExternalLink>
+            <Flex direction="row" gap={2} padding={3} align="start">
+              <Icon
+                as={GiInfo}
+                color={"red.500"}
+                stroke={"red.500"}
+                path="red.500"
+                mt={2}
+              />
+              <TextBox color={colors.error}>
+                Unfortunately we will be turning off the infrastructure to
+                ArfiDiary on the 27th of November.
+              </TextBox>
             </Flex>
           </Flex>
           <Flex
