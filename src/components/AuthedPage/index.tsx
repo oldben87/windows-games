@@ -102,7 +102,7 @@ export default function AuthedPage({
             px={2}
             mr={2}
           >
-            <Text isTruncated maxWidth={150}>
+            <Text noOfLines={1} maxWidth={150}>
               User: {user?.displayName || user?.email}
             </Text>
           </Button>
