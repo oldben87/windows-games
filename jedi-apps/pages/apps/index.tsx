@@ -1,5 +1,5 @@
-import AppPage from "../../Components/Pages/Apps"
+import AppsComponent from "../../Components/Pages/Apps"
 
 export default function Apps() {
-  return <AppPage />
+  return <AppsComponent />
 }
