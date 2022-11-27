@@ -1,9 +1,13 @@
 import PageContainer from "../PageContainer"
+import {NavBar} from "./NavBar"
 
 export default function Layout({children}: {children: React.ReactNode}) {
   return (
-    <PageContainer>
-      <main>{children}</main>
-    </PageContainer>
+    <>
+      <NavBar />
+      <PageContainer>
+        <main>{children}</main>
+      </PageContainer>
+    </>
   )
 }
