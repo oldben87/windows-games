@@ -1,7 +1,7 @@
-import {setIdOrMoveCard} from "components/pages/Solitaire/helpers"
-import {getSelectedCardPosition} from "components/pages/Solitaire/helpers"
-import {CardPile, CardState, GameState} from "components/pages/Solitaire/types"
+import {CardPile, CardState, GameState} from "..//types"
 import {GameCard, GameCardTop} from "../furniture"
+import {getSelectedCardPosition} from "../helpers/getSelectedCardPosition"
+import {setIdOrMoveCard} from "../helpers/setIdOrMoveCard"
 
 interface Props {
   cardIndex: number

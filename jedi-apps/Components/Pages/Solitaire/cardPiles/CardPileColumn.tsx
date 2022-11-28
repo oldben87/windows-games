@@ -1,8 +1,8 @@
 import {Flex} from "@chakra-ui/react"
-import {setIdOrMoveCard} from "components/pages/Solitaire/helpers"
-import {CardState, GameState} from "components/pages/Solitaire/types"
+import {CardState, GameState} from "../types"
 import {CardOrCardTop} from "./CardOrCardTop"
 import {CardEmpty} from "../furniture"
+import {setIdOrMoveCard} from "../helpers/setIdOrMoveCard"
 
 interface CardPileColumnProps {
   selectedId: string | null
@@ -34,6 +34,7 @@ export const CardPileColumn = (props: CardPileColumnProps) => {
       {gameState[columnName].length !== 0 ? (
         gameState[columnName].map((card, index, pile) => (
           <CardOrCardTop
+            key={index.toString()}
             cardIndex={card}
             index={index}
             column={pile}

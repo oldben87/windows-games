@@ -1,9 +1,6 @@
 import {useState} from "react"
 import {Flex} from "@chakra-ui/react"
-import {
-  CardProps,
-  SelectedCardPositionEnum,
-} from "components/pages/Solitaire/types"
+import {CardProps, SelectedCardPositionEnum} from "../types"
 import {SuitIcon} from "./SuitIcon"
 import {CardValueRow} from "./CardValueRow"
 

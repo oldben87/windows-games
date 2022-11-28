@@ -1,5 +1,5 @@
-import {setIdOrMoveCard} from "components/pages/Solitaire/helpers"
-import {CardState, GameState} from "components/pages/Solitaire/types"
+import {setIdOrMoveCard} from "../helpers/setIdOrMoveCard"
+import {CardState, GameState} from "../types"
 import {CardBack, CardEmpty} from "../furniture"
 
 interface Props {

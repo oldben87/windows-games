@@ -1,7 +1,7 @@
 import {Flex, Icon} from "@chakra-ui/react"
 import {SuitIcon} from "."
 import {GiCardDraw} from "react-icons/gi"
-import {SuitEnum} from "components/pages/Solitaire/types"
+import {SuitEnum} from "../types"
 
 export const CardEmpty = ({
   suit,

@@ -15,23 +15,26 @@ import {Background, PageTitle} from "./furniture"
 import {CardPileColumn} from "./cardPiles/CardPileColumn"
 import {HiddenSpareDeckPile} from "./cardPiles/HiddenSpareDeckPile"
 import {ShowingSpareDeckPile} from "./cardPiles/ShowingSpareDeckPile"
+
 import {
-  getShuffledDeck,
-  setInitialGameState,
-  getCardState,
-  moveAllAvailableCards,
-  getTimeTaken,
-} from "./helpers"
-import {GameState, SuitEnum, CardState} from "./types"
+  GameState as GameStateType,
+  SuitEnum,
+  CardState as CardStateType,
+} from "./types"
 import {SuitPile} from "./cardPiles/SuitPile"
+import {getShuffledDeck} from "./helpers/getCardsForGame"
+import {setInitialGameState} from "./helpers/setInitialGameState"
+import {getCardState} from "./helpers/getCardState"
+import {moveAllAvailableCards} from "./helpers/moveAllAvailableCards"
+import {getTimeTaken} from "./helpers/getTimeTaken"
 
 export default function GameBoard() {
   const [shuffledDeck, setShuffledDeck] = useState<Array<number>>(
     getShuffledDeck(),
   )
   const [initialLoad, setInitialLoad] = useState(false)
-  const [cardState, setCardState] = useState<CardState>({})
-  const [gameState, setGameState] = useState<GameState | null>(null)
+  const [cardState, setCardState] = useState<CardStateType>({})
+  const [gameState, setGameState] = useState<GameStateType | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const {isOpen, onOpen, onClose} = useDisclosure()
   const [score, setScore] = useState(0)

@@ -1,6 +1,6 @@
 import {Icon} from "@chakra-ui/react"
 import {GiSpades, GiClubs, GiHearts, GiDiamonds} from "react-icons/gi"
-import {SuitEnum} from "components/pages/Solitaire/types"
+import {SuitEnum} from "../types"
 
 export const getSuitToDisplay = (suit: SuitEnum) => {
   switch (suit) {

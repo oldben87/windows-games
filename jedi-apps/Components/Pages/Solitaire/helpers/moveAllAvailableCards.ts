@@ -1,6 +1,6 @@
 import {CardState, GameState, SuitEnum} from "../types"
 import {last, clone, dropLast} from "ramda"
-import {validateCardMove} from "../helpers"
+import {validateCardMove} from "./validateCardMove"
 
 const getSuitPile = (suit: SuitEnum) => {
   switch (suit) {
