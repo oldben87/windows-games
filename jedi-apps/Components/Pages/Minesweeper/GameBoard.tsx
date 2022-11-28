@@ -16,9 +16,8 @@ const initialVariables: GameVariables = {
 }
 
 export default function MinesweeperGameBord() {
-  const [gameVariables, setGameVariables] = useState<GameVariables>({
-    ...initialVariables,
-  })
+  const [gameVariables, setGameVariables] =
+    useState<GameVariables>(initialVariables)
   const [gameState, setGameState] = useState(createGameState(10, 10, 0))
 
   const {isOpen, onOpen, onClose} = useDisclosure()
@@ -31,7 +30,8 @@ export default function MinesweeperGameBord() {
     if (gameVariables.mineCount === 0) {
       onOpen()
     }
-  }, [gameState, gameVariables, onOpen])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState, onOpen])
 
   const maxMines = getMaxMines(gameVariables)
 
