@@ -1,11 +1,5 @@
-import AuthedPage from "../../Components/Layout/AuthedPage"
+import HomePage from "../../Components/Pages/Auth/HiddenHome"
 
-const AuthPage = () => {
-  return (
-    <AuthedPage>
-      <p>Auth is working!</p>
-    </AuthedPage>
-  )
-}
+const Home = () => <HomePage />
 
-export default AuthPage
+export default Home
