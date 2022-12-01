@@ -26,11 +26,12 @@ export const useHydrateStore = (user: User | null) => {
       try {
         setLoading(true)
 
-        if (!user) {
+        if (!user || !user.uid) {
           setLoading(false)
           setError("No user found")
           return
         }
+
         let resIngredients: Array<Ingredient> | undefined
         if (!state.ingredients.hasLoaded) {
           resIngredients = await getIngredientsByUser(user.uid)
@@ -71,9 +72,17 @@ export const useHydrateStore = (user: User | null) => {
     }
 
     loadIngredients().then((result) => {
-      dispatch(addIngredients(result?.ingredients ? result.ingredients : []))
-      dispatch(addRecipes(result?.recipes ? result.recipes : []))
-      dispatch(addLastRecipeList(result?.recipeList ? result.recipeList : []))
+      if (result?.ingredients?.length) {
+        dispatch(addIngredients(result.ingredients))
+      }
+
+      if (result?.recipes?.length) {
+        dispatch(addRecipes(result.recipes))
+      }
+
+      if (result?.recipeList?.length) {
+        dispatch(addLastRecipeList(result.recipeList))
+      }
 
       setLoading(false)
     })

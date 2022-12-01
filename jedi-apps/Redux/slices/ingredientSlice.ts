@@ -17,19 +17,17 @@ export const ingredientsSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<Ingredient>) => {
-      return {...state, ingredients: [...state.ingredients, action.payload]}
+      state = {...state, ingredients: [...state.ingredients, action.payload]}
     },
-    addIngredients: (_, action: PayloadAction<Array<Ingredient>>) => {
-      return {
-        ingredients: action.payload,
-        hasLoaded: true,
-      }
+    addIngredients: (state, action: PayloadAction<Array<Ingredient>>) => {
+      state.ingredients = action.payload
+      state.hasLoaded = true
     },
     updateIngredient: (state, action: PayloadAction<Ingredient>) => {
       const index = state.ingredients.findIndex(
         (ing) => ing.id === action.payload.id,
       )
-      return {
+      state = {
         ...state,
         ingredients: adjust(index, () => action.payload, state.ingredients),
       }
@@ -38,7 +36,7 @@ export const ingredientsSlice = createSlice({
       const index = state.ingredients.findIndex(
         (ing) => ing.id === action.payload,
       )
-      return {
+      state = {
         ...state,
         ingredients: remove(index, 1, state.ingredients),
       }

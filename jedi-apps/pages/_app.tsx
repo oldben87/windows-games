@@ -10,13 +10,13 @@ import {store} from "../Redux/store"
 export default function App({Component, pageProps}: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <AuthUserProvider>
-        <Provider store={store}>
+      <Provider store={store}>
+        <AuthUserProvider>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </Provider>
-      </AuthUserProvider>
+        </AuthUserProvider>
+      </Provider>
     </ChakraProvider>
   )
 }

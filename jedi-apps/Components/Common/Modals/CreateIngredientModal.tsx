@@ -170,7 +170,6 @@ export const CreateIngredientModal = ({
 
               const newStuff = await saveIngredient(user.uid, state)
               if (newStuff.id === null) {
-                console.log("No Id found???")
                 onClose()
                 return
               }
