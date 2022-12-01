@@ -24,6 +24,6 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext"
   },
-  "include": ["src"],
+  "include": ["src", "jedi-apps/Components/Common/HighlightRow"],
   "exclude": ["./src/**/__tests__/", "./node_modules/", "./dist/"]
 }

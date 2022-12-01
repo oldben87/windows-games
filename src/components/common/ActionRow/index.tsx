@@ -1,6 +1,6 @@
 import {Flex, Icon, IconButton} from "@chakra-ui/react"
 import {GrTrash} from "react-icons/gr"
-import {HighlightRow} from "../HighlightRow"
+import {HighlightRow} from "../../../../jedi-apps/Components/Common/HighlightRow"
 import TextBox from "../TextBox"
 
 interface Props {
