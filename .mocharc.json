@@ -1,1 +1,0 @@
-{ "watch-files": ["src/**/__tests__/*.ts", "src/**/*.ts"] }
