@@ -28,6 +28,7 @@ export default function HiddenRecipesAdd() {
     <AuthedPage>
       <Section pt={[0, 0, 0]}>
         <EditRecipe
+          title="Add new recipe"
           loading={loading}
           recipe={initialState}
           onSubmit={async (editedRecipe) => {

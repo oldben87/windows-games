@@ -28,6 +28,7 @@ type NewRecipe = Omit<Recipe, "id"> & {id?: string}
 
 interface Props {
   recipe: NewRecipe
+  title: string
   onSubmit: (recipe: NewRecipe) => void
   loading: boolean
 }
@@ -39,7 +40,7 @@ interface ModalToOpen {
   ingredient?: Ingredient
 }
 
-export function EditRecipe({recipe, onSubmit, loading}: Props) {
+export function EditRecipe({recipe, onSubmit, loading, title}: Props) {
   const [state, setState] = useState<NewRecipe>(recipe)
   const user = currentUser()
   const [ingredientSelected, setIngredientSelected] = useState("")
@@ -87,7 +88,7 @@ export function EditRecipe({recipe, onSubmit, loading}: Props) {
   return (
     <>
       <Box maxWidth={400}>
-        <Title>Add new recipe</Title>
+        <Title>{title}</Title>
         <Input
           title={"Recipe Name"}
           value={state.name}
