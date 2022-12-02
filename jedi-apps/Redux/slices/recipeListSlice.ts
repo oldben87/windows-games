@@ -22,7 +22,7 @@ export const recipeListSlice = createSlice({
       state,
       action: PayloadAction<Array<RecipeListItem>>,
     ) => {
-      return {...state, lastRecipeList: action.payload}
+      return {...state, lastRecipeList: action.payload, hasLoaded: true}
     },
     addToCurrentRecipeList: (state, action: PayloadAction<RecipeListItem>) => {
       return {

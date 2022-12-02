@@ -32,38 +32,45 @@ export const useHydrateStore = (user: User | null) => {
           return
         }
 
-        let resIngredients: Array<Ingredient> | undefined
-        if (!state.ingredients.hasLoaded) {
-          resIngredients = await getIngredientsByUser(user.uid)
+        let ingredients: Array<Ingredient> | undefined
+        if (state.ingredients.hasLoaded === false) {
+          ingredients = await getIngredientsByUser(user.uid)
+          if (ingredients) {
+            dispatch(addIngredients(ingredients))
+          }
         }
 
-        let resRecipes: Array<Recipe> | undefined
+        let recipes: Array<Recipe> | undefined
         if (!state.recipes.hasLoaded) {
-          resRecipes = await getRecipeByUser(user.uid)
+          recipes = await getRecipeByUser(user.uid)
+          if (recipes) dispatch(addRecipes(recipes))
         }
 
-        let resRecipeList: Array<RecipeListItem> | undefined
+        let recipeList: Array<RecipeListItem> | undefined
         if (!state.recipeList.hasLoaded) {
-          resRecipeList = await getRecipeListByUser(user.uid)
+          console.log(state.recipeList.hasLoaded)
+
+          recipeList = await getRecipeListByUser(user.uid)
+          if (recipeList) dispatch(addLastRecipeList(recipeList))
         }
 
-        const ingredients = resIngredients
-          ? resIngredients
-          : state.ingredients.ingredients
-          ? state.ingredients.ingredients
-          : undefined
+        // const ingredients = resIngredients
+        //   ? resIngredients
+        //   : state.ingredients.ingredients
+        //   ? state.ingredients.ingredients
+        //   : undefined
 
-        const recipes = resRecipes
-          ? resRecipes
-          : state.recipes.recipes
-          ? state.recipes.recipes
-          : undefined
+        // const recipes = resRecipes
+        //   ? resRecipes
+        //   : state.recipes.recipes
+        //   ? state.recipes.recipes
+        //   : undefined
 
-        const recipeList = resRecipeList
-          ? resRecipeList
-          : state.recipeList.lastRecipeList.length > 0
-          ? state.recipeList.lastRecipeList
-          : undefined
+        // const recipeList = resRecipeList
+        //   ? resRecipeList
+        //   : state.recipeList.lastRecipeList.length > 0
+        //   ? state.recipeList.lastRecipeList
+        //   : undefined
 
         return {ingredients, recipes, recipeList}
       } catch {
@@ -71,19 +78,7 @@ export const useHydrateStore = (user: User | null) => {
       }
     }
 
-    loadIngredients().then((result) => {
-      if (result?.ingredients?.length) {
-        dispatch(addIngredients(result.ingredients))
-      }
-
-      if (result?.recipes?.length) {
-        dispatch(addRecipes(result.recipes))
-      }
-
-      if (result?.recipeList?.length) {
-        dispatch(addLastRecipeList(result.recipeList))
-      }
-
+    loadIngredients().then(() => {
       setLoading(false)
     })
 
