@@ -1,29 +1,33 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types"],
-    "jsx": "react-jsx",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
     "skipLibCheck": true,
-    "noErrorTruncation": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "baseUrl": "src",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext"
+    "jsx": "preserve",
+    "incremental": true
   },
-  "include": ["src"],
-  "exclude": ["./src/**/__tests__/", "./node_modules/", "./dist/"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
