@@ -3,23 +3,23 @@ import {
   Flex,
   Icon,
   ModalBody,
+  Spinner,
   Text,
   useDisclosure,
 } from "@chakra-ui/react"
-import {logoutUser, updateUserName} from "../../../FirebaseApi/auth"
-import React, {useCallback, useEffect, useState} from "react"
-import {User} from "firebase/auth"
-import {useHydrateStore} from "../../../hooks/useHydrateStore"
-import {GrEdit} from "react-icons/gr"
-import {Input} from "../../Common/Input"
-import {Modal} from "../../Common/Modals"
-import {useDispatch} from "react-redux"
-import {clearRecipeLists} from "../../../Redux/slices/recipeListSlice"
-import {clearRecipes} from "../../../Redux/slices/recipeSlice"
-import {clearIngredients} from "../../../Redux/slices/ingredientSlice"
+import { logoutUser, updateUserName } from "../../../FirebaseApi/auth"
+import React, { useCallback, useEffect, useState } from "react"
+import { useHydrateStore } from "../../../hooks/useHydrateStore"
+import { GrEdit } from "react-icons/gr"
+import { Input } from "../../Common/Input"
+import { Modal } from "../../Common/Modals"
+import { useDispatch } from "react-redux"
+import { clearRecipeLists } from "../../../Redux/slices/recipeListSlice"
+import { clearRecipes } from "../../../Redux/slices/recipeSlice"
+import { clearIngredients } from "../../../Redux/slices/ingredientSlice"
 import Link from "next/link"
-import {useRouter} from "next/router"
-import {useAuth} from "../../../AuthContext"
+import { useRouter } from "next/router"
+import { useAuth } from "../../../AuthContext"
 
 interface UserNameModalContent {
   userName: string | null
@@ -46,7 +46,11 @@ const UserNameModalContent = ({
   )
 }
 
-export default function AuthedPage({children}: {children: React.ReactNode}) {
+export default function AuthedPage({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const dispatch = useDispatch()
 
   const logout = useCallback(() => {
@@ -54,7 +58,7 @@ export default function AuthedPage({children}: {children: React.ReactNode}) {
     dispatch(clearRecipes())
     dispatch(clearIngredients())
 
-    return {success: true}
+    return { success: true }
   }, [dispatch])
 
   const handleLogOut = () => {
@@ -64,23 +68,27 @@ export default function AuthedPage({children}: {children: React.ReactNode}) {
     }
   }
 
-  const {onOpen, isOpen, onClose} = useDisclosure()
+  const { onOpen, isOpen, onClose } = useDisclosure()
 
-  const {authUser} = useAuth()
+  const { authUser, loading: authLoading } = useAuth()
 
   const [userName, setUserName] = useState(authUser?.displayName || null)
   const [loadingUpdate, setLoadingUpdate] = useState(false)
 
-  const {loading} = useHydrateStore(authUser)
+  const { loading } = useHydrateStore(authUser)
 
   const router = useRouter()
 
   useEffect(() => {
-    if (!authUser) {
+    if (!authUser && !loading) {
       logout()
       router.push("/auth/login")
     }
-  }, [authUser, logout, router])
+  }, [authUser, logout, router, loading])
+
+  if (loading || !authUser || authLoading) {
+    return <Spinner size="lg" />
+  }
 
   return (
     <>
